@@ -7,6 +7,9 @@ module.exports = function(grunt) {
   // after release:
   // add tag to repo: git tag -a v1.0.0
   // push tag: git push origin 1.0.0
+  // to initialize all again
+  // http://twoguysarguing.wordpress.com/2010/11/14/tie-git-submodules-to-a-particular-commit-or-branch/
+  // nav to site and do: git checkout gh-pages
 
   grunt.loadNpmTasks('grunt-rigger');
   grunt.loadNpmTasks('grunt-contrib');
