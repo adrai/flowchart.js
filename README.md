@@ -1,6 +1,6 @@
 #Example
 
-[example](https://raw.github.com/adrai/flowchart.js/master/example/index.html)
+[example](https://github.com/adrai/flowchart.js/blob/master/example/index.html)
 
 #Requirements
 You will need [Raphaël](http://raphaeljs.com/)
