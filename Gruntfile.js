@@ -126,6 +126,25 @@ module.exports = function(grunt) {
           }
         ]
       },
+      'zip-latest': {
+        options: {
+          archive: 'release/flowchart-latest.zip',
+          mode: 'zip',
+          level: 1
+        },
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            cwd: 'release/',
+            src: [
+              'flowchart-<%= meta.version %>.js', 
+              'flowchart-<%= meta.version %>.min.js'
+            ],
+            dest: 'flowchart-latest/'
+          }
+        ]
+      },
       zipamd: {
         options: {
           archive: 'release/flowchart.amd-<%= meta.version %>.zip',
@@ -142,6 +161,25 @@ module.exports = function(grunt) {
               'flowchart.amd-<%= meta.version %>.min.js'
             ],
             dest: 'flowchart.amd-<%= meta.version %>/'
+          }
+        ]
+      },
+      'zipamd-latest': {
+        options: {
+          archive: 'release/flowchart.amd-latest.zip',
+          mode: 'zip',
+          level: 1
+        },
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            cwd: 'release/',
+            src: [
+              'flowchart.amd-<%= meta.version %>.js', 
+              'flowchart.amd-<%= meta.version %>.min.js'
+            ],
+            dest: 'flowchart-latest/'
           }
         ]
       }
