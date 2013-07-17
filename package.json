@@ -1,0 +1,23 @@
+{
+  "author": "adrai",
+  "name": "flowchart-clientscript",
+  "version": "0.0.1",
+  "private": false,
+  "main": "server.js",
+  "engines": {
+    "node": "~v0.4.12"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-rigger": "~0.5.0",
+    "grunt-contrib": ">=0.1.0",
+    "express": ">= 0.0.1",
+    "async": ">= 0.1.18",
+    "lodash": ">=0.2.1",
+    "zipstream": ">=0.2.1"
+  },
+  "scripts": {
+    "test": ""
+  }
+}
