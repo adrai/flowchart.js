@@ -1,0 +1,139 @@
+
+body {
+  font-size: 15px;
+  line-height: 1.5; 
+  background: #fafafa url(../images/body-bg.jpg) 0 0 repeat;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  font-weight: 400;
+  color: #666;
+}
+
+a {
+  color: #2879d0;
+}
+a:hover {
+  color: #2268b2;
+}
+
+header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
+  background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
+  border-bottom: solid 1px #275da1;
+}
+
+header h1 {
+  letter-spacing: -1px;
+  font-size: 72px;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 0.2em;
+  font-weight: normal;
+}
+
+header h2 {
+  font-size: 26px;
+  color: #9ddcff;
+  font-weight: normal;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+#main {
+  padding: 10px;
+}
+
+#main h1 {
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
+  font-size: 2.8em;
+  letter-spacing: -1px;
+  color: #474747;
+} 
+
+#main h1:before {
+  content: "/";
+  color: #9ddcff;
+  padding-right: 0.3em;
+}
+
+#main h2 {
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #474747;
+} 
+#main h2:before {
+  content: "//";
+  color: #9ddcff;
+  padding-right: 0.3em;
+}
+
+#main h3 {
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #474747;
+} 
+ 
+#main h3:before {
+  content: "///";
+  color: #9ddcff;
+  padding-right: 0.3em;
+  margin-left: -2em;
+}
+
+
+#sidebar {
+  float: left;
+  width: 350px;
+  margin-left: 20px;
+}
+
+.editor { 
+    width: 380px;
+    height: 210px;
+    font-size: 14px;
+}
+
+.editor-wrapper {
+    width: 380px;
+    height: 210px;
+}
+
+.gh-forkme {
+  position: absolute; top: 0; right: 0; border: 0;
+}
+
+.inner {
+  position: relative;
+  width: 940px;
+  margin: 0 auto;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+
+aside#sidebar {
+  width: 200px;
+  padding-left: 20px;
+  min-height: 504px;
+  float: right;
+  background: transparent url(../images/sidebar-bg.jpg) 0 0 no-repeat;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+aside#sidebar p.repo-owner,
+aside#sidebar p.repo-owner a {
+  font-weight: bold;
+}

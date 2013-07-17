@@ -1,21 +1,23 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Flowchart.js by adrai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+
+    <title>js-sequence-diagrams by bramp</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Flowchart.js</h1>
+    <header>
+      <h1>Flowchart.js</h1>
         <p>Draws simple SVG flow chart diagrams from textual representation of the diagram</p>
 
         <p class="view"><a href="https://github.com/adrai/flowchart.js">View the Project on GitHub <small>adrai/flowchart.js</small></a></p>
@@ -26,46 +28,262 @@
           <li><a href="https://github.com/adrai/flowchart.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
           <li><a href="https://github.com/adrai/flowchart.js">View On <strong>GitHub</strong></a></li>
         </ul>
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+    </header>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+    <div id="main">
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+      <section id="demo">
+        <table align="center" class="inner">
+          <tr>
+            <td>
+            <h3>Demo. Try editing me below</h3>
+            <div class="editor-wrapper">
+              <div class="editor">Andrew->China: Says Hello
+Note right of China: China thinks\nabout it
+China-->Andrew: How are you?
+Andrew->>China: I am good thanks!</div>
+            </div>
+            Theme:
+            <select class="theme">
+              <option value="simple">Simple</option>
+              <option value="hand" selected>Hand drawn</option>
+            </select>
+            | <a href="#" class="download">Download as SVG</a>
+            </td>
+            <td class="diagram">This should be a diagram! If you don't see it you need Javascript enabled</td>
+          </tr>
+        </table>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/adrai">adrai</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+      <div class="inner">
+      <section id="info">
+        <h3>Intro</h3>
+        <p>A simple javascript library to turn text into vector <a href="http://en.wikipedia.org/wiki/Sequence_diagram">UML sequence diagrams</a>.
+          Heavily inspired by <a href="http://www.websequencediagrams.com/">websequencediagrams.com</a>, who offer a serverside solution. We use <a href="http://zaach.github.com/jison/">Jison</a> to parse the text, and <a href="http://raphaeljs.com/">Raphaël</a> to draw the image.</p>
+      </section>
+      <section id="examples">
+        <h3>Examples</h3>
+        <table>
+
+          <tr id="example1">
+            <td class="diagram"></td>
+            <td>
+              <div class="editor-wrapper">
+                <div class="editor">Title: Here is a title
+A->B: Normal line
+B-->C: Dashed line
+C->>D: Open arrow
+D-->>A: Dashed open arrow</div>
+              </div>
+              Theme:
+              <select class="theme">
+                <option value="simple">Simple</option>
+                <option value="hand" selected>Hand drawn</option>
+              </select>
+              | <a href="#" class="download">Download as SVG</a>
+            </td>
+          </tr>
+
+          <tr id="example2">
+            <td class="diagram"></td>
+            <td>
+              <div class="editor-wrapper">
+                <div class="editor">Note left of A: Note to the\n left of A
+Note right of A: Note to the\n right of A
+Note over A: Note over A</div>
+              </div>
+              Theme:
+              <select class="theme">
+                <option value="simple">Simple</option>
+                <option value="hand" selected>Hand drawn</option>
+              </select>
+              | <a href="#" class="download">Download as SVG</a>
+            </td>
+          </tr>
+
+          <tr id="example3">
+            <td class="diagram"></td>
+            <td>
+              <div class="editor-wrapper">
+                <div class="editor">participant C
+participant B
+participant A
+Note right of A: By listing the participants\n you can change their order</div>
+              </div>
+              Theme:
+              <select class="theme">
+                <option value="simple">Simple</option>
+                <option value="hand" selected>Hand drawn</option>
+              </select>
+              | <a href="#" class="download">Download as SVG</a>
+            </td>
+          </tr>
+
+        </table>
+      </section>
+      <section id="syntax">
+        <h3>Syntax</h3>
+        The following diagram shows the syntax for the diagrams. The exact grammar can be <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/src/grammar.jison">found here</a> in bison format.<br /><br />
+        <div class="center">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="554" height="316"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    /*filled                {fill: #332900; stroke: none;}*/
+    /*text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }*/
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    /*rect, circle, polygon {fill: #332900; stroke: #332900;}*/
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}    
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs><polygon points="9 17 1 13 1 21" class="filled"></polygon><polygon points="17 17 9 13 9 21" class="filled"></polygon><line x1="17" y1="17" x2="19" y2="17" class="line"></line><rect x="51" y="3" width="46" height="32" rx="10"></rect><rect x="49" y="1" width="46" height="32" class="terminal" rx="10"></rect><text class="terminal" x="59" y="21">title</text><line x1="39" y1="17" x2="49" y2="17" class="line"></line><line x1="95" y1="17" x2="105" y2="17" class="line"></line><rect x="117" y="3" width="24" height="32" rx="10"></rect><rect x="115" y="1" width="24" height="32" class="terminal" rx="10"></rect><text class="terminal" x="125" y="21">:</text><line x1="105" y1="17" x2="115" y2="17" class="line"></line><line x1="139" y1="17" x2="149" y2="17" class="line"></line><a xlink:href="#message" xlink:title="message"><rect x="161" y="3" width="76" height="32"></rect><rect x="159" y="1" width="76" height="32" class="nonterminal"></rect><text class="nonterminal" x="169" y="21">message</text></a><line x1="149" y1="17" x2="159" y2="17" class="line"></line><line x1="235" y1="17" x2="245" y2="17" class="line"></line><line x1="245" y1="17" x2="515" y2="17" class="line"></line><line x1="19" y1="17" x2="39" y2="17" class="line"></line><line x1="515" y1="17" x2="535" y2="17" class="line"></line><path d="M19 17 Q29 17 29 27" class="line"></path><path d="M525 27 Q525 17 535 17" class="line"></path><line x1="29" y1="27" x2="29" y2="51" class="line"></line><line x1="525" y1="51" x2="525" y2="27" class="line"></line><path d="M29 51 Q29 61 39 61" class="line"></path><path d="M515 61 Q525 61 525 51" class="line"></path><rect x="51" y="47" width="90" height="32" rx="10"></rect><rect x="49" y="45" width="90" height="32" class="terminal" rx="10"></rect><text class="terminal" x="59" y="65">participant</text><line x1="39" y1="61" x2="49" y2="61" class="line"></line><line x1="139" y1="61" x2="149" y2="61" class="line"></line><a xlink:href="#actor" xlink:title="actor"><rect x="161" y="47" width="52" height="32"></rect><rect x="159" y="45" width="52" height="32" class="nonterminal"></rect><text class="nonterminal" x="169" y="65">actor</text></a><line x1="149" y1="61" x2="159" y2="61" class="line"></line><line x1="211" y1="61" x2="221" y2="61" class="line"></line><line x1="221" y1="61" x2="515" y2="61" class="line"></line><line x1="29" y1="51" x2="29" y2="71" class="line"></line><line x1="525" y1="71" x2="525" y2="51" class="line"></line><line x1="29" y1="71" x2="29" y2="95" class="line"></line><line x1="525" y1="95" x2="525" y2="71" class="line"></line><path d="M29 95 Q29 105 39 105" class="line"></path><path d="M515 105 Q525 105 525 95" class="line"></path><rect x="51" y="91" width="48" height="32" rx="10"></rect><rect x="49" y="89" width="48" height="32" class="terminal" rx="10"></rect><text class="terminal" x="59" y="109">note</text><line x1="39" y1="105" x2="49" y2="105" class="line"></line><line x1="97" y1="105" x2="107" y2="105" class="line"></line><rect x="139" y="91" width="58" height="32" rx="10"></rect><rect x="137" y="89" width="58" height="32" class="terminal" rx="10"></rect><text class="terminal" x="147" y="109">left of</text><line x1="127" y1="105" x2="137" y2="105" class="line"></line><line x1="195" y1="105" x2="205" y2="105" class="line"></line><line x1="205" y1="105" x2="215" y2="105" class="line"></line><line x1="107" y1="105" x2="127" y2="105" class="line"></line><line x1="215" y1="105" x2="235" y2="105" class="line"></line><path d="M107 105 Q117 105 117 115" class="line"></path><path d="M225 115 Q225 105 235 105" class="line"></path><line x1="117" y1="115" x2="117" y2="139" class="line"></line><line x1="225" y1="139" x2="225" y2="115" class="line"></line><path d="M117 139 Q117 149 127 149" class="line"></path><path d="M215 149 Q225 149 225 139" class="line"></path><rect x="139" y="135" width="68" height="32" rx="10"></rect><rect x="137" y="133" width="68" height="32" class="terminal" rx="10"></rect><text class="terminal" x="147" y="153">right of</text><line x1="127" y1="149" x2="137" y2="149" class="line"></line><line x1="205" y1="149" x2="215" y2="149" class="line"></line><line x1="117" y1="139" x2="117" y2="159" class="line"></line><line x1="225" y1="159" x2="225" y2="139" class="line"></line><line x1="117" y1="159" x2="117" y2="183" class="line"></line><line x1="225" y1="183" x2="225" y2="159" class="line"></line><path d="M117 183 Q117 193 127 193" class="line"></path><path d="M215 193 Q225 193 225 183" class="line"></path><rect x="139" y="179" width="50" height="32" rx="10"></rect><rect x="137" y="177" width="50" height="32" class="terminal" rx="10"></rect><text class="terminal" x="147" y="197">over</text><line x1="127" y1="193" x2="137" y2="193" class="line"></line><line x1="187" y1="193" x2="197" y2="193" class="line"></line><line x1="197" y1="193" x2="215" y2="193" class="line"></line><a xlink:href="#actor" xlink:title="actor"><rect x="247" y="91" width="52" height="32"></rect><rect x="245" y="89" width="52" height="32" class="nonterminal"></rect><text class="nonterminal" x="255" y="109">actor</text></a><line x1="235" y1="105" x2="245" y2="105" class="line"></line><line x1="297" y1="105" x2="307" y2="105" class="line"></line><rect x="319" y="91" width="24" height="32" rx="10"></rect><rect x="317" y="89" width="24" height="32" class="terminal" rx="10"></rect><text class="terminal" x="327" y="109">:</text><line x1="307" y1="105" x2="317" y2="105" class="line"></line><line x1="341" y1="105" x2="351" y2="105" class="line"></line><a xlink:href="#message" xlink:title="message"><rect x="363" y="91" width="76" height="32"></rect><rect x="361" y="89" width="76" height="32" class="nonterminal"></rect><text class="nonterminal" x="371" y="109">message</text></a><line x1="351" y1="105" x2="361" y2="105" class="line"></line><line x1="437" y1="105" x2="447" y2="105" class="line"></line><line x1="447" y1="105" x2="515" y2="105" class="line"></line><line x1="29" y1="95" x2="29" y2="115" class="line"></line><line x1="525" y1="115" x2="525" y2="95" class="line"></line><line x1="29" y1="115" x2="29" y2="227" class="line"></line><line x1="525" y1="227" x2="525" y2="115" class="line"></line><path d="M29 227 Q29 237 39 237" class="line"></path><path d="M515 237 Q525 237 525 227" class="line"></path><a xlink:href="#actor" xlink:title="actor"><rect x="51" y="223" width="52" height="32"></rect><rect x="49" y="221" width="52" height="32" class="nonterminal"></rect><text class="nonterminal" x="59" y="241">actor</text></a><line x1="39" y1="237" x2="49" y2="237" class="line"></line><line x1="101" y1="237" x2="111" y2="237" class="line"></line><rect x="143" y="223" width="26" height="32" rx="10"></rect><rect x="141" y="221" width="26" height="32" class="terminal" rx="10"></rect><text class="terminal" x="151" y="241">-</text><line x1="131" y1="237" x2="141" y2="237" class="line"></line><line x1="167" y1="237" x2="177" y2="237" class="line"></line><line x1="177" y1="237" x2="183" y2="237" class="line"></line><line x1="111" y1="237" x2="131" y2="237" class="line"></line><line x1="183" y1="237" x2="203" y2="237" class="line"></line><path d="M111 237 Q121 237 121 247" class="line"></path><path d="M193 247 Q193 237 203 237" class="line"></path><line x1="121" y1="247" x2="121" y2="271" class="line"></line><line x1="193" y1="271" x2="193" y2="247" class="line"></line><path d="M121 271 Q121 281 131 281" class="line"></path><path d="M183 281 Q193 281 193 271" class="line"></path><rect x="143" y="267" width="32" height="32" rx="10"></rect><rect x="141" y="265" width="32" height="32" class="terminal" rx="10"></rect><text class="terminal" x="151" y="285">--</text><line x1="131" y1="281" x2="141" y2="281" class="line"></line><line x1="173" y1="281" x2="183" y2="281" class="line"></line><rect x="235" y="223" width="30" height="32" rx="10"></rect><rect x="233" y="221" width="30" height="32" class="terminal" rx="10"></rect><text class="terminal" x="243" y="241">&gt;</text><line x1="223" y1="237" x2="233" y2="237" class="line"></line><line x1="263" y1="237" x2="273" y2="237" class="line"></line><line x1="273" y1="237" x2="283" y2="237" class="line"></line><line x1="203" y1="237" x2="223" y2="237" class="line"></line><line x1="283" y1="237" x2="303" y2="237" class="line"></line><path d="M203 237 Q213 237 213 247" class="line"></path><path d="M293 247 Q293 237 303 237" class="line"></path><line x1="213" y1="247" x2="213" y2="271" class="line"></line><line x1="293" y1="271" x2="293" y2="247" class="line"></line><path d="M213 271 Q213 281 223 281" class="line"></path><path d="M283 281 Q293 281 293 271" class="line"></path><rect x="235" y="267" width="40" height="32" rx="10"></rect><rect x="233" y="265" width="40" height="32" class="terminal" rx="10"></rect><text class="terminal" x="243" y="285">&gt;&gt;</text><line x1="223" y1="281" x2="233" y2="281" class="line"></line><line x1="273" y1="281" x2="283" y2="281" class="line"></line><line x1="213" y1="271" x2="213" y2="291" class="line"></line><line x1="293" y1="291" x2="293" y2="271" class="line"></line><line x1="213" y1="291" x2="213" y2="305" class="line"></line><line x1="293" y1="305" x2="293" y2="291" class="line"></line><path d="M213 305 Q213 315 223 315" class="line"></path><path d="M283 315 Q293 315 293 305" class="line"></path><line x1="223" y1="315" x2="233" y2="315" class="line"></line><line x1="233" y1="315" x2="283" y2="315" class="line"></line><a xlink:href="#actor" xlink:title="actor"><rect x="315" y="223" width="52" height="32"></rect><rect x="313" y="221" width="52" height="32" class="nonterminal"></rect><text class="nonterminal" x="323" y="241">actor</text></a><line x1="303" y1="237" x2="313" y2="237" class="line"></line><line x1="365" y1="237" x2="375" y2="237" class="line"></line><rect x="387" y="223" width="24" height="32" rx="10"></rect><rect x="385" y="221" width="24" height="32" class="terminal" rx="10"></rect><text class="terminal" x="395" y="241">:</text><line x1="375" y1="237" x2="385" y2="237" class="line"></line><line x1="409" y1="237" x2="419" y2="237" class="line"></line><a xlink:href="#message" xlink:title="message"><rect x="431" y="223" width="76" height="32"></rect><rect x="429" y="221" width="76" height="32" class="nonterminal"></rect><text class="nonterminal" x="439" y="241">message</text></a><line x1="419" y1="237" x2="429" y2="237" class="line"></line><line x1="505" y1="237" x2="515" y2="237" class="line"></line><line x1="538" y1="17" x2="535" y2="17" class="line"></line><polygon points="545 17 553 13 553 21" class="filled"></polygon><polygon points="545 17 537 13 537 21" class="filled"></polygon></svg>
+</div>
+  <div class="right">
+    generated by <a name="Railroad-Diagram-Generator" class="signature" title="http://railroad.my28msec.com/" href="http://railroad.my28msec.com/">Railroad Diagram Generator</a>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g transform="scale(0.177777777777777778)"><circle cx="45" cy="45" r="45" style="stroke:none; fill:#FFCC00"></circle><circle cx="45" cy="45" r="42" style="stroke:#332900; stroke-width:2px; fill:#FFCC00"></circle><line x1="15" y1="15" x2="75" y2="75" stroke="#332900" style="stroke-width:9px;"></line><line x1="15" y1="75" x2="75" y2="15" stroke="#332900" style="stroke-width:9px;"></line><text x="7" y="54" style="font-size:26px; font-family:Arial, Sans-serif; font-weight:bold; fill: #332900">R</text><text x="64" y="54" style="font-size:26px; font-family:Arial, Sans-serif; font-weight:bold; fill: #332900">R</text></g></svg>
+  </div>
+      </section>
+      <section id="usage">
+        <h3>Usage</h3>
+        <p>js-sequence-diagrams depends on <a href="http://raphaeljs.com/">Raphaël</a> and <a href="http://underscorejs.org/">Underscore.js</a> (we are <a href="http://lodash.com/">lodash</a> compatible). To use include the following:
+        <pre>&lt;script src=&quot;<a href="http://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js">raphael-min.js</a>&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;<a href="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js">underscore-min.js</a>&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;<a href="https://raw.github.com/bramp/js-sequence-diagrams/master/build/sequence-diagram-min.js">sequence-diagram-min.js</a>&quot;&gt;&lt;/script&gt;
+</pre>
+and now you have two options. You can manually parse the text:
+<pre>
+&lt;div id=&quot;diagram&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+  var diagram = Diagram.parse(&quot;A-&gt;B: Message&quot;);
+  diagram.drawSVG(&quot;diagram&quot;, {theme: &#39;hand&#39;});
+&lt;/script&gt;
+</pre>
+
+or use jQuery to do all the work:
+<pre>
+&lt;div class=&quot;diagram&quot;&gt;A-&gt;B: Message&lt;/div&gt;
+&lt;script&gt;
+$(&quot;.diagram&quot;).sequenceDiagram({theme: &#39;hand&#39;});
+&lt;/script&gt;
+</pre>
+
+</p>
+      </section>
+      </div>
+
+    <footer>
+      <hr />
+      <div class="inner">
+        by <a href="http://bramp.net">Andrew Brampton</a> - <a href="https://github.com/bramp">github</a> - <a href="https://twitter.com/TheBramp">@TheBramp</a>
+      </div>
+    </footer>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <!-- Needed for the text editor -->
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="underscore-min.js"></script>
+    <script src="raphael-min.js"></script>
+
+    <script src="https://raw.github.com/adrai/flowchart.js/master/bin/flowchart-latest.js"></script>
+    <script src="svginnerhtml.min.js"></script>
+ 
+    <script type="text/javascript">
+
+      function setup_editor(div) {
+
+        var editor_div = div.find(".editor");
+        var diagram_div = div.find(".diagram");
+        var theme_div = div.find(".theme");
+        var download_link = div.find('.download');
+
+        // Setup the editor diagram
+        var editor = ace.edit(editor_div.get(0));
+        editor.setTheme("ace/theme/crimson_editor");
+        editor.getSession().setMode("ace/mode/asciidoc");
+        editor.getSession().on('change', _.debounce(on_change, 100));
+
+        download_link.click(function(ev) {
+          var svg = diagram_div.find('svg')[0];
+          var width = parseInt(svg.width.baseVal.value);
+          var height = parseInt(svg.height.baseVal.value);
+          var data = editor.getValue();
+          var xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" xmlns:xlink="http://www.w3.org/1999/xlink"><source><![CDATA[' + data + ']]></source>' + svg.innerHTML + '</svg>';
+
+          var a = $(this);
+          a.attr("download", "diagram.svg"); // TODO I could put title here
+          a.attr("href", "data:image/svg+xml," + encodeURIComponent(xml));
+        });
+
+        theme_div.change(on_change);
+        on_change();
+
+        function on_change() {
+          try {
+            var diagram = Diagram.parse(editor.getValue());
+
+            editor.getSession().setAnnotations([]);
+
+            // Clear out old diagram
+            diagram_div.html('');
+
+            var options = {
+              theme: theme_div.val(),
+              scale: 1
+            };
+
+            // Draw
+            diagram.drawSVG(diagram_div.get(0), options);
+
+          } catch(err) {
+            var annotation = {
+              type: "error", // also warning and information
+              column: 0,
+              row: 0,
+              text: err.message
+            };
+            if (err instanceof Diagram.ParseError) {
+              annotation.row    = err.loc.first_line - 1;
+              annotation.column = err.loc.first_column;
+            }
+            editor.getSession().setAnnotations([annotation]);
+            throw err;
+          }
+        }        
+      }
+
+      $(document).ready(function() {
+        // Example diagrams
+        //$('.diagram').sequenceDiagram();
+
+        // Setup all the editors
+        setup_editor($('#demo'));
+        setup_editor($('#example1'));
+        setup_editor($('#example2'));
+        setup_editor($('#example3'));
+      });
+    </script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36551491-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
   </body>
 </html>
