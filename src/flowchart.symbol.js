@@ -157,7 +157,7 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     symbol.rightEnd = true;
     maxX = right.x + this.chart.options['line-length']/2;
   } else if ((!origin || origin === 'bottom') && isLeft) {
-    if (this.leftEnd) {
+    if (this.leftEnd && isUpper) {
       drawLine(this.chart, bottom, [
         {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
         {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
@@ -167,9 +167,7 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
       ], text);
     } else {
       drawLine(this.chart, bottom, [
-        {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-        {x: bottom.x - (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-        {x: bottom.x - (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: bottom.x, y: symbolTop.y - this.chart.options['line-length']/2},
         {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);

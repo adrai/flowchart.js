@@ -1,8 +1,18 @@
-// flowchart, v0.0.1
+// flowchart, v1.0.0
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/js-flowchart/
-(function() {
+(function (root, factory) {
+  if (typeof exports === 'object') {
+
+    module.exports = factory();
+
+  } else if (typeof define === 'function' && define.amd) {
+
+    define([], factory);
+
+  } 
+}(this, function () {
 
   // add indexOf to non ECMA-262 standard compliant browsers
   if (!Array.prototype.indexOf) {
@@ -78,14 +88,6 @@
   var root = this
     , flowchart = {};
 
-  // Export the flowchart object for **CommonJS**. 
-  // If we're not in CommonJS, add `flowchart` to the
-  // global object or to jquery.
-  if (typeof module !== 'undefined' && module.exports) {
-     module.exports = flowchart;
-  } else {  
-    root.flowchart = root.flowchart || flowchart;
-  }
   // defaults
   var o = {
     'line-width': 3,
@@ -466,7 +468,7 @@
       symbol.rightEnd = true;
       maxX = right.x + this.chart.options['line-length']/2;
     } else if ((!origin || origin === 'bottom') && isLeft) {
-      if (this.leftEnd) {
+      if (this.leftEnd && isUpper) {
         drawLine(this.chart, bottom, [
           {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
           {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
@@ -476,9 +478,7 @@
         ], text);
       } else {
         drawLine(this.chart, bottom, [
-          {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-          {x: bottom.x - (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-          {x: bottom.x - (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
+          {x: bottom.x, y: symbolTop.y - this.chart.options['line-length']/2},
           {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
           {x: symbolTop.x, y: symbolTop.y}
         ], text);
@@ -859,5 +859,7 @@
   }
   // public api interface
   flowchart.parse = parse;
+  
+  return flowchart; 
 
-})();
+}));

@@ -1,6 +1,6 @@
 {
   "name": "flowchart",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "./release/flowchart-0.0.1.min.js",
   "dependencies": {},
   "ignore": [
