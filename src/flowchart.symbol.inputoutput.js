@@ -1,5 +1,6 @@
-function InputOutput(chart, text) {
-  Symbol.call(this, chart, { text: text });
+function InputOutput(chart, options) {
+  options = options || {};
+  Symbol.call(this, chart, options);
 
   this.text.attr({
     x: chart.options['text-margin'] * 3
@@ -23,14 +24,18 @@ function InputOutput(chart, text) {
 
   symbol.attr({
     stroke: chart.options['element-color'],
-    'stroke-width': chart.options['line-width']
+    'stroke-width': chart.options['line-width'],
+    fill: chart.options['fill']
   });
+  if (options.link) { symbol.attr('href', options.link); }
+  if (options.target) { symbol.attr('target', options.target); }
 
   this.text.attr({
     y: symbol.getBBox().height/2
   });
 
   this.group.push(symbol);
+  symbol.insertBefore(this.text);
 
   this.initialize();
 }

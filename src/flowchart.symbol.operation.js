@@ -1,5 +1,6 @@
-function Operation(chart, text) {
+function Operation(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0);
-  Symbol.call(this, chart, { text: text }, symbol);
+  options = options || {};
+  Symbol.call(this, chart, options, symbol);
 }
 f.inherits(Operation, Symbol);

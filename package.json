@@ -1,7 +1,7 @@
 {
   "author": "adrai",
   "name": "flowchart-clientscript",
-  "version": "*",
+  "version": "0.0.0",
   "private": true,
   "main": "server.js",
   "engines": {

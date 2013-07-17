@@ -21,22 +21,22 @@ function parse(input) {
 
 				switch (s.symbolType) {
 					case 'start':
-						dispSymbols[s.key] = new Start(diagram, s.txt);
+						dispSymbols[s.key] = new Start(diagram, s);
 						break;
 					case 'end':
-						dispSymbols[s.key] = new End(diagram, s.txt);
+						dispSymbols[s.key] = new End(diagram, s);
 						break;
 					case 'operation':
-						dispSymbols[s.key] = new Operation(diagram, s.txt);
+						dispSymbols[s.key] = new Operation(diagram, s);
 						break;
 					case 'inputoutput':
-						dispSymbols[s.key] = new InputOutput(diagram, s.txt);
+						dispSymbols[s.key] = new InputOutput(diagram, s);
 						break;
 					case 'subroutine':
-						dispSymbols[s.key] = new Subroutine(diagram, s.txt);
+						dispSymbols[s.key] = new Subroutine(diagram, s);
 						break;
 					case 'condition':
-						dispSymbols[s.key] = new Condition(diagram, s.txt);
+						dispSymbols[s.key] = new Condition(diagram, s);
 						break;
 					default:
 						return new Error('Wrong symbol type!');
@@ -93,7 +93,7 @@ function parse(input) {
 	for (var l = 1, len = lines.length; l < len;) {
 		var currentLine = lines[l];
 
-		if (currentLine.indexOf(':') < 0 && currentLine.indexOf('(') < 0 && currentLine.indexOf(')') < 0 && currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
+		if (currentLine.indexOf(': ') < 0 && currentLine.indexOf('(') < 0 && currentLine.indexOf(')') < 0 && currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
 			lines[l - 1] += '\n' + currentLine;
 			lines.splice(l, 1);
 			len--;
@@ -130,13 +130,34 @@ function parse(input) {
 			var symbol = {
 				key: parts[0],
 				symbolType: parts[1],
-				txt: null
+				text: null,
+				link: null,
+				target: null
 			};
 
 			if (symbol.symbolType.indexOf(': ') >= 0) {
 				var sub = symbol.symbolType.split(': ');
 				symbol.symbolType = sub[0];
-				symbol.txt = sub[1]
+				symbol.text = sub[1];
+			}
+
+			if (symbol.text && symbol.text.indexOf(':>') >= 0) {
+				var sub = symbol.text.split(':>');
+				symbol.text = sub[0];
+				symbol.link = sub[1];
+			} else if (symbol.symbolType.indexOf(':>') >= 0) {
+				var sub = symbol.symbolType.split(':>');
+				symbol.symbolType = sub[0];
+				symbol.link = sub[1];
+			}
+
+			if (symbol.link) {
+				var startIndex = symbol.link.indexOf('[') + 1;
+				var endIndex = symbol.link.indexOf(']');
+				if (startIndex >= 0 && endIndex >= 0) {
+					symbol.target = symbol.link.substring(startIndex, endIndex);
+					symbol.link = symbol.link.substring(0, startIndex - 1);
+				}
 			}
 
 			chart.symbols[symbol.key] = symbol;

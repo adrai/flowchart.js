@@ -19,12 +19,12 @@ and then
 <div id="diagram">Diagram will be placed here</div>
 <script src="flowchart.js"></script>
 <script> 
-  var diagram = flowchart.parse('st=>start: Start\n' + 
-																'e=>end\n' + 
+  var diagram = flowchart.parse('st=>start: Start:>http://www.google.com[blank]\n' + 
+																'e=>end:>http://www.google.com\n' + 
 																'op1=>operation: My Operation\n' + 
 																'sub1=>subroutine: My Subroutine\n' + 
 																'cond=>condition: Yes \n' + 
-																'or No?\n' + 
+																'or No?\n:>http://www.google.com' + 
 																'io=>inputoutput: catch something...\n' + 
 																'' +
 																'st->op1->cond\n' + 
@@ -41,7 +41,8 @@ and then
 					                      'font-size': 14,
 					                      'font-color': 'black',
 					                      'line-color': 'black',
-					                      'element-color': 'black'
+					                      'element-color': 'black',
+					                      'fill': 'white'
 					                    });
 </script>
 ```

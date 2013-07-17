@@ -9,6 +9,8 @@ function Symbol(chart, options, symbol) {
     'x': this.chart.options['text-margin'],
     stroke: chart.options['font-color']
   });
+  if (options.link) { this.text.attr('href', options.link); }
+  if (options.target) { this.text.attr('target', options.target) };
   this.group.push(this.text);
 
   if (symbol) {
@@ -16,10 +18,14 @@ function Symbol(chart, options, symbol) {
       stroke: this.chart.options['element-color'],
       'stroke-width': this.chart.options['line-width'],
       width: this.text.getBBox().width + 2 * this.chart.options['text-margin'],
-      height: this.text.getBBox().height + 2 * this.chart.options['text-margin']
+      height: this.text.getBBox().height + 2 * this.chart.options['text-margin'],
+      fill: chart.options['fill']
     });
+    if (options.link) { symbol.attr('href', options.link); }
+    if (options.target) { symbol.attr('target', options.target); }
 
     this.group.push(symbol);
+    symbol.insertBefore(this.text);
 
     this.text.attr({
       'y': symbol.getBBox().height/2

@@ -1,6 +1,7 @@
-function Subroutine(chart, text) {
+function Subroutine(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0);
-  Symbol.call(this, chart, { text: text }, symbol);
+  options = options || {};
+  Symbol.call(this, chart, options, symbol);
 
   symbol.attr({
     width: this.text.getBBox().width + 4 * chart.options['text-margin']
@@ -16,9 +17,13 @@ function Subroutine(chart, text) {
     stroke: chart.options['element-color'],
     'stroke-width': chart.options['line-width'],
     width: this.text.getBBox().width + 2 * chart.options['text-margin'],
-    height: this.text.getBBox().height + 2 * chart.options['text-margin']
+    height: this.text.getBBox().height + 2 * chart.options['text-margin'],
+    fill: chart.options['fill']
   });
+  if (options.link) { innerWrap.attr('href', options.link); }
+  if (options.target) { innerWrap.attr('target', options.target); }
   this.group.push(innerWrap);
+  innerWrap.insertBefore(this.text);
 
   this.initialize();
 }

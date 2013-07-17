@@ -6,5 +6,6 @@ var o = {
   'font-size': 14,
   'font-color': 'black',
   'line-color': 'black',
-  'element-color': 'black'
+  'element-color': 'black',
+  'fill': 'white'
 };

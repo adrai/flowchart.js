@@ -1,5 +1,7 @@
-function Start(chart, text) {
+function Start(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0, 20);
-  Symbol.call(this, chart, { text: text || 'Start' }, symbol);
+  options = options || {};
+  options.text = options.text || 'Start';
+  Symbol.call(this, chart, options, symbol);
 }
 f.inherits(Start, Symbol);
