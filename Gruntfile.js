@@ -95,7 +95,8 @@ module.exports = function(grunt) {
               }
               return dest;
             }
-          }
+          },
+          { expand: true, cwd: 'bin/', src: ['flowchart-latest.js'], dest: 'site/'}
           //'bin/': ['bin/flowchart-latest.js', 'bin/flowchart.amd-latest.js'],
           //'release/': ['bin/flowchart-latest.js', 'bin/flowchart.amd-latest.js']
         ]
