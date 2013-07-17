@@ -1,4 +1,4 @@
-// flowchart, v0.0.1
+// flowchart, v1.0.0
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/js-flowchart/
@@ -466,7 +466,7 @@
       symbol.rightEnd = true;
       maxX = right.x + this.chart.options['line-length']/2;
     } else if ((!origin || origin === 'bottom') && isLeft) {
-      if (this.leftEnd) {
+      if (this.leftEnd && isUpper) {
         drawLine(this.chart, bottom, [
           {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
           {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
@@ -476,9 +476,7 @@
         ], text);
       } else {
         drawLine(this.chart, bottom, [
-          {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-          {x: bottom.x - (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-          {x: bottom.x - (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
+          {x: bottom.x, y: symbolTop.y - this.chart.options['line-length']/2},
           {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
           {x: symbolTop.x, y: symbolTop.y}
         ], text);
