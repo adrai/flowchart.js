@@ -1,4 +1,4 @@
-// flowchart, v1.0.0
+// flowchart, v1.1.0
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/js-flowchart/
@@ -94,7 +94,8 @@
     'font-size': 14,
     'font-color': 'black',
     'line-color': 'black',
-    'element-color': 'black'
+    'element-color': 'black',
+    'fill': 'white'
   };
   function _defaults(options, defaultOptions) {
       if (!options || typeof options === 'function') {
@@ -318,6 +319,8 @@
       'x': this.chart.options['text-margin'],
       stroke: chart.options['font-color']
     });
+    if (options.link) { this.text.attr('href', options.link); }
+    if (options.target) { this.text.attr('target', options.target) };
     this.group.push(this.text);
   
     if (symbol) {
@@ -325,10 +328,14 @@
         stroke: this.chart.options['element-color'],
         'stroke-width': this.chart.options['line-width'],
         width: this.text.getBBox().width + 2 * this.chart.options['text-margin'],
-        height: this.text.getBBox().height + 2 * this.chart.options['text-margin']
+        height: this.text.getBBox().height + 2 * this.chart.options['text-margin'],
+        fill: chart.options['fill']
       });
+      if (options.link) { symbol.attr('href', options.link); }
+      if (options.target) { symbol.attr('target', options.target); }
   
       this.group.push(symbol);
+      symbol.insertBefore(this.text);
   
       this.text.attr({
         'y': symbol.getBBox().height/2
@@ -521,24 +528,30 @@
       this.chart.maxXFromLine = maxX;
     }
   };
-  function Start(chart, text) {
+  function Start(chart, options) {
     var symbol = chart.paper.rect(0, 0, 0, 0, 20);
-    Symbol.call(this, chart, { text: text || 'Start' }, symbol);
+    options = options || {};
+    options.text = options.text || 'Start';
+    Symbol.call(this, chart, options, symbol);
   }
   f.inherits(Start, Symbol);
-  function End(chart, text) {
+  function End(chart, options) {
     var symbol = chart.paper.rect(0, 0, 0, 0, 20);
-    Symbol.call(this, chart, { text: text || 'End' }, symbol);
+    options = options || {};
+    options.text = options.text || 'End';
+    Symbol.call(this, chart, options, symbol);
   }
   f.inherits(End, Symbol);
-  function Operation(chart, text) {
+  function Operation(chart, options) {
     var symbol = chart.paper.rect(0, 0, 0, 0);
-    Symbol.call(this, chart, { text: text }, symbol);
+    options = options || {};
+    Symbol.call(this, chart, options, symbol);
   }
   f.inherits(Operation, Symbol);
-  function Subroutine(chart, text) {
+  function Subroutine(chart, options) {
     var symbol = chart.paper.rect(0, 0, 0, 0);
-    Symbol.call(this, chart, { text: text }, symbol);
+    options = options || {};
+    Symbol.call(this, chart, options, symbol);
   
     symbol.attr({
       width: this.text.getBBox().width + 4 * chart.options['text-margin']
@@ -554,15 +567,20 @@
       stroke: chart.options['element-color'],
       'stroke-width': chart.options['line-width'],
       width: this.text.getBBox().width + 2 * chart.options['text-margin'],
-      height: this.text.getBBox().height + 2 * chart.options['text-margin']
+      height: this.text.getBBox().height + 2 * chart.options['text-margin'],
+      fill: chart.options['fill']
     });
+    if (options.link) { innerWrap.attr('href', options.link); }
+    if (options.target) { innerWrap.attr('target', options.target); }
     this.group.push(innerWrap);
+    innerWrap.insertBefore(this.text);
   
     this.initialize();
   }
   f.inherits(Subroutine, Symbol);
-  function InputOutput(chart, text) {
-    Symbol.call(this, chart, { text: text });
+  function InputOutput(chart, options) {
+    options = options || {};
+    Symbol.call(this, chart, options);
   
     this.text.attr({
       x: chart.options['text-margin'] * 3
@@ -586,14 +604,18 @@
   
     symbol.attr({
       stroke: chart.options['element-color'],
-      'stroke-width': chart.options['line-width']
+      'stroke-width': chart.options['line-width'],
+      fill: chart.options['fill']
     });
+    if (options.link) { symbol.attr('href', options.link); }
+    if (options.target) { symbol.attr('target', options.target); }
   
     this.text.attr({
       y: symbol.getBBox().height/2
     });
   
     this.group.push(symbol);
+    symbol.insertBefore(this.text);
   
     this.initialize();
   }
@@ -610,8 +632,9 @@
     var x = this.getX() + this.group.getBBox().width - this.chart.options['text-margin'];
     return {x: x, y: y};
   };
-  function Condition(chart, text) {
-    Symbol.call(this, chart, { text: text });
+  function Condition(chart, options) {
+    options = options || {};
+    Symbol.call(this, chart, options);
   
     this.text.attr({
       x: chart.options['text-margin'] * 2
@@ -641,14 +664,18 @@
   
     symbol.attr({
       stroke: chart.options['element-color'],
-      'stroke-width': chart.options['line-width']
+      'stroke-width': chart.options['line-width'],
+      fill: chart.options['fill']
     });
+    if (options.link) { symbol.attr('href', options.link); }
+    if (options.target) { symbol.attr('target', options.target); }
   
     this.text.attr({
       y: symbol.getBBox().height/2
     });
   
     this.group.push(symbol);
+    symbol.insertBefore(this.text);
   
     this.initialize();
   }
@@ -710,22 +737,22 @@
   
   				switch (s.symbolType) {
   					case 'start':
-  						dispSymbols[s.key] = new Start(diagram, s.txt);
+  						dispSymbols[s.key] = new Start(diagram, s);
   						break;
   					case 'end':
-  						dispSymbols[s.key] = new End(diagram, s.txt);
+  						dispSymbols[s.key] = new End(diagram, s);
   						break;
   					case 'operation':
-  						dispSymbols[s.key] = new Operation(diagram, s.txt);
+  						dispSymbols[s.key] = new Operation(diagram, s);
   						break;
   					case 'inputoutput':
-  						dispSymbols[s.key] = new InputOutput(diagram, s.txt);
+  						dispSymbols[s.key] = new InputOutput(diagram, s);
   						break;
   					case 'subroutine':
-  						dispSymbols[s.key] = new Subroutine(diagram, s.txt);
+  						dispSymbols[s.key] = new Subroutine(diagram, s);
   						break;
   					case 'condition':
-  						dispSymbols[s.key] = new Condition(diagram, s.txt);
+  						dispSymbols[s.key] = new Condition(diagram, s);
   						break;
   					default:
   						return new Error('Wrong symbol type!');
@@ -782,7 +809,7 @@
   	for (var l = 1, len = lines.length; l < len;) {
   		var currentLine = lines[l];
   
-  		if (currentLine.indexOf(':') < 0 && currentLine.indexOf('(') < 0 && currentLine.indexOf(')') < 0 && currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
+  		if (currentLine.indexOf(': ') < 0 && currentLine.indexOf('(') < 0 && currentLine.indexOf(')') < 0 && currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
   			lines[l - 1] += '\n' + currentLine;
   			lines.splice(l, 1);
   			len--;
@@ -819,13 +846,34 @@
   			var symbol = {
   				key: parts[0],
   				symbolType: parts[1],
-  				txt: null
+  				text: null,
+  				link: null,
+  				target: null
   			};
   
   			if (symbol.symbolType.indexOf(': ') >= 0) {
   				var sub = symbol.symbolType.split(': ');
   				symbol.symbolType = sub[0];
-  				symbol.txt = sub[1]
+  				symbol.text = sub[1];
+  			}
+  
+  			if (symbol.text && symbol.text.indexOf(':>') >= 0) {
+  				var sub = symbol.text.split(':>');
+  				symbol.text = sub[0];
+  				symbol.link = sub[1];
+  			} else if (symbol.symbolType.indexOf(':>') >= 0) {
+  				var sub = symbol.symbolType.split(':>');
+  				symbol.symbolType = sub[0];
+  				symbol.link = sub[1];
+  			}
+  
+  			if (symbol.link) {
+  				var startIndex = symbol.link.indexOf('[') + 1;
+  				var endIndex = symbol.link.indexOf(']');
+  				if (startIndex >= 0 && endIndex >= 0) {
+  					symbol.target = symbol.link.substring(startIndex, endIndex);
+  					symbol.link = symbol.link.substring(0, startIndex - 1);
+  				}
   			}
   
   			chart.symbols[symbol.key] = symbol;
