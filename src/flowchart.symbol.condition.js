@@ -77,6 +77,6 @@ Condition.prototype.renderLines = function() {
   }
 
   if (this.no_symbol) {
-    this.drawLineTo(this.no_symbol, this.chart.options['yes-text'], 'right');
+    this.drawLineTo(this.no_symbol, this.chart.options['no-text'], 'right');
   }
 };
