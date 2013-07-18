@@ -5,8 +5,8 @@ module.exports = function(grunt) {
   // before release:
   // update component.js, package.json
   // after release:
-  // add tag to repo: git tag -a v1.0.0
-  // push tag: git push origin 1.0.0
+  // add tag to repo: git tag v1.0.0
+  // push tag: git push --tags
   // to initialize all again
   // http://twoguysarguing.wordpress.com/2010/11/14/tie-git-submodules-to-a-particular-commit-or-branch/
   // nav to site and do: git checkout gh-pages
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
       banner: '// ' + component.name + ', v<%= meta.version %>\n' +
         '// Copyright (c)<%= grunt.template.today("yyyy") %> Adriano Raiano (adrai).\n' + 
         '// Distributed under MIT license\n' + 
-        '// http://adrai.github.io/js-flowchart/\n'
+        '// http://adrai.github.io/flowchart.js\n'
     },
 
     clean: ['bin'],
