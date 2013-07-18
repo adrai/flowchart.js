@@ -37,6 +37,9 @@ function drawLine(chart, from, to, text) {
   });
 
   if (text) {
+
+    var centerText = false;
+
     var textPath = chart.paper.text(0, 0, text);
 
     var isHorizontal = false;
@@ -46,26 +49,40 @@ function drawLine(chart, from, to, text) {
       isHorizontal = true;
     }
 
-    var x = 0;
-    if (from.x > firstTo.x) {
-      x = from.x - (from.x - firstTo.x)/2;
-    } else {
-      x = firstTo.x - (firstTo.x - from.x)/2;
-    }
+    var x = 0,
+        y = 0;
 
-    var y = 0;
-    if (from.y > firstTo.y) {
-      y = from.y - (from.y - firstTo.y)/2;
-    } else {
-      y = firstTo.y - (firstTo.y - from.y)/2;
-    }
+    if (centerText) {
+      if (from.x > firstTo.x) {
+        x = from.x - (from.x - firstTo.x)/2;
+      } else {
+        x = firstTo.x - (firstTo.x - from.x)/2;
+      }
 
-    if (isHorizontal) {
-      x -= textPath.getBBox().width/2;
-      y -= chart.options['text-margin'];
+      if (from.y > firstTo.y) {
+        y = from.y - (from.y - firstTo.y)/2;
+      } else {
+        y = firstTo.y - (firstTo.y - from.y)/2;
+      }
+
+      if (isHorizontal) {
+        x -= textPath.getBBox().width/2;
+        y -= chart.options['text-margin'];
+      } else {
+        x += chart.options['text-margin'];
+        y -= textPath.getBBox().height/2;
+      }
     } else {
-      x += chart.options['text-margin'];
-      y -= textPath.getBBox().height/2;
+      x = from.x;
+      y = from.y;
+
+      if (isHorizontal) {
+        x += chart.options['text-margin']/2;
+        y -= chart.options['text-margin'];
+      } else {
+        x += chart.options['text-margin']/2;
+        y += chart.options['text-margin'];
+      }
     }
 
     textPath.attr({

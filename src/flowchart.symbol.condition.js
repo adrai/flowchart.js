@@ -73,10 +73,10 @@ Condition.prototype.render = function() {
 
 Condition.prototype.renderLines = function() {
   if (this.yes_symbol) {
-    this.drawLineTo(this.yes_symbol, 'yes');
+    this.drawLineTo(this.yes_symbol, this.chart.options['yes-text'], 'bottom');
   }
 
   if (this.no_symbol) {
-    this.drawLineTo(this.no_symbol, 'no', 'right');
+    this.drawLineTo(this.no_symbol, this.chart.options['yes-text'], 'right');
   }
 };

@@ -1,3 +1,7 @@
+### v1.1.1
+
+- set yes or no text to source start instead of middle
+
 ### v1.1.0
 
 - optional link for symbols

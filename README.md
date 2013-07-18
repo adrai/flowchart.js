@@ -42,7 +42,9 @@ and then
 					                      'font-color': 'black',
 					                      'line-color': 'black',
 					                      'element-color': 'black',
-					                      'fill': 'white'
+					                      'fill': 'white',
+															  'yes-text': 'yes',
+															  'no-text': 'no'
 					                    });
 </script>
 ```

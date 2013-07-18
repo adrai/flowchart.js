@@ -204,14 +204,25 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = right.x + this.chart.options['line-length']/2;
   } else if ((origin && origin === 'right') && isRight) {
     drawLine(this.chart, right, [
-      {x: right.x + (right.x - symbolTop.x)/2, y: right.y},
-      {x: right.x + (right.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolRight.x + this.chart.options['line-length']/2, y: right.y},
+      {x: symbolRight.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
       {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true
     symbol.topEnd = true;
-    maxX = right.x + (right.x - symbolTop.x)/2;
+    maxX = symbolRight.x + this.chart.options['line-length']/2;
+  } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
+    drawLine(this.chart, bottom, [
+      {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
+      {x: right.x + this.chart.options['line-length']/2, y: bottom.y + this.chart.options['line-length']/2},
+      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolTop.x, y: symbolTop.y}
+    ], text);
+    this.bottomStart = true
+    symbol.topEnd = true;
+    maxX = bottom.x + this.chart.options['line-length']/2;
   }
 
   if (!this.chart.maxXFromLine || (this.chart.maxXFromLine && maxX > this.chart.maxXFromLine)) {
