@@ -1,4 +1,4 @@
-// flowchart, v1.1.0
+// flowchart, v1.1.1
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/js-flowchart/
@@ -95,7 +95,9 @@
     'font-color': 'black',
     'line-color': 'black',
     'element-color': 'black',
-    'fill': 'white'
+    'fill': 'white',
+    'yes-text': 'yes',
+    'no-text': 'no'
   };
   function _defaults(options, defaultOptions) {
       if (!options || typeof options === 'function') {
@@ -165,6 +167,9 @@
     });
   
     if (text) {
+  
+      var centerText = false;
+  
       var textPath = chart.paper.text(0, 0, text);
   
       var isHorizontal = false;
@@ -174,26 +179,40 @@
         isHorizontal = true;
       }
   
-      var x = 0;
-      if (from.x > firstTo.x) {
-        x = from.x - (from.x - firstTo.x)/2;
-      } else {
-        x = firstTo.x - (firstTo.x - from.x)/2;
-      }
+      var x = 0,
+          y = 0;
   
-      var y = 0;
-      if (from.y > firstTo.y) {
-        y = from.y - (from.y - firstTo.y)/2;
-      } else {
-        y = firstTo.y - (firstTo.y - from.y)/2;
-      }
+      if (centerText) {
+        if (from.x > firstTo.x) {
+          x = from.x - (from.x - firstTo.x)/2;
+        } else {
+          x = firstTo.x - (firstTo.x - from.x)/2;
+        }
   
-      if (isHorizontal) {
-        x -= textPath.getBBox().width/2;
-        y -= chart.options['text-margin'];
+        if (from.y > firstTo.y) {
+          y = from.y - (from.y - firstTo.y)/2;
+        } else {
+          y = firstTo.y - (firstTo.y - from.y)/2;
+        }
+  
+        if (isHorizontal) {
+          x -= textPath.getBBox().width/2;
+          y -= chart.options['text-margin'];
+        } else {
+          x += chart.options['text-margin'];
+          y -= textPath.getBBox().height/2;
+        }
       } else {
-        x += chart.options['text-margin'];
-        y -= textPath.getBBox().height/2;
+        x = from.x;
+        y = from.y;
+  
+        if (isHorizontal) {
+          x += chart.options['text-margin']/2;
+          y -= chart.options['text-margin'];
+        } else {
+          x += chart.options['text-margin']/2;
+          y += chart.options['text-margin'];
+        }
       }
   
       textPath.attr({
@@ -514,14 +533,25 @@
       maxX = right.x + this.chart.options['line-length']/2;
     } else if ((origin && origin === 'right') && isRight) {
       drawLine(this.chart, right, [
-        {x: right.x + (right.x - symbolTop.x)/2, y: right.y},
-        {x: right.x + (right.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: symbolRight.x + this.chart.options['line-length']/2, y: right.y},
+        {x: symbolRight.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
         {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.rightStart = true
       symbol.topEnd = true;
-      maxX = right.x + (right.x - symbolTop.x)/2;
+      maxX = symbolRight.x + this.chart.options['line-length']/2;
+    } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
+      drawLine(this.chart, bottom, [
+        {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
+        {x: right.x + this.chart.options['line-length']/2, y: bottom.y + this.chart.options['line-length']/2},
+        {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: symbolTop.x, y: symbolTop.y}
+      ], text);
+      this.bottomStart = true
+      symbol.topEnd = true;
+      maxX = bottom.x + this.chart.options['line-length']/2;
     }
   
     if (!this.chart.maxXFromLine || (this.chart.maxXFromLine && maxX > this.chart.maxXFromLine)) {
@@ -707,11 +737,11 @@
   
   Condition.prototype.renderLines = function() {
     if (this.yes_symbol) {
-      this.drawLineTo(this.yes_symbol, 'yes');
+      this.drawLineTo(this.yes_symbol, this.chart.options['yes-text'], 'bottom');
     }
   
     if (this.no_symbol) {
-      this.drawLineTo(this.no_symbol, 'no', 'right');
+      this.drawLineTo(this.no_symbol, this.chart.options['yes-text'], 'right');
     }
   };
   function parse(input) {
