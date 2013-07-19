@@ -70,21 +70,25 @@ Condition.prototype.render = function() {
       this.no_symbol.setY(rightPoint.y - this.no_symbol.height/2);
       this.no_symbol.shiftX(this.group.getBBox().x + this.width + this.chart.options['line-length']);
 
-      var hasSymbolUnder = false;
-      var symb;
-      for (var i = 0, len = this.chart.symbols.length; i < len; i++) {
-        symb = this.chart.symbols[i];
+      var self = this;
+      (function shift() {
+        var hasSymbolUnder = false;
+        var symb;
+        for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+          symb = self.chart.symbols[i];
 
-        var diff = Math.abs(symb.getCenter().x - this.no_symbol.getCenter().x);
-        if (symb.getCenter().y > this.no_symbol.getCenter().y && diff <= this.no_symbol.width/2) {
-          hasSymbolUnder = true;
-          break;
+          var diff = Math.abs(symb.getCenter().x - self.no_symbol.getCenter().x);
+          if (symb.getCenter().y > self.no_symbol.getCenter().y && diff <= self.no_symbol.width/2) {
+            hasSymbolUnder = true;
+            break;
+          }
         }
-      }
 
-      if (hasSymbolUnder) {
-        this.no_symbol.setX(symb.getX() + symb.width + this.chart.options['line-length']);
-      }
+        if (hasSymbolUnder) {
+          self.no_symbol.setX(symb.getX() + symb.width + self.chart.options['line-length']);
+          shift();
+        }
+      })();
 
       this.no_symbol.isPositioned = true;
 
