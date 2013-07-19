@@ -20,32 +20,32 @@ and then
 <script src="flowchart.js"></script>
 <script> 
   var diagram = flowchart.parse('st=>start: Start:>http://www.google.com[blank]\n' + 
-																'e=>end:>http://www.google.com\n' + 
-																'op1=>operation: My Operation\n' + 
-																'sub1=>subroutine: My Subroutine\n' + 
-																'cond=>condition: Yes \n' + 
-																'or No?\n:>http://www.google.com' + 
-																'io=>inputoutput: catch something...\n' + 
-																'' +
-																'st->op1->cond\n' + 
-																'cond(yes)->io->e\n' + 
-																'cond(no)->sub1->op1');
+                                'e=>end:>http://www.google.com\n' + 
+                                'op1=>operation: My Operation\n' + 
+                                'sub1=>subroutine: My Subroutine\n' + 
+                                'cond=>condition: Yes \n' + 
+                                'or No?\n:>http://www.google.com' + 
+                                'io=>inputoutput: catch something...\n' + 
+                                '' +
+                                'st->op1->cond\n' + 
+                                'cond(yes)->io->e\n' + 
+                                'cond(no)->sub1->op1');
   diagram.drawSVG('diagram');
 
   // you can also try to pass options:
   
   diagram.drawSVG('diagram', {
-					                      'line-width': 3,
-					                      'line-length': 50,
-					                      'text-margin': 10,
-					                      'font-size': 14,
-					                      'font-color': 'black',
-					                      'line-color': 'black',
-					                      'element-color': 'black',
-					                      'fill': 'white',
-															  'yes-text': 'yes',
-															  'no-text': 'no'
-					                    });
+                                'line-width': 3,
+                                'line-length': 50,
+                                'text-margin': 10,
+                                'font-size': 14,
+                                'font-color': 'black',
+                                'line-color': 'black',
+                                'element-color': 'black',
+                                'fill': 'white',
+                                'yes-text': 'yes',
+                                'no-text': 'no'
+                              });
 </script>
 ```
 
