@@ -1,12 +1,12 @@
 function _defaults(options, defaultOptions) {
-    if (!options || typeof options === 'function') {
-        return defaultOptions;
-    }
-    
-    var merged = {};
-    for (var attrname in defaultOptions) { merged[attrname] = defaultOptions[attrname]; }
-    for (attrname in options) { if (options[attrname]) merged[attrname] = options[attrname]; }
-    return merged;  
+  if (!options || typeof options === 'function') {
+    return defaultOptions;
+  }
+
+  var merged = {};
+  for (var attrname in defaultOptions) { merged[attrname] = defaultOptions[attrname]; }
+  for (attrname in options) { if (options[attrname]) merged[attrname] = options[attrname]; }
+  return merged;
 }
 
 function _inherits(ctor, superCtor) {

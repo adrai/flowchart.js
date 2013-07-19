@@ -10,7 +10,7 @@ function Condition(chart, options) {
   width += width/2;
   var height = this.text.getBBox().height + 2 * chart.options['text-margin'];
   height += height/2;
-  var startX = width/4;;
+  var startX = width/4;
   var startY = height/4;
 
   this.text.attr({

@@ -2,8 +2,8 @@
 
   //= flowchart.shim.js
 
-  var root = this
-    , flowchart = {};
+  var root = this,
+      flowchart = {};
 
   //= flowchart.exports.js
   //= flowchart.defaults.js

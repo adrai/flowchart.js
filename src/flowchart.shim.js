@@ -2,7 +2,7 @@
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
     "use strict";
-    if (this == null) {
+    if (this === null) {
       throw new TypeError();
     }
     var t = Object(this);
@@ -15,7 +15,7 @@ if (!Array.prototype.indexOf) {
       n = Number(arguments[1]);
       if (n != n) { // shortcut for verifying if it's NaN
         n = 0;
-      } else if (n != 0 && n != Infinity && n != -Infinity) {
+      } else if (n !== 0 && n != Infinity && n != -Infinity) {
         n = (n > 0 || -1) * Math.floor(Math.abs(n));
       }
     }
@@ -29,14 +29,14 @@ if (!Array.prototype.indexOf) {
       }
     }
     return -1;
-  }
+  };
 }
 
 // add lastIndexOf to non ECMA-262 standard compliant browsers
 if (!Array.prototype.lastIndexOf) {
   Array.prototype.lastIndexOf = function(searchElement /*, fromIndex*/) {
     "use strict";
-    if (this == null) {
+    if (this === null) {
       throw new TypeError();
     }
     var t = Object(this);
@@ -49,7 +49,7 @@ if (!Array.prototype.lastIndexOf) {
       n = Number(arguments[1]);
       if (n != n) {
         n = 0;
-      } else if (n != 0 && n != (1 / 0) && n != -(1 / 0)) {
+      } else if (n !== 0 && n != (1 / 0) && n != -(1 / 0)) {
         n = (n > 0 || -1) * Math.floor(Math.abs(n));
       }
     }

@@ -1,7 +1,8 @@
 function Symbol(chart, options, symbol) {
   this.chart = chart;
   this.group = this.chart.paper.set();
-  
+  this.connectedTo = [];
+
   this.text = this.chart.paper.text(0, 0, options.text);
   this.text.attr({
     'text-anchor': 'start',
@@ -10,7 +11,7 @@ function Symbol(chart, options, symbol) {
     stroke: chart.options['font-color']
   });
   if (options.link) { this.text.attr('href', options.link); }
-  if (options.target) { this.text.attr('target', options.target) };
+  if (options.target) { this.text.attr('target', options.target); }
   this.group.push(this.text);
 
   if (symbol) {
@@ -115,6 +116,12 @@ Symbol.prototype.renderLines = function() {
 };
 
 Symbol.prototype.drawLineTo = function(symbol, text, origin) {
+  if (this.connectedTo.indexOf(symbol) >= 0) {
+    return;
+  }
+
+  this.connectedTo.push(symbol);
+
   var x = this.getCenter().x,
       y = this.getCenter().y,
       top = this.getTop(),
@@ -157,11 +164,12 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
   } else if ((!origin || origin === 'right') && isOnSameColumn && isUpper) {
     line = drawLine(this.chart, right, [
       {x: right.x + this.chart.options['line-length']/2, y: right.y},
-      {x: right.x + this.chart.options['line-length']/2, y: symbolRight.y},
-      {x: symbolRight.x, y: symbolRight.y}
+      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true;
-    symbol.rightEnd = true;
+    symbol.topEnd = true;
     maxX = right.x + this.chart.options['line-length']/2;
   } else if ((!origin || origin === 'bottom') && isLeft) {
     if (this.leftEnd && isUpper) {
@@ -226,20 +234,81 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = bottom.x + this.chart.options['line-length']/2;
   }
 
-  // if (line) {
-  //   var self = this;
-  //   this.chart.paper.forEach(function (e) {
-  //     if (e.type === 'path') {
-  //       var intersections = Raphael.pathIntersection(e.attr('path'), line.attr('path'));
-  //       console.log(intersections);
-  //       for (var i = 0, len = intersections.length; i < len; i++) {
-  //         var inter =intersections[i];
-  //         var c = self.chart.paper.circle(inter.x, inter.y, 3);
-  //         c.attr('fill', 'red');
-  //       }
-  //     }
-  //   });
-  // }
+  if (line) {
+    var self = this;
+    for (var l = 0, llen = this.chart.lines.length; l < llen; l++) {
+      var otherLine = this.chart.lines[l];
+      var i,
+          len,
+          intersections,
+          inter;
+
+      var ePath = otherLine.attr('path'),
+          lPath = line.attr('path');
+
+      for (var iP = 0, lenP = ePath.length - 1; iP < lenP; iP++) {
+        var newPath = [];
+        newPath.push(['M', ePath[iP][1], ePath[iP][2]]);
+        newPath.push(['L', ePath[iP + 1][1], ePath[iP + 1][2]]);
+
+        var line1_from_x = newPath[0][1];
+        var line1_from_y = newPath[0][2];
+        var line1_to_x = newPath[1][1];
+        var line1_to_y = newPath[1][2];
+
+        for (var lP = 0, lenlP = lPath.length - 1; lP < lenlP; lP++) {
+          var newLinePath = [];
+          newLinePath.push(['M', lPath[lP][1], lPath[lP][2]]);
+          newLinePath.push(['L', lPath[lP + 1][1], lPath[lP + 1][2]]);
+
+          var line2_from_x = newLinePath[0][1];
+          var line2_from_y = newLinePath[0][2];
+          var line2_to_x = newLinePath[1][1];
+          var line2_to_y = newLinePath[1][2];
+
+          var res = checkLineIntersection(line1_from_x, line1_from_y, line1_to_x, line1_to_y, line2_from_x, line2_from_y, line2_to_x, line2_to_y);
+          if (res.onLine1 && res.onLine2) {
+
+            var newSegment;
+            if (line2_from_y === line2_to_y) {
+              if (line2_from_x > line2_to_x) {
+                newSegment = ['L', res.x + this.chart.options['line-width'] * 2,  line2_from_y];
+                lPath.splice(lP + 1, 0, newSegment);
+                newSegment = ['C', res.x + this.chart.options['line-width'] * 2,  line2_from_y, res.x, line2_from_y - this.chart.options['line-width'] * 4, res.x - this.chart.options['line-width'] * 2, line2_from_y];
+                lPath.splice(lP + 2, 0, newSegment);
+                line.attr('path', lPath);
+              } else {
+                newSegment = ['L', res.x - this.chart.options['line-width'] * 2,  line2_from_y];
+                lPath.splice(lP + 1, 0, newSegment);
+                newSegment = ['C', res.x - this.chart.options['line-width'] * 2,  line2_from_y, res.x, line2_from_y - this.chart.options['line-width'] * 4, res.x + this.chart.options['line-width'] * 2, line2_from_y];
+                lPath.splice(lP + 2, 0, newSegment);
+                line.attr('path', lPath);
+              }
+            } else {
+              if (line2_from_y > line2_to_y) {
+                newSegment = ['L', line2_from_x, res.y + this.chart.options['line-width'] * 2];
+                lPath.splice(lP + 1, 0, newSegment);
+                newSegment = ['C', line2_from_x, res.y + this.chart.options['line-width'] * 2, line2_from_x + this.chart.options['line-width'] * 4, res.y, line2_from_x, res.y - this.chart.options['line-width'] * 2];
+                lPath.splice(lP + 2, 0, newSegment);
+                line.attr('path', lPath);
+              } else {
+                newSegment = ['L', line2_from_x, res.y - this.chart.options['line-width'] * 2];
+                lPath.splice(lP + 1, 0, newSegment);
+                newSegment = ['C', line2_from_x, res.y - this.chart.options['line-width'] * 2, line2_from_x + this.chart.options['line-width'] * 4, res.y, line2_from_x, res.y + this.chart.options['line-width'] * 2];
+                lPath.splice(lP + 2, 0, newSegment);
+                line.attr('path', lPath);
+              }
+            }
+
+            lP += 2;
+            len += 2;
+          }
+        }
+      }
+    }
+
+    this.chart.lines.push(line);
+  }
 
   if (!this.chart.maxXFromLine || (this.chart.maxXFromLine && maxX > this.chart.maxXFromLine)) {
     this.chart.maxXFromLine = maxX;

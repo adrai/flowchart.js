@@ -7,13 +7,13 @@
 
     define([], factory);
 
-  } 
+  }
 }(this, function () {
 
   //= flowchart.shim.js
 
-  var root = this
-    , flowchart = {};
+  var root = this,
+      flowchart = {};
 
   //= flowchart.defaults.js
   //= flowchart.helpers.js
@@ -28,7 +28,7 @@
   //= flowchart.symbol.condition.js
   //= flowchart.parse.js
   //= flowchart.api.js
-  
-  return flowchart; 
+
+  return flowchart;
 
 }));
