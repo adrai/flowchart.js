@@ -68,10 +68,11 @@ FlowChart.prototype.render = function() {
     symbol.shiftX((maxWidth - symbol.width)/2);
   }
 
-  for (i = 0, len = this.symbols.length; i < len; i++) {
-    symbol = this.symbols[i];
-    symbol.render();
-  }
+  this.start.render();
+  // for (i = 0, len = this.symbols.length; i < len; i++) {
+  //   symbol = this.symbols[i];
+  //   symbol.render();
+  // }
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];

@@ -105,6 +105,8 @@ Symbol.prototype.render = function() {
       this.next.shiftY(this.getY() + this.height + this.chart.options['line-length']);
       this.next.setX(bottomPoint.x - this.next.width/2);
       this.next.isPositioned = true;
+
+      this.next.render();
     }
   }
 };

@@ -340,10 +340,11 @@
       symbol.shiftX((maxWidth - symbol.width)/2);
     }
   
-    for (i = 0, len = this.symbols.length; i < len; i++) {
-      symbol = this.symbols[i];
-      symbol.render();
-    }
+    this.start.render();
+    // for (i = 0, len = this.symbols.length; i < len; i++) {
+    //   symbol = this.symbols[i];
+    //   symbol.render();
+    // }
   
     for (i = 0, len = this.symbols.length; i < len; i++) {
       symbol = this.symbols[i];
@@ -480,6 +481,8 @@
         this.next.shiftY(this.getY() + this.height + this.chart.options['line-length']);
         this.next.setX(bottomPoint.x - this.next.width/2);
         this.next.isPositioned = true;
+  
+        this.next.render();
       }
     }
   };
@@ -851,6 +854,8 @@
         this.yes_symbol.shiftY(this.getY() + this.height + this.chart.options['line-length']);
         this.yes_symbol.setX(bottomPoint.x - this.yes_symbol.width/2);
         this.yes_symbol.isPositioned = true;
+  
+        this.yes_symbol.render();
       }
     }
   
@@ -859,9 +864,29 @@
       var leftPoint = this.no_symbol.getLeft();
   
       if (!this.no_symbol.isPositioned) {
+  
         this.no_symbol.setY(rightPoint.y - this.no_symbol.height/2);
         this.no_symbol.shiftX(this.group.getBBox().x + this.width + this.chart.options['line-length']);
+  
+        var hasSymbolUnder = false;
+        var symb;
+        for (var i = 0, len = this.chart.symbols.length; i < len; i++) {
+          symb = this.chart.symbols[i];
+  
+          var diff = Math.abs(symb.getCenter().x - this.no_symbol.getCenter().x);
+          if (symb.getCenter().y > this.no_symbol.getCenter().y && diff <= this.no_symbol.width/2) {
+            hasSymbolUnder = true;
+            break;
+          }
+        }
+  
+        if (hasSymbolUnder) {
+          this.no_symbol.setX(symb.getX() + symb.width + this.chart.options['line-length']);
+        }
+  
         this.no_symbol.isPositioned = true;
+  
+        this.no_symbol.render();
       }
     }
   };
