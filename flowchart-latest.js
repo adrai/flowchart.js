@@ -1,4 +1,4 @@
-// flowchart, v1.1.2
+// flowchart, v1.1.3
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -111,15 +111,25 @@
   }
   
   function _inherits(ctor, superCtor) {
-    ctor.super_ = superCtor;
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
+    if (typeof(Object.create) === 'function') {
+      // implementation from standard node.js 'util' module
+      ctor.super_ = superCtor;
+      ctor.prototype = Object.create(superCtor.prototype, {
+        constructor: {
+          value: ctor,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+    } else {
+      // old school shim for old browsers
+      ctor.super_ = superCtor;
+      var TempCtor = function () {};
+      TempCtor.prototype = superCtor.prototype;
+      ctor.prototype = new TempCtor();
+      ctor.prototype.constructor = ctor;
+    }
   }
   
   // move dependent functions to a container so that
@@ -866,21 +876,25 @@
         this.no_symbol.setY(rightPoint.y - this.no_symbol.height/2);
         this.no_symbol.shiftX(this.group.getBBox().x + this.width + this.chart.options['line-length']);
   
-        var hasSymbolUnder = false;
-        var symb;
-        for (var i = 0, len = this.chart.symbols.length; i < len; i++) {
-          symb = this.chart.symbols[i];
+        var self = this;
+        (function shift() {
+          var hasSymbolUnder = false;
+          var symb;
+          for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+            symb = self.chart.symbols[i];
   
-          var diff = Math.abs(symb.getCenter().x - this.no_symbol.getCenter().x);
-          if (symb.getCenter().y > this.no_symbol.getCenter().y && diff <= this.no_symbol.width/2) {
-            hasSymbolUnder = true;
-            break;
+            var diff = Math.abs(symb.getCenter().x - self.no_symbol.getCenter().x);
+            if (symb.getCenter().y > self.no_symbol.getCenter().y && diff <= self.no_symbol.width/2) {
+              hasSymbolUnder = true;
+              break;
+            }
           }
-        }
   
-        if (hasSymbolUnder) {
-          this.no_symbol.setX(symb.getX() + symb.width + this.chart.options['line-length']);
-        }
+          if (hasSymbolUnder) {
+            self.no_symbol.setX(symb.getX() + symb.width + self.chart.options['line-length']);
+            shift();
+          }
+        })();
   
         this.no_symbol.isPositioned = true;
   
