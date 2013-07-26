@@ -1,3 +1,7 @@
+### v1.1.3
+
+- fix for old browsers
+
 ### v1.1.2
 
 - let lines jump
