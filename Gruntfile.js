@@ -19,8 +19,8 @@ module.exports = function(grunt) {
     meta: {
       version: component.version,
       banner: '// ' + component.name + ', v<%= meta.version %>\n' +
-        '// Copyright (c)<%= grunt.template.today("yyyy") %> Adriano Raiano (adrai).\n' + 
-        '// Distributed under MIT license\n' + 
+        '// Copyright (c)<%= grunt.template.today("yyyy") %> Adriano Raiano (adrai).\n' +
+        '// Distributed under MIT license\n' +
         '// http://adrai.github.io/flowchart.js\n'
     },
 
@@ -88,7 +88,7 @@ module.exports = function(grunt) {
     copy: {
       js: {
         files: [
-          { expand: true, cwd: 'bin/', src: ['*.js'], dest: 'release/', 
+          { expand: true, cwd: 'bin/', src: ['*.js'], dest: 'release/',
             rename: function(dest, src) { console.log(src + ' -> ' + dest);
               if (src == 'flowchart-latest.js') {
                 dest += 'flowchart-' + component.version + '.js';
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'release/',
             src: [
-              'flowchart-<%= meta.version %>.js', 
+              'flowchart-<%= meta.version %>.js',
               'flowchart-<%= meta.version %>.min.js'
             ],
             dest: 'flowchart-<%= meta.version %>/'
@@ -138,7 +138,7 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'release/',
             src: [
-              'flowchart-<%= meta.version %>.js', 
+              'flowchart-<%= meta.version %>.js',
               'flowchart-<%= meta.version %>.min.js'
             ],
             dest: 'flowchart-latest/'
@@ -157,7 +157,7 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'release/',
             src: [
-              'flowchart.amd-<%= meta.version %>.js', 
+              'flowchart.amd-<%= meta.version %>.js',
               'flowchart.amd-<%= meta.version %>.min.js'
             ],
             dest: 'flowchart.amd-<%= meta.version %>/'
@@ -176,7 +176,7 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'release/',
             src: [
-              'flowchart.amd-<%= meta.version %>.js', 
+              'flowchart.amd-<%= meta.version %>.js',
               'flowchart.amd-<%= meta.version %>.min.js'
             ],
             dest: 'flowchart-latest/'

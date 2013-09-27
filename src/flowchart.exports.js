@@ -3,6 +3,6 @@
 // global object or to jquery.
 if (typeof module !== 'undefined' && module.exports) {
    module.exports = flowchart;
-} else {  
+} else {
   root.flowchart = root.flowchart || flowchart;
 }

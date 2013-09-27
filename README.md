@@ -28,7 +28,7 @@ and then
                                 'io=>inputoutput: catch something...\n' + 
                                 '' +
                                 'st->op1->cond\n' + 
-                                'cond(yes)->io->e\n' + 
+                                'cond(yes)->io->e\n' + // conditions can also be redirected like cond(yes, bottom) or cond(yes, right)
                                 'cond(no)->sub1->op1');
   diagram.drawSVG('diagram');
 

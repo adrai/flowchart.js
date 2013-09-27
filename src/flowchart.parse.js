@@ -164,7 +164,7 @@ function parse(input) {
 
       chart.symbols[symbol.key] = symbol;
 
-    } else if(line.indexOf('->') >= 0) {
+    } else if (line.indexOf('->') >= 0) {
       // flow
       var flowSymbols = line.split('->');
       for (var i = 0, lenS = flowSymbols.length; i < lenS; i++) {
@@ -173,6 +173,13 @@ function parse(input) {
         var realSymb = getSymbol(flowSymb);
         var next = getNextPath(flowSymb);
 
+        var direction;
+        if (next.indexOf(',') >= 0) {
+          var condOpt = next.split(',');
+          next = condOpt[0];
+          direction = condOpt[1].trim();
+        }
+
         if (!chart.start) {
           chart.start = realSymb;
         }
@@ -180,6 +187,8 @@ function parse(input) {
         if (i + 1 < lenS) {
           var nextSymb = flowSymbols[i + 1];
           realSymb[next] = getSymbol(nextSymb);
+          realSymb[next].direction = direction;
+          direction = undefined;
         }
       }
 
