@@ -1,3 +1,7 @@
+### v1.2.1
+
+- fix condition direction
+
 ### v1.2.0
 
 - ability to specify directionality of condition branches [#3](https://github.com/adrai/flowchart.js/issues/3)

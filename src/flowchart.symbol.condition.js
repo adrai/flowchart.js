@@ -2,24 +2,31 @@ function Condition(chart, options) {
   options = options || {};
   Symbol.call(this, chart, options);
 
-  if (options.yes.direction && !options.no.direction) {
+  this.yes_direction = 'bottom';
+  this.no_direction = 'right';
+  if (options.yes && options.yes.direction && options.no && !options.no.direction) {
     if (options.yes.direction === 'right') {
-      options.no.direction = 'bottom';
+      this.no_direction = 'bottom';
+      this.yes_direction = 'right';
     } else {
-      options.no.direction = 'right';
+      this.no_direction = 'right';
+      this.yes_direction = 'bottom';
     }
-  } else if (!options.yes.direction && options.no.direction) {
+  } else if (options.yes && !options.yes.direction && options.no && options.no.direction) {
     if (options.no.direction === 'right') {
-      options.yes.direction = 'bottom';
+      this.yes_direction = 'bottom';
+      this.no_direction = 'right';
     } else {
-      options.yes.direction = 'right';
+      this.yes_direction = 'right';
+      this.no_direction = 'bottom';
     }
   } else {
-    options.yes.direction = 'bottom';
-    options.no.direction = 'right';
+    this.yes_direction = 'bottom';
+    this.no_direction = 'right';
   }
 
-  this.options = options;
+  this.yes_direction = this.yes_direction || 'bottom';
+  this.no_direction = this.no_direction || 'right';
 
   this.text.attr({
     x: chart.options['text-margin'] * 2
@@ -68,8 +75,13 @@ f.inherits(Condition, Symbol);
 
 Condition.prototype.render = function() {
 
-  this[this.options.yes.direction + '_symbol'] = this.yes_symbol;
-  this[this.options.no.direction + '_symbol'] = this.no_symbol;
+  if (this.yes_direction) {
+    this[this.yes_direction + '_symbol'] = this.yes_symbol;
+  }
+
+  if (this.no_direction) {
+    this[this.no_direction + '_symbol'] = this.no_symbol;
+  }
 
   if (this.bottom_symbol) {
     var bottomPoint = this.getBottom();
@@ -122,10 +134,10 @@ Condition.prototype.render = function() {
 
 Condition.prototype.renderLines = function() {
   if (this.yes_symbol) {
-    this.drawLineTo(this.yes_symbol, this.chart.options['yes-text'], this.options.yes.direction);
+    this.drawLineTo(this.yes_symbol, this.chart.options['yes-text'], this.yes_direction);
   }
 
   if (this.no_symbol) {
-    this.drawLineTo(this.no_symbol, this.chart.options['no-text'], this.options.no.direction);
+    this.drawLineTo(this.no_symbol, this.chart.options['no-text'], this.no_direction);
   }
 };
