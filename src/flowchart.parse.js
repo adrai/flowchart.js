@@ -153,6 +153,10 @@ function parse(input) {
         symbol.link = sub[1];
       }
 
+      if (symbol.symbolType.indexOf('\n') >= 0) {
+        symbol.symbolType = symbol.symbolType.split('\n')[0];
+      }
+
       if (symbol.link) {
         var startIndex = symbol.link.indexOf('[') + 1;
         var endIndex = symbol.link.indexOf(']');

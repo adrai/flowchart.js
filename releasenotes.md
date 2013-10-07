@@ -1,3 +1,7 @@
+### v1.2.2
+
+- fix flowchart parsing
+
 ### v1.2.1
 
 - fix condition direction
