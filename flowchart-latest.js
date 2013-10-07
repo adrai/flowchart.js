@@ -1,4 +1,4 @@
-// flowchart, v1.2.1
+// flowchart, v1.2.2
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -1100,6 +1100,10 @@
           sub = symbol.symbolType.split(':>');
           symbol.symbolType = sub[0];
           symbol.link = sub[1];
+        }
+  
+        if (symbol.symbolType.indexOf('\n') >= 0) {
+          symbol.symbolType = symbol.symbolType.split('\n')[0];
         }
   
         if (symbol.link) {
