@@ -1,3 +1,7 @@
+### v1.2.3
+
+- added "arrow-end" option [#6](https://github.com/adrai/flowchart.js/pull/6)
+
 ### v1.2.2
 
 - fix flowchart parsing

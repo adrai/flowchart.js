@@ -44,7 +44,8 @@ and then
                                 'element-color': 'black',
                                 'fill': 'white',
                                 'yes-text': 'yes',
-                                'no-text': 'no'
+                                'no-text': 'no',
+                                'arrow-end': 'block'
                               });
 </script>
 ```
