@@ -1,4 +1,4 @@
-// flowchart, v1.2.2
+// flowchart, v1.2.3
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -97,7 +97,8 @@
     'element-color': 'black',
     'fill': 'white',
     'yes-text': 'yes',
-    'no-text': 'no'
+    'no-text': 'no',
+    'arrow-end': 'block'
   };
   function _defaults(options, defaultOptions) {
     if (!options || typeof options === 'function') {
@@ -176,7 +177,7 @@
     line.attr({
       stroke: chart.options['line-color'],
       'stroke-width': chart.options['line-width'],
-      'arrow-end': 'block'
+      'arrow-end': chart.options['arrow-end']
     });
   
     if (text) {
