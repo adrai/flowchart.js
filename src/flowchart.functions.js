@@ -36,7 +36,7 @@ function drawLine(chart, from, to, text) {
   line.attr({
     stroke: chart.options['line-color'],
     'stroke-width': chart.options['line-width'],
-    'arrow-end': 'block'
+    'arrow-end': chart.options['arrow-end']
   });
 
   if (text) {
