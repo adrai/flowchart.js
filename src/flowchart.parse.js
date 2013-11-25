@@ -56,7 +56,8 @@ function parse(input) {
           if (prevDisp instanceof(Condition)) {
             if (prev.yes === s) {
               prevDisp.yes(dispSymb);
-            } else if (prev.no === s) {
+            }
+            if (prev.no === s) {
               prevDisp.no(dispSymb);
             }
           } else {

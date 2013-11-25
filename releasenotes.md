@@ -1,3 +1,7 @@
+### v1.2.4
+
+- fixed condition jump to an other symbol on same column
+
 ### v1.2.3
 
 - added "arrow-end" option [#6](https://github.com/adrai/flowchart.js/pull/6)

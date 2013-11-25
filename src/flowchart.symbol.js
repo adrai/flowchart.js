@@ -118,11 +118,9 @@ Symbol.prototype.renderLines = function() {
 };
 
 Symbol.prototype.drawLineTo = function(symbol, text, origin) {
-  if (this.connectedTo.indexOf(symbol) >= 0) {
-    return;
+  if (this.connectedTo.indexOf(symbol) < 0) {
+    this.connectedTo.push(symbol);
   }
-
-  this.connectedTo.push(symbol);
 
   var x = this.getCenter().x,
       y = this.getCenter().y,
@@ -164,6 +162,16 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     symbol.rightEnd = true;
     maxX = symbolRight.x;
   } else if ((!origin || origin === 'right') && isOnSameColumn && isUpper) {
+    line = drawLine(this.chart, right, [
+      {x: right.x + this.chart.options['line-length']/2, y: right.y},
+      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolTop.x, y: symbolTop.y}
+    ], text);
+    this.rightStart = true;
+    symbol.topEnd = true;
+    maxX = right.x + this.chart.options['line-length']/2;
+  } else if ((!origin || origin === 'right') && isOnSameColumn && isUnder) {
     line = drawLine(this.chart, right, [
       {x: right.x + this.chart.options['line-length']/2, y: right.y},
       {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
