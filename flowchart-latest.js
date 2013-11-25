@@ -1,4 +1,4 @@
-// flowchart, v1.2.3
+// flowchart, v1.2.4
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -503,11 +503,9 @@
   };
   
   Symbol.prototype.drawLineTo = function(symbol, text, origin) {
-    if (this.connectedTo.indexOf(symbol) >= 0) {
-      return;
+    if (this.connectedTo.indexOf(symbol) < 0) {
+      this.connectedTo.push(symbol);
     }
-  
-    this.connectedTo.push(symbol);
   
     var x = this.getCenter().x,
         y = this.getCenter().y,
@@ -549,6 +547,16 @@
       symbol.rightEnd = true;
       maxX = symbolRight.x;
     } else if ((!origin || origin === 'right') && isOnSameColumn && isUpper) {
+      line = drawLine(this.chart, right, [
+        {x: right.x + this.chart.options['line-length']/2, y: right.y},
+        {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: symbolTop.x, y: symbolTop.y}
+      ], text);
+      this.rightStart = true;
+      symbol.topEnd = true;
+      maxX = right.x + this.chart.options['line-length']/2;
+    } else if ((!origin || origin === 'right') && isOnSameColumn && isUnder) {
       line = drawLine(this.chart, right, [
         {x: right.x + this.chart.options['line-length']/2, y: right.y},
         {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
@@ -1006,7 +1014,8 @@
             if (prevDisp instanceof(Condition)) {
               if (prev.yes === s) {
                 prevDisp.yes(dispSymb);
-              } else if (prev.no === s) {
+              }
+              if (prev.no === s) {
                 prevDisp.no(dispSymb);
               }
             } else {
