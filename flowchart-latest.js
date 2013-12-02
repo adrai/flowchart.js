@@ -1,4 +1,4 @@
-// flowchart, v1.2.4
+// flowchart, v1.2.5
 // Copyright (c)2013 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -98,7 +98,15 @@
     'fill': 'white',
     'yes-text': 'yes',
     'no-text': 'no',
-    'arrow-end': 'block'
+    'arrow-end': 'block',
+    'symbols': {
+      'start': {},
+      'end': {},
+      'condition': {},
+      'inputoutput': {},
+      'operation': {},
+      'subroutine': {}
+    }
   };
   function _defaults(options, defaultOptions) {
     if (!options || typeof options === 'function') {
@@ -106,8 +114,19 @@
     }
   
     var merged = {};
-    for (var attrname in defaultOptions) { merged[attrname] = defaultOptions[attrname]; }
-    for (attrname in options) { if (options[attrname]) merged[attrname] = options[attrname]; }
+    for (var attrname in defaultOptions) {
+      merged[attrname] = defaultOptions[attrname];
+    }
+  
+    for (attrname in options) {
+      if (options[attrname]) {
+        if (typeof merged[attrname] === 'object') {
+          merged[attrname] = _defaults(merged[attrname], options[attrname]);
+        } else {
+          merged[attrname] = options[attrname];
+        }
+      }
+    }
     return merged;
   }
   
@@ -387,13 +406,14 @@
     this.chart = chart;
     this.group = this.chart.paper.set();
     this.connectedTo = [];
+    this.symbolType = options.symbolType;
   
     this.text = this.chart.paper.text(0, 0, options.text);
     this.text.attr({
       'text-anchor': 'start',
-      'font-size': this.chart.options['font-size'],
-      'x': this.chart.options['text-margin'],
-      stroke: chart.options['font-color']
+      'font-size': (this.chart.options.symbols[this.symbolType]['font-size'] || this.chart.options['font-size']),
+      'x': (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+      stroke: (this.chart.options.symbols[this.symbolType]['font-color'] || this.chart.options['font-color'])
     });
     if (options.link) { this.text.attr('href', options.link); }
     if (options.target) { this.text.attr('target', options.target); }
@@ -401,11 +421,11 @@
   
     if (symbol) {
       symbol.attr({
-        stroke: this.chart.options['element-color'],
-        'stroke-width': this.chart.options['line-width'],
-        width: this.text.getBBox().width + 2 * this.chart.options['text-margin'],
-        height: this.text.getBBox().height + 2 * this.chart.options['text-margin'],
-        fill: chart.options['fill']
+        stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
+        'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
+        width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+        height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+        fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
       });
       if (options.link) { symbol.attr('href', options.link); }
       if (options.target) { symbol.attr('target', options.target); }
@@ -422,7 +442,7 @@
   }
   
   Symbol.prototype.initialize = function() {
-    this.group.transform('t' + this.chart.options['line-width'] + ',' + this.chart.options['line-width']);
+    this.group.transform('t' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']) + ',' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']));
   
     this.width = this.group.getBBox().width;
     this.height = this.group.getBBox().height;
@@ -487,7 +507,7 @@
       var topPoint = this.next.getTop();
   
       if (!this.next.isPositioned) {
-        this.next.shiftY(this.getY() + this.height + this.chart.options['line-length']);
+        this.next.shiftY(this.getY() + this.height + (this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length']));
         this.next.setX(bottomPoint.x - this.next.width/2);
         this.next.isPositioned = true;
   
@@ -529,7 +549,9 @@
         isRight = x < symbolX;
   
     var maxX = 0,
-        line;
+        line,
+        lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'],
+        lineWith = this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width'];
   
     if ((!origin || origin === 'bottom') && isOnSameColumn && isUnder) {
       line = drawLine(this.chart, bottom, symbolTop, text);
@@ -548,37 +570,37 @@
       maxX = symbolRight.x;
     } else if ((!origin || origin === 'right') && isOnSameColumn && isUpper) {
       line = drawLine(this.chart, right, [
-        {x: right.x + this.chart.options['line-length']/2, y: right.y},
-        {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: right.x + lineLength/2, y: right.y},
+        {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.rightStart = true;
       symbol.topEnd = true;
-      maxX = right.x + this.chart.options['line-length']/2;
+      maxX = right.x + lineLength/2;
     } else if ((!origin || origin === 'right') && isOnSameColumn && isUnder) {
       line = drawLine(this.chart, right, [
-        {x: right.x + this.chart.options['line-length']/2, y: right.y},
-        {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: right.x + lineLength/2, y: right.y},
+        {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.rightStart = true;
       symbol.topEnd = true;
-      maxX = right.x + this.chart.options['line-length']/2;
+      maxX = right.x + lineLength/2;
     } else if ((!origin || origin === 'bottom') && isLeft) {
       if (this.leftEnd && isUpper) {
         line = drawLine(this.chart, bottom, [
-          {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-          {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-          {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
-          {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+          {x: bottom.x, y: bottom.y + lineLength/2},
+          {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2},
+          {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
+          {x: symbolTop.x, y: symbolTop.y - lineLength/2},
           {x: symbolTop.x, y: symbolTop.y}
         ], text);
       } else {
         line = drawLine(this.chart, bottom, [
-          {x: bottom.x, y: symbolTop.y - this.chart.options['line-length']/2},
-          {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+          {x: bottom.x, y: symbolTop.y - lineLength/2},
+          {x: symbolTop.x, y: symbolTop.y - lineLength/2},
           {x: symbolTop.x, y: symbolTop.y}
         ], text);
       }
@@ -587,10 +609,10 @@
       maxX = bottom.x + (bottom.x - symbolTop.x)/2;
     } else if ((!origin || origin === 'bottom') && isRight) {
       line = drawLine(this.chart, bottom, [
-        {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: bottom.x, y: bottom.y + lineLength/2},
+        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2},
+        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.bottomStart = true;
@@ -598,35 +620,35 @@
       maxX = bottom.x + (bottom.x - symbolTop.x)/2;
     } else if ((origin && origin === 'right') && isLeft) {
       line = drawLine(this.chart, right, [
-        {x: right.x + this.chart.options['line-length']/2, y: right.y},
-        {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: right.x + lineLength/2, y: right.y},
+        {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.rightStart = true;
       symbol.topEnd = true;
-      maxX = right.x + this.chart.options['line-length']/2;
+      maxX = right.x + lineLength/2;
     } else if ((origin && origin === 'right') && isRight) {
       line = drawLine(this.chart, right, [
-        {x: symbolRight.x + this.chart.options['line-length']/2, y: right.y},
-        {x: symbolRight.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: symbolRight.x + lineLength/2, y: right.y},
+        {x: symbolRight.x + lineLength/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.rightStart = true;
       symbol.topEnd = true;
-      maxX = symbolRight.x + this.chart.options['line-length']/2;
+      maxX = symbolRight.x + lineLength/2;
     } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
       line = drawLine(this.chart, bottom, [
-        {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-        {x: right.x + this.chart.options['line-length']/2, y: bottom.y + this.chart.options['line-length']/2},
-        {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: bottom.x, y: bottom.y + lineLength/2},
+        {x: right.x + lineLength/2, y: bottom.y + lineLength/2},
+        {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.bottomStart = true;
       symbol.topEnd = true;
-      maxX = bottom.x + this.chart.options['line-length']/2;
+      maxX = bottom.x + lineLength/2;
     }
   
     if (line) {
@@ -667,29 +689,29 @@
               var newSegment;
               if (line2_from_y === line2_to_y) {
                 if (line2_from_x > line2_to_x) {
-                  newSegment = ['L', res.x + this.chart.options['line-width'] * 2,  line2_from_y];
+                  newSegment = ['L', res.x + lineWith * 2,  line2_from_y];
                   lPath.splice(lP + 1, 0, newSegment);
-                  newSegment = ['C', res.x + this.chart.options['line-width'] * 2,  line2_from_y, res.x, line2_from_y - this.chart.options['line-width'] * 4, res.x - this.chart.options['line-width'] * 2, line2_from_y];
+                  newSegment = ['C', res.x + lineWith * 2,  line2_from_y, res.x, line2_from_y - lineWith * 4, res.x - lineWith * 2, line2_from_y];
                   lPath.splice(lP + 2, 0, newSegment);
                   line.attr('path', lPath);
                 } else {
-                  newSegment = ['L', res.x - this.chart.options['line-width'] * 2,  line2_from_y];
+                  newSegment = ['L', res.x - lineWith * 2,  line2_from_y];
                   lPath.splice(lP + 1, 0, newSegment);
-                  newSegment = ['C', res.x - this.chart.options['line-width'] * 2,  line2_from_y, res.x, line2_from_y - this.chart.options['line-width'] * 4, res.x + this.chart.options['line-width'] * 2, line2_from_y];
+                  newSegment = ['C', res.x - lineWith * 2,  line2_from_y, res.x, line2_from_y - lineWith * 4, res.x + lineWith * 2, line2_from_y];
                   lPath.splice(lP + 2, 0, newSegment);
                   line.attr('path', lPath);
                 }
               } else {
                 if (line2_from_y > line2_to_y) {
-                  newSegment = ['L', line2_from_x, res.y + this.chart.options['line-width'] * 2];
+                  newSegment = ['L', line2_from_x, res.y + lineWith * 2];
                   lPath.splice(lP + 1, 0, newSegment);
-                  newSegment = ['C', line2_from_x, res.y + this.chart.options['line-width'] * 2, line2_from_x + this.chart.options['line-width'] * 4, res.y, line2_from_x, res.y - this.chart.options['line-width'] * 2];
+                  newSegment = ['C', line2_from_x, res.y + lineWith * 2, line2_from_x + lineWith * 4, res.y, line2_from_x, res.y - lineWith * 2];
                   lPath.splice(lP + 2, 0, newSegment);
                   line.attr('path', lPath);
                 } else {
-                  newSegment = ['L', line2_from_x, res.y - this.chart.options['line-width'] * 2];
+                  newSegment = ['L', line2_from_x, res.y - lineWith * 2];
                   lPath.splice(lP + 1, 0, newSegment);
-                  newSegment = ['C', line2_from_x, res.y - this.chart.options['line-width'] * 2, line2_from_x + this.chart.options['line-width'] * 4, res.y, line2_from_x, res.y + this.chart.options['line-width'] * 2];
+                  newSegment = ['C', line2_from_x, res.y - lineWith * 2, line2_from_x + lineWith * 4, res.y, line2_from_x, res.y + lineWith * 2];
                   lPath.splice(lP + 2, 0, newSegment);
                   line.attr('path', lPath);
                 }
@@ -735,21 +757,21 @@
     Symbol.call(this, chart, options, symbol);
   
     symbol.attr({
-      width: this.text.getBBox().width + 4 * chart.options['text-margin']
+      width: this.text.getBBox().width + 4 * this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']
     });
   
     this.text.attr({
-      'x': 2 * chart.options['text-margin']
+      'x': 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
     });
   
     var innerWrap = chart.paper.rect(0, 0, 0, 0);
     innerWrap.attr({
-      x: chart.options['text-margin'],
-      stroke: chart.options['element-color'],
-      'stroke-width': chart.options['line-width'],
-      width: this.text.getBBox().width + 2 * chart.options['text-margin'],
-      height: this.text.getBBox().height + 2 * chart.options['text-margin'],
-      fill: chart.options['fill']
+      x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
+      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
+      width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+      height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
     });
     if (options.link) { innerWrap.attr('href', options.link); }
     if (options.target) { innerWrap.attr('target', options.target); }
@@ -764,29 +786,29 @@
     Symbol.call(this, chart, options);
   
     this.text.attr({
-      x: chart.options['text-margin'] * 3
+      x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) * 3
     });
   
-    var width = this.text.getBBox().width + 4 * chart.options['text-margin'];
-    var height = this.text.getBBox().height + 2 * chart.options['text-margin'];
-    var startX = chart.options['text-margin'];
+    var width = this.text.getBBox().width + 4 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var height = this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var startX = (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
     var startY = height/2;
   
     var start = {x: startX, y: startY};
     var points = [
-      {x: startX - chart.options['text-margin'], y: height},
-      {x: startX - chart.options['text-margin'] + width, y: height},
-      {x: startX - chart.options['text-margin'] + width + 2 * chart.options['text-margin'], y: 0},
-      {x: startX - chart.options['text-margin'] + 2 * chart.options['text-margin'], y: 0},
+      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']), y: height},
+      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) + width, y: height},
+      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) + width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']), y: 0},
+      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']), y: 0},
       {x: startX, y: startY}
     ];
   
     var symbol = drawPath(chart, start, points);
   
     symbol.attr({
-      stroke: chart.options['element-color'],
-      'stroke-width': chart.options['line-width'],
-      fill: chart.options['fill']
+      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
+      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
+      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
@@ -804,13 +826,13 @@
   
   InputOutput.prototype.getLeft = function() {
     var y = this.getY() + this.group.getBBox().height/2;
-    var x = this.getX() + this.chart.options['text-margin'];
+    var x = this.getX() + (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
     return {x: x, y: y};
   };
   
   InputOutput.prototype.getRight = function() {
     var y = this.getY() + this.group.getBBox().height/2;
-    var x = this.getX() + this.group.getBBox().width - this.chart.options['text-margin'];
+    var x = this.getX() + this.group.getBBox().width - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
     return {x: x, y: y};
   };
   function Condition(chart, options) {
@@ -844,18 +866,18 @@
     this.no_direction = this.no_direction || 'right';
   
     this.text.attr({
-      x: chart.options['text-margin'] * 2
+      x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) * 2
     });
   
-    var width = this.text.getBBox().width + 3 * chart.options['text-margin'];
+    var width = this.text.getBBox().width + 3 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
     width += width/2;
-    var height = this.text.getBBox().height + 2 * chart.options['text-margin'];
+    var height = this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
     height += height/2;
     var startX = width/4;
     var startY = height/4;
   
     this.text.attr({
-      x: startX + chart.options['text-margin']/2
+      x: startX + (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])/2
     });
   
     var start = {x: startX, y: startY};
@@ -870,9 +892,9 @@
     var symbol = drawPath(chart, start, points);
   
     symbol.attr({
-      stroke: chart.options['element-color'],
-      'stroke-width': chart.options['line-width'],
-      fill: chart.options['fill']
+      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
+      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
+      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
@@ -898,12 +920,14 @@
       this[this.no_direction + '_symbol'] = this.no_symbol;
     }
   
+    var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
+  
     if (this.bottom_symbol) {
       var bottomPoint = this.getBottom();
       var topPoint = this.bottom_symbol.getTop();
   
       if (!this.bottom_symbol.isPositioned) {
-        this.bottom_symbol.shiftY(this.getY() + this.height + this.chart.options['line-length']);
+        this.bottom_symbol.shiftY(this.getY() + this.height + lineLength);
         this.bottom_symbol.setX(bottomPoint.x - this.bottom_symbol.width/2);
         this.bottom_symbol.isPositioned = true;
   
@@ -918,7 +942,7 @@
       if (!this.right_symbol.isPositioned) {
   
         this.right_symbol.setY(rightPoint.y - this.right_symbol.height/2);
-        this.right_symbol.shiftX(this.group.getBBox().x + this.width + this.chart.options['line-length']);
+        this.right_symbol.shiftX(this.group.getBBox().x + this.width + lineLength);
   
         var self = this;
         (function shift() {
@@ -935,7 +959,7 @@
           }
   
           if (hasSymbolUnder) {
-            self.right_symbol.setX(symb.getX() + symb.width + self.chart.options['line-length']);
+            self.right_symbol.setX(symb.getX() + symb.width + lineLength);
             shift();
           }
         })();
