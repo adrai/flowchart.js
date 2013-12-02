@@ -1,3 +1,7 @@
+### v1.2.5
+
+- different styles for different symbol types [#9](https://github.com/adrai/flowchart.js/issues/9)
+
 ### v1.2.4
 
 - fixed condition jump to an other symbol on same column
