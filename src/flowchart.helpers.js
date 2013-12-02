@@ -4,8 +4,19 @@ function _defaults(options, defaultOptions) {
   }
 
   var merged = {};
-  for (var attrname in defaultOptions) { merged[attrname] = defaultOptions[attrname]; }
-  for (attrname in options) { if (options[attrname]) merged[attrname] = options[attrname]; }
+  for (var attrname in defaultOptions) {
+    merged[attrname] = defaultOptions[attrname];
+  }
+
+  for (attrname in options) {
+    if (options[attrname]) {
+      if (typeof merged[attrname] === 'object') {
+        merged[attrname] = _defaults(merged[attrname], options[attrname]);
+      } else {
+        merged[attrname] = options[attrname];
+      }
+    }
+  }
   return merged;
 }
 

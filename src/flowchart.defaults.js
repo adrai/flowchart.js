@@ -10,5 +10,13 @@ var o = {
   'fill': 'white',
   'yes-text': 'yes',
   'no-text': 'no',
-  'arrow-end': 'block'
+  'arrow-end': 'block',
+  'symbols': {
+    'start': {},
+    'end': {},
+    'condition': {},
+    'inputoutput': {},
+    'operation': {},
+    'subroutine': {}
+  }
 };

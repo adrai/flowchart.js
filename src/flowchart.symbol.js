@@ -2,13 +2,14 @@ function Symbol(chart, options, symbol) {
   this.chart = chart;
   this.group = this.chart.paper.set();
   this.connectedTo = [];
+  this.symbolType = options.symbolType;
 
   this.text = this.chart.paper.text(0, 0, options.text);
   this.text.attr({
     'text-anchor': 'start',
-    'font-size': this.chart.options['font-size'],
-    'x': this.chart.options['text-margin'],
-    stroke: chart.options['font-color']
+    'font-size': (this.chart.options.symbols[this.symbolType]['font-size'] || this.chart.options['font-size']),
+    'x': (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+    stroke: (this.chart.options.symbols[this.symbolType]['font-color'] || this.chart.options['font-color'])
   });
   if (options.link) { this.text.attr('href', options.link); }
   if (options.target) { this.text.attr('target', options.target); }
@@ -16,11 +17,11 @@ function Symbol(chart, options, symbol) {
 
   if (symbol) {
     symbol.attr({
-      stroke: this.chart.options['element-color'],
-      'stroke-width': this.chart.options['line-width'],
-      width: this.text.getBBox().width + 2 * this.chart.options['text-margin'],
-      height: this.text.getBBox().height + 2 * this.chart.options['text-margin'],
-      fill: chart.options['fill']
+      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
+      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
+      width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+      height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
+      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
@@ -37,7 +38,7 @@ function Symbol(chart, options, symbol) {
 }
 
 Symbol.prototype.initialize = function() {
-  this.group.transform('t' + this.chart.options['line-width'] + ',' + this.chart.options['line-width']);
+  this.group.transform('t' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']) + ',' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']));
 
   this.width = this.group.getBBox().width;
   this.height = this.group.getBBox().height;
@@ -102,7 +103,7 @@ Symbol.prototype.render = function() {
     var topPoint = this.next.getTop();
 
     if (!this.next.isPositioned) {
-      this.next.shiftY(this.getY() + this.height + this.chart.options['line-length']);
+      this.next.shiftY(this.getY() + this.height + (this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length']));
       this.next.setX(bottomPoint.x - this.next.width/2);
       this.next.isPositioned = true;
 
@@ -144,7 +145,9 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
       isRight = x < symbolX;
 
   var maxX = 0,
-      line;
+      line,
+      lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'],
+      lineWith = this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width'];
 
   if ((!origin || origin === 'bottom') && isOnSameColumn && isUnder) {
     line = drawLine(this.chart, bottom, symbolTop, text);
@@ -163,37 +166,37 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = symbolRight.x;
   } else if ((!origin || origin === 'right') && isOnSameColumn && isUpper) {
     line = drawLine(this.chart, right, [
-      {x: right.x + this.chart.options['line-length']/2, y: right.y},
-      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: right.x + lineLength/2, y: right.y},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true;
     symbol.topEnd = true;
-    maxX = right.x + this.chart.options['line-length']/2;
+    maxX = right.x + lineLength/2;
   } else if ((!origin || origin === 'right') && isOnSameColumn && isUnder) {
     line = drawLine(this.chart, right, [
-      {x: right.x + this.chart.options['line-length']/2, y: right.y},
-      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: right.x + lineLength/2, y: right.y},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true;
     symbol.topEnd = true;
-    maxX = right.x + this.chart.options['line-length']/2;
+    maxX = right.x + lineLength/2;
   } else if ((!origin || origin === 'bottom') && isLeft) {
     if (this.leftEnd && isUpper) {
       line = drawLine(this.chart, bottom, [
-        {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: bottom.x, y: bottom.y + lineLength/2},
+        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2},
+        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
     } else {
       line = drawLine(this.chart, bottom, [
-        {x: bottom.x, y: symbolTop.y - this.chart.options['line-length']/2},
-        {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+        {x: bottom.x, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
     }
@@ -202,10 +205,10 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = bottom.x + (bottom.x - symbolTop.x)/2;
   } else if ((!origin || origin === 'bottom') && isRight) {
     line = drawLine(this.chart, bottom, [
-      {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + this.chart.options['line-length']/2},
-      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - this.chart.options['line-length']/2},
-      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: bottom.x, y: bottom.y + lineLength/2},
+      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2},
+      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.bottomStart = true;
@@ -213,35 +216,35 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = bottom.x + (bottom.x - symbolTop.x)/2;
   } else if ((origin && origin === 'right') && isLeft) {
     line = drawLine(this.chart, right, [
-      {x: right.x + this.chart.options['line-length']/2, y: right.y},
-      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: right.x + lineLength/2, y: right.y},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true;
     symbol.topEnd = true;
-    maxX = right.x + this.chart.options['line-length']/2;
+    maxX = right.x + lineLength/2;
   } else if ((origin && origin === 'right') && isRight) {
     line = drawLine(this.chart, right, [
-      {x: symbolRight.x + this.chart.options['line-length']/2, y: right.y},
-      {x: symbolRight.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: symbolRight.x + lineLength/2, y: right.y},
+      {x: symbolRight.x + lineLength/2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true;
     symbol.topEnd = true;
-    maxX = symbolRight.x + this.chart.options['line-length']/2;
+    maxX = symbolRight.x + lineLength/2;
   } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
     line = drawLine(this.chart, bottom, [
-      {x: bottom.x, y: bottom.y + this.chart.options['line-length']/2},
-      {x: right.x + this.chart.options['line-length']/2, y: bottom.y + this.chart.options['line-length']/2},
-      {x: right.x + this.chart.options['line-length']/2, y: symbolTop.y - this.chart.options['line-length']/2},
-      {x: symbolTop.x, y: symbolTop.y - this.chart.options['line-length']/2},
+      {x: bottom.x, y: bottom.y + lineLength/2},
+      {x: right.x + lineLength/2, y: bottom.y + lineLength/2},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.bottomStart = true;
     symbol.topEnd = true;
-    maxX = bottom.x + this.chart.options['line-length']/2;
+    maxX = bottom.x + lineLength/2;
   }
 
   if (line) {
@@ -282,29 +285,29 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
             var newSegment;
             if (line2_from_y === line2_to_y) {
               if (line2_from_x > line2_to_x) {
-                newSegment = ['L', res.x + this.chart.options['line-width'] * 2,  line2_from_y];
+                newSegment = ['L', res.x + lineWith * 2,  line2_from_y];
                 lPath.splice(lP + 1, 0, newSegment);
-                newSegment = ['C', res.x + this.chart.options['line-width'] * 2,  line2_from_y, res.x, line2_from_y - this.chart.options['line-width'] * 4, res.x - this.chart.options['line-width'] * 2, line2_from_y];
+                newSegment = ['C', res.x + lineWith * 2,  line2_from_y, res.x, line2_from_y - lineWith * 4, res.x - lineWith * 2, line2_from_y];
                 lPath.splice(lP + 2, 0, newSegment);
                 line.attr('path', lPath);
               } else {
-                newSegment = ['L', res.x - this.chart.options['line-width'] * 2,  line2_from_y];
+                newSegment = ['L', res.x - lineWith * 2,  line2_from_y];
                 lPath.splice(lP + 1, 0, newSegment);
-                newSegment = ['C', res.x - this.chart.options['line-width'] * 2,  line2_from_y, res.x, line2_from_y - this.chart.options['line-width'] * 4, res.x + this.chart.options['line-width'] * 2, line2_from_y];
+                newSegment = ['C', res.x - lineWith * 2,  line2_from_y, res.x, line2_from_y - lineWith * 4, res.x + lineWith * 2, line2_from_y];
                 lPath.splice(lP + 2, 0, newSegment);
                 line.attr('path', lPath);
               }
             } else {
               if (line2_from_y > line2_to_y) {
-                newSegment = ['L', line2_from_x, res.y + this.chart.options['line-width'] * 2];
+                newSegment = ['L', line2_from_x, res.y + lineWith * 2];
                 lPath.splice(lP + 1, 0, newSegment);
-                newSegment = ['C', line2_from_x, res.y + this.chart.options['line-width'] * 2, line2_from_x + this.chart.options['line-width'] * 4, res.y, line2_from_x, res.y - this.chart.options['line-width'] * 2];
+                newSegment = ['C', line2_from_x, res.y + lineWith * 2, line2_from_x + lineWith * 4, res.y, line2_from_x, res.y - lineWith * 2];
                 lPath.splice(lP + 2, 0, newSegment);
                 line.attr('path', lPath);
               } else {
-                newSegment = ['L', line2_from_x, res.y - this.chart.options['line-width'] * 2];
+                newSegment = ['L', line2_from_x, res.y - lineWith * 2];
                 lPath.splice(lP + 1, 0, newSegment);
-                newSegment = ['C', line2_from_x, res.y - this.chart.options['line-width'] * 2, line2_from_x + this.chart.options['line-width'] * 4, res.y, line2_from_x, res.y + this.chart.options['line-width'] * 2];
+                newSegment = ['C', line2_from_x, res.y - lineWith * 2, line2_from_x + lineWith * 4, res.y, line2_from_x, res.y + lineWith * 2];
                 lPath.splice(lP + 2, 0, newSegment);
                 line.attr('path', lPath);
               }
