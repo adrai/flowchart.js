@@ -13,6 +13,22 @@ function Symbol(chart, options, symbol) {
   });
   if (options.link) { this.text.attr('href', options.link); }
   if (options.target) { this.text.attr('target', options.target); }
+  if (chart.options.maxWidth) {
+    // using this approach: http://stackoverflow.com/a/3153457/22466
+    var maxWidth = chart.options.maxWidth;
+    var words = options.text.split(' ');
+    var tempText = "";
+    for (var i=0, ii=words.length; i<ii; i++) {
+      var word = words[i];
+      this.text.attr("text", tempText + " " + word);
+      if (this.text.getBBox().width > maxWidth) {
+        tempText += "\n" + word;
+      } else {
+        tempText += " " + word;
+      }
+    }
+    this.text.attr("text", tempText.substring(1));
+  }
   this.group.push(this.text);
 
   if (symbol) {
