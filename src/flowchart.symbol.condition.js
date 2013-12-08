@@ -36,6 +36,7 @@ function Condition(chart, options) {
   width += width/2;
   var height = this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
   height += height/2;
+  height = Math.max(width * 0.5, height);
   var startX = width/4;
   var startY = height/4;
 
