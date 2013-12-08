@@ -90,7 +90,19 @@ function parse(input) {
     }
   };
 
-  var lines = input.split('\n');
+  var lines = [];
+  var prevBreak = 0;
+  for(var i=1, ii = input.length; i<ii; i++) {
+    if(input[i] === '\n' && input[i-1] !== '\\') {
+      var line = input.substring(prevBreak, i);
+      prevBreak = i + 1;
+      lines.push(line.replace(/\\\n/g, '\n'));
+    }
+  }
+  if(prevBreak < input.length) {
+    lines.push(input.substr(prevBreak));
+  }
+
   for (var l = 1, len = lines.length; l < len;) {
     var currentLine = lines[l];
 
