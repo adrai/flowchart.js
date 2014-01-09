@@ -4,7 +4,7 @@ function Subroutine(chart, options) {
   Symbol.call(this, chart, options, symbol);
 
   symbol.attr({
-    width: this.text.getBBox().width + 4 * this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']
+    width: this.text.getBBox().width + 4 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
   });
 
   this.text.attr({

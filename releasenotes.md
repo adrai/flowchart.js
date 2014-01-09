@@ -1,3 +1,8 @@
+### v1.2.7
+
+- merge [#12](https://github.com/adrai/flowchart.js/pull/10)
+- fixed subroutine
+
 ### v1.2.6
 
 - added a maxWidth option for the chart [#10](https://github.com/adrai/flowchart.js/pull/10)
