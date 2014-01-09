@@ -1,5 +1,5 @@
-// flowchart, v1.2.5
-// Copyright (c)2013 Adriano Raiano (adrai).
+// flowchart, v1.2.7
+// Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 (function() {
@@ -417,6 +417,22 @@
     });
     if (options.link) { this.text.attr('href', options.link); }
     if (options.target) { this.text.attr('target', options.target); }
+    if (this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth']) {
+      // using this approach: http://stackoverflow.com/a/3153457/22466
+      var maxWidth = this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth'];
+      var words = options.text.split(' ');
+      var tempText = "";
+      for (var i=0, ii=words.length; i<ii; i++) {
+        var word = words[i];
+        this.text.attr("text", tempText + " " + word);
+        if (this.text.getBBox().width > maxWidth) {
+          tempText += "\n" + word;
+        } else {
+          tempText += " " + word;
+        }
+      }
+      this.text.attr("text", tempText.substring(1));
+    }
     this.group.push(this.text);
   
     if (symbol) {
@@ -757,7 +773,7 @@
     Symbol.call(this, chart, options, symbol);
   
     symbol.attr({
-      width: this.text.getBBox().width + 4 * this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']
+      width: this.text.getBBox().width + 4 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
     });
   
     this.text.attr({
@@ -873,6 +889,7 @@
     width += width/2;
     var height = this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
     height += height/2;
+    height = Math.max(width * 0.5, height);
     var startX = width/4;
     var startY = height/4;
   
@@ -1072,7 +1089,19 @@
       }
     };
   
-    var lines = input.split('\n');
+    var lines = [];
+    var prevBreak = 0;
+    for(var i=1, ii = input.length; i<ii; i++) {
+      if(input[i] === '\n' && input[i-1] !== '\\') {
+        var line = input.substring(prevBreak, i);
+        prevBreak = i + 1;
+        lines.push(line.replace(/\\\n/g, '\n'));
+      }
+    }
+    if(prevBreak < input.length) {
+      lines.push(input.substr(prevBreak));
+    }
+  
     for (var l = 1, len = lines.length; l < len;) {
       var currentLine = lines[l];
   
