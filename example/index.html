@@ -55,9 +55,9 @@ cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
 
-st->op1->cond
+st->op1(right)->cond
 cond(yes, right)->io->e
-cond(no)->sub1->op1
+cond(no)->sub1(left)->op1
         </textarea></div>
         <div><button id="run" type="button">Run</button></div>
         <div id="canvas"></div>

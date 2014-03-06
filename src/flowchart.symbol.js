@@ -4,6 +4,8 @@ function Symbol(chart, options, symbol) {
   this.connectedTo = [];
   this.symbolType = options.symbolType;
 
+  this.next_direction = options.next && options.next.direction ? options.next.direction : undefined;
+
   this.text = this.chart.paper.text(0, 0, options.text);
   this.text.attr({
     'text-anchor': 'start',
@@ -115,22 +117,65 @@ Symbol.prototype.getRight = function() {
 
 Symbol.prototype.render = function() {
   if (this.next) {
-    var bottomPoint = this.getBottom();
-    var topPoint = this.next.getTop();
 
-    if (!this.next.isPositioned) {
-      this.next.shiftY(this.getY() + this.height + (this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length']));
-      this.next.setX(bottomPoint.x - this.next.width/2);
-      this.next.isPositioned = true;
+    var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
 
-      this.next.render();
+    if (this.next_direction === 'right') {
+
+      var rightPoint = this.getRight();
+      var leftPoint = this.next.getLeft();
+
+      if (!this.next.isPositioned) {
+
+        this.next.setY(rightPoint.y - this.next.height/2);
+        this.next.shiftX(this.group.getBBox().x + this.width + lineLength);
+
+        var self = this;
+        (function shift() {
+          var hasSymbolUnder = false;
+          var symb;
+          for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+            symb = self.chart.symbols[i];
+
+            var diff = Math.abs(symb.getCenter().x - self.next.getCenter().x);
+            if (symb.getCenter().y > self.next.getCenter().y && diff <= self.next.width/2) {
+              hasSymbolUnder = true;
+              break;
+            }
+          }
+
+          if (hasSymbolUnder) {
+            self.next.setX(symb.getX() + symb.width + lineLength);
+            shift();
+          }
+        })();
+
+        this.next.isPositioned = true;
+
+        this.next.render();
+      }
+    } else {
+      var bottomPoint = this.getBottom();
+      var topPoint = this.next.getTop();
+
+      if (!this.next.isPositioned) {
+        this.next.shiftY(this.getY() + this.height + lineLength);
+        this.next.setX(bottomPoint.x - this.next.width/2);
+        this.next.isPositioned = true;
+
+        this.next.render();
+      }
     }
   }
 };
 
 Symbol.prototype.renderLines = function() {
   if (this.next) {
-    this.drawLineTo(this.next);
+    if (this.next_direction) {
+      this.drawLineTo(this.next, '', this.next_direction);
+    } else {
+      this.drawLineTo(this.next);
+    }
   }
 };
 
@@ -261,6 +306,16 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x + lineLength/2;
+  } else if ((origin === 'left')) {
+    line = drawLine(this.chart, left, [
+      {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: left.y},
+      {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y}
+    ], text);
+    this.leftStart = true;
+    symbol.topEnd = true;
+    maxX = left.x;
   }
 
   if (line) {

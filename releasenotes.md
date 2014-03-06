@@ -1,6 +1,10 @@
+### v1.2.8
+
+- try to handle directions on other symbols too [#15](https://github.com/adrai/flowchart.js/issues/15)
+
 ### v1.2.7
 
-- merge [#12](https://github.com/adrai/flowchart.js/pull/10)
+- merge [#12](https://github.com/adrai/flowchart.js/pull/12)
 - fixed subroutine
 
 ### v1.2.6
