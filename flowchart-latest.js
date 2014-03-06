@@ -1,4 +1,4 @@
-// flowchart, v1.2.7
+// flowchart, v1.2.8
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -408,6 +408,8 @@
     this.connectedTo = [];
     this.symbolType = options.symbolType;
   
+    this.next_direction = options.next && options.next.direction ? options.next.direction : undefined;
+  
     this.text = this.chart.paper.text(0, 0, options.text);
     this.text.attr({
       'text-anchor': 'start',
@@ -519,22 +521,65 @@
   
   Symbol.prototype.render = function() {
     if (this.next) {
-      var bottomPoint = this.getBottom();
-      var topPoint = this.next.getTop();
   
-      if (!this.next.isPositioned) {
-        this.next.shiftY(this.getY() + this.height + (this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length']));
-        this.next.setX(bottomPoint.x - this.next.width/2);
-        this.next.isPositioned = true;
+      var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
   
-        this.next.render();
+      if (this.next_direction === 'right') {
+  
+        var rightPoint = this.getRight();
+        var leftPoint = this.next.getLeft();
+  
+        if (!this.next.isPositioned) {
+  
+          this.next.setY(rightPoint.y - this.next.height/2);
+          this.next.shiftX(this.group.getBBox().x + this.width + lineLength);
+  
+          var self = this;
+          (function shift() {
+            var hasSymbolUnder = false;
+            var symb;
+            for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+              symb = self.chart.symbols[i];
+  
+              var diff = Math.abs(symb.getCenter().x - self.next.getCenter().x);
+              if (symb.getCenter().y > self.next.getCenter().y && diff <= self.next.width/2) {
+                hasSymbolUnder = true;
+                break;
+              }
+            }
+  
+            if (hasSymbolUnder) {
+              self.next.setX(symb.getX() + symb.width + lineLength);
+              shift();
+            }
+          })();
+  
+          this.next.isPositioned = true;
+  
+          this.next.render();
+        }
+      } else {
+        var bottomPoint = this.getBottom();
+        var topPoint = this.next.getTop();
+  
+        if (!this.next.isPositioned) {
+          this.next.shiftY(this.getY() + this.height + lineLength);
+          this.next.setX(bottomPoint.x - this.next.width/2);
+          this.next.isPositioned = true;
+  
+          this.next.render();
+        }
       }
     }
   };
   
   Symbol.prototype.renderLines = function() {
     if (this.next) {
-      this.drawLineTo(this.next);
+      if (this.next_direction) {
+        this.drawLineTo(this.next, '', this.next_direction);
+      } else {
+        this.drawLineTo(this.next);
+      }
     }
   };
   
@@ -665,6 +710,16 @@
       this.bottomStart = true;
       symbol.topEnd = true;
       maxX = bottom.x + lineLength/2;
+    } else if ((origin === 'left')) {
+      line = drawLine(this.chart, left, [
+        {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: left.y},
+        {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: symbolTop.y}
+      ], text);
+      this.leftStart = true;
+      symbol.topEnd = true;
+      maxX = left.x;
     }
   
     if (line) {
@@ -754,6 +809,30 @@
     Symbol.call(this, chart, options, symbol);
   }
   f.inherits(Start, Symbol);
+  
+  
+  Start.prototype.render = function() {
+    if (this.next) {
+      var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
+  
+      var bottomPoint = this.getBottom();
+      var topPoint = this.next.getTop();
+  
+      if (!this.next.isPositioned) {
+        this.next.shiftY(this.getY() + this.height + lineLength);
+        this.next.setX(bottomPoint.x - this.next.width/2);
+        this.next.isPositioned = true;
+  
+        this.next.render();
+      }
+    }
+  };
+  
+  Start.prototype.renderLines = function() {
+    if (this.next) {
+      this.drawLineTo(this.next);
+    }
+  };
   function End(chart, options) {
     var symbol = chart.paper.rect(0, 0, 0, 0, 20);
     options = options || {};
@@ -1091,13 +1170,14 @@
   
     var lines = [];
     var prevBreak = 0;
-    for(var i=1, ii = input.length; i<ii; i++) {
-      if(input[i] === '\n' && input[i-1] !== '\\') {
-        var line = input.substring(prevBreak, i);
-        prevBreak = i + 1;
-        lines.push(line.replace(/\\\n/g, '\n'));
+    for (var i0 = 1, i0len = input.length; i0 < i0len; i0++) {
+      if(input[i0] === '\n' && input[i0 - 1] !== '\\') {
+        var line0 = input.substring(prevBreak, i0);
+        prevBreak = i0 + 1;
+        lines.push(line0.replace(/\\\n/g, '\n'));
       }
     }
+  
     if(prevBreak < input.length) {
       lines.push(input.substr(prevBreak));
     }
@@ -1129,6 +1209,11 @@
       var endIndex = s.indexOf(')');
       if (startIndex >= 0 && endIndex >= 0) {
         next = flowSymb.substring(startIndex, endIndex);
+        if (next.indexOf(',') < 0) {
+          if (next !== 'yes' && next !== 'no') {
+            next = 'next, ' + next;
+          }
+        }
       }
       return next;
     }

@@ -47,9 +47,9 @@ cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
 
-st->op1->cond
+st->op1(right)->cond
 cond(yes)->io->e
-cond(no)->sub1->op1</div>
+cond(no)->sub1(left)->op1</div>
            <!--  </div>
             Theme:
             <select class="theme">
@@ -64,6 +64,7 @@ cond(no)->sub1->op1</div>
       </section>
 
       <b>Conditions can also be redirected like cond(yes, bottom) or cond(yes, right)</b>
+      <b>... and the other symbols too... like op1(right)</b>
       <div class="inner">
       <section id="usage">
         <h3>Usage</h3>
