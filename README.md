@@ -27,9 +27,9 @@ and then
                                 'or No?\n:>http://www.google.com' + 
                                 'io=>inputoutput: catch something...\n' + 
                                 '' +
-                                'st->op1(right)->cond\n' + 
+                                'st->op1->cond\n' + 
                                 'cond(yes)->io->e\n' + // conditions can also be redirected like cond(yes, bottom) or cond(yes, right)
-                                'cond(no)->sub1(left)->op1');// the other symbols too...
+                                'cond(no)->sub1(right)->op1');// the other symbols too...
   diagram.drawSVG('diagram');
 
   // you can also try to pass options:
