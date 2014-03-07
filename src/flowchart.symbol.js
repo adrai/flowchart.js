@@ -4,7 +4,7 @@ function Symbol(chart, options, symbol) {
   this.connectedTo = [];
   this.symbolType = options.symbolType;
 
-  this.next_direction = options.next && options.next.direction ? options.next.direction : undefined;
+  this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
 
   this.text = this.chart.paper.text(0, 0, options.text);
   this.text.attr({

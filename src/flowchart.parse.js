@@ -196,7 +196,7 @@ function parse(input) {
         var realSymb = getSymbol(flowSymb);
         var next = getNextPath(flowSymb);
 
-        var direction;
+        var direction = null;
         if (next.indexOf(',') >= 0) {
           var condOpt = next.split(',');
           next = condOpt[0];
@@ -210,14 +210,12 @@ function parse(input) {
         if (i + 1 < lenS) {
           var nextSymb = flowSymbols[i + 1];
           realSymb[next] = getSymbol(nextSymb);
-          realSymb[next].direction = direction;
-          direction = undefined;
+          realSymb['direction_' + next] = direction;
+          direction = null;
         }
       }
-
     }
 
   }
-
   return chart;
 }

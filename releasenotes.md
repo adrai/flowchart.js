@@ -1,3 +1,7 @@
+### v1.2.10
+
+- fix direction changes [#15](https://github.com/adrai/flowchart.js/issues/15)
+
 ### v1.2.9
 
 - try to optimize handle directions on other symbols too [#15](https://github.com/adrai/flowchart.js/issues/15)
