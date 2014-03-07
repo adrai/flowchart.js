@@ -13,6 +13,15 @@ function Symbol(chart, options, symbol) {
     'x': (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
     stroke: (this.chart.options.symbols[this.symbolType]['font-color'] || this.chart.options['font-color'])
   });
+
+  var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
+  var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
+  var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+
+  if (font) this.text.attr({ 'font': font });
+  if (fontF) this.text.attr({ 'font-family': fontF });
+  if (fontW) this.text.attr({ 'font-weight': fontW });
+
   if (options.link) { this.text.attr('href', options.link); }
   if (options.target) { this.text.attr('target', options.target); }
   if (this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth']) {
@@ -287,14 +296,12 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = right.x + lineLength/2;
   } else if ((origin && origin === 'right') && isRight) {
     line = drawLine(this.chart, right, [
-      {x: symbolRight.x + lineLength/2, y: right.y},
-      {x: symbolRight.x + lineLength/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: right.y},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.rightStart = true;
     symbol.topEnd = true;
-    maxX = symbolRight.x + lineLength/2;
+    maxX = right.x + lineLength/2;
   } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
     line = drawLine(this.chart, bottom, [
       {x: bottom.x, y: bottom.y + lineLength/2},

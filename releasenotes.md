@@ -1,3 +1,8 @@
+### v1.2.9
+
+- try to optimize handle directions on other symbols too [#15](https://github.com/adrai/flowchart.js/issues/15)
+- added more font options (font, font-family, font-weight)
+
 ### v1.2.8
 
 - try to handle directions on other symbols too [#15](https://github.com/adrai/flowchart.js/issues/15)

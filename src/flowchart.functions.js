@@ -12,6 +12,15 @@ function drawPath(chart, location, points) {
   var symbol = chart.paper.path(path, pathValues);
   symbol.attr('stroke', chart.options['element-color']);
   symbol.attr('stroke-width', chart.options['line-width']);
+
+  var font = chart.options['font'];
+  var fontF = chart.options['font-family'];
+  var fontW = chart.options['font-weight'];
+
+  if (font) symbol.attr({ 'font': font });
+  if (fontF) symbol.attr({ 'font-family': fontF });
+  if (fontW) symbol.attr({ 'font-weight': fontW });
+
   return symbol;
 }
 
@@ -38,6 +47,14 @@ function drawLine(chart, from, to, text) {
     'stroke-width': chart.options['line-width'],
     'arrow-end': chart.options['arrow-end']
   });
+
+  var font = chart.options['font'];
+  var fontF = chart.options['font-family'];
+  var fontW = chart.options['font-weight'];
+
+  if (font) line.attr({ 'font': font });
+  if (fontF) line.attr({ 'font-family': fontF });
+  if (fontW) line.attr({ 'font-weight': fontW });
 
   if (text) {
 
@@ -95,6 +112,10 @@ function drawLine(chart, from, to, text) {
       x: x,
       y: y
     });
+
+    if (font) textPath.attr({ 'font': font });
+    if (fontF) textPath.attr({ 'font-family': fontF });
+    if (fontW) textPath.attr({ 'font-weight': fontW });
   }
 
   return line;
