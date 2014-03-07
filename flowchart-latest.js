@@ -1,4 +1,4 @@
-// flowchart, v1.2.8
+// flowchart, v1.2.9
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -93,6 +93,9 @@
     'text-margin': 10,
     'font-size': 14,
     'font-color': 'black',
+    // 'font': 'normal',
+    // 'font-family': 'calibri',
+    // 'font-weight': 'normal',
     'line-color': 'black',
     'element-color': 'black',
     'fill': 'white',
@@ -172,6 +175,15 @@
     var symbol = chart.paper.path(path, pathValues);
     symbol.attr('stroke', chart.options['element-color']);
     symbol.attr('stroke-width', chart.options['line-width']);
+  
+    var font = chart.options['font'];
+    var fontF = chart.options['font-family'];
+    var fontW = chart.options['font-weight'];
+  
+    if (font) symbol.attr({ 'font': font });
+    if (fontF) symbol.attr({ 'font-family': fontF });
+    if (fontW) symbol.attr({ 'font-weight': fontW });
+  
     return symbol;
   }
   
@@ -198,6 +210,14 @@
       'stroke-width': chart.options['line-width'],
       'arrow-end': chart.options['arrow-end']
     });
+  
+    var font = chart.options['font'];
+    var fontF = chart.options['font-family'];
+    var fontW = chart.options['font-weight'];
+  
+    if (font) line.attr({ 'font': font });
+    if (fontF) line.attr({ 'font-family': fontF });
+    if (fontW) line.attr({ 'font-weight': fontW });
   
     if (text) {
   
@@ -255,6 +275,10 @@
         x: x,
         y: y
       });
+  
+      if (font) textPath.attr({ 'font': font });
+      if (fontF) textPath.attr({ 'font-family': fontF });
+      if (fontW) textPath.attr({ 'font-weight': fontW });
     }
   
     return line;
@@ -417,6 +441,15 @@
       'x': (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
       stroke: (this.chart.options.symbols[this.symbolType]['font-color'] || this.chart.options['font-color'])
     });
+  
+    var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
+    var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
+    var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+  
+    if (font) this.text.attr({ 'font': font });
+    if (fontF) this.text.attr({ 'font-family': fontF });
+    if (fontW) this.text.attr({ 'font-weight': fontW });
+  
     if (options.link) { this.text.attr('href', options.link); }
     if (options.target) { this.text.attr('target', options.target); }
     if (this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth']) {
@@ -691,14 +724,12 @@
       maxX = right.x + lineLength/2;
     } else if ((origin && origin === 'right') && isRight) {
       line = drawLine(this.chart, right, [
-        {x: symbolRight.x + lineLength/2, y: right.y},
-        {x: symbolRight.x + lineLength/2, y: symbolTop.y - lineLength/2},
-        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+        {x: symbolTop.x, y: right.y},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
       this.rightStart = true;
       symbol.topEnd = true;
-      maxX = symbolRight.x + lineLength/2;
+      maxX = right.x + lineLength/2;
     } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
       line = drawLine(this.chart, bottom, [
         {x: bottom.x, y: bottom.y + lineLength/2},
@@ -868,6 +899,15 @@
       height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
       fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
     });
+  
+    var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
+    var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
+    var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+  
+    if (font) innerWrap.attr({ 'font': font });
+    if (fontF) innerWrap.attr({ 'font-family': fontF });
+    if (fontW) innerWrap.attr({ 'font-weight': fontW });
+  
     if (options.link) { innerWrap.attr('href', options.link); }
     if (options.target) { innerWrap.attr('target', options.target); }
     this.group.push(innerWrap);
