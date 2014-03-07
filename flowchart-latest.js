@@ -1,4 +1,4 @@
-// flowchart, v1.2.9
+// flowchart, v1.2.10
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -432,7 +432,7 @@
     this.connectedTo = [];
     this.symbolType = options.symbolType;
   
-    this.next_direction = options.next && options.next.direction ? options.next.direction : undefined;
+    this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
   
     this.text = this.chart.paper.text(0, 0, options.text);
     this.text.attr({
@@ -976,16 +976,16 @@
   
     this.yes_direction = 'bottom';
     this.no_direction = 'right';
-    if (options.yes && options.yes.direction && options.no && !options.no.direction) {
-      if (options.yes.direction === 'right') {
+    if (options.yes && options['direction_yes'] && options.no && !options['direction_no']) {
+      if (options['direction_yes'] === 'right') {
         this.no_direction = 'bottom';
         this.yes_direction = 'right';
       } else {
         this.no_direction = 'right';
         this.yes_direction = 'bottom';
       }
-    } else if (options.yes && !options.yes.direction && options.no && options.no.direction) {
-      if (options.no.direction === 'right') {
+    } else if (options.yes && !options['direction_yes'] && options.no && options['direction_no']) {
+      if (options['direction_no'] === 'right') {
         this.yes_direction = 'bottom';
         this.no_direction = 'right';
       } else {
@@ -1314,7 +1314,7 @@
           var realSymb = getSymbol(flowSymb);
           var next = getNextPath(flowSymb);
   
-          var direction;
+          var direction = null;
           if (next.indexOf(',') >= 0) {
             var condOpt = next.split(',');
             next = condOpt[0];
@@ -1328,15 +1328,13 @@
           if (i + 1 < lenS) {
             var nextSymb = flowSymbols[i + 1];
             realSymb[next] = getSymbol(nextSymb);
-            realSymb[next].direction = direction;
-            direction = undefined;
+            realSymb['direction_' + next] = direction;
+            direction = null;
           }
         }
-  
       }
   
     }
-  
     return chart;
   }
   // public api interface
