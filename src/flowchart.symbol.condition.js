@@ -62,6 +62,7 @@ function Condition(chart, options) {
   });
   if (options.link) { symbol.attr('href', options.link); }
   if (options.target) { symbol.attr('target', options.target); }
+  if (options.key) { symbol.node.id = options.key; }
 
   this.text.attr({
     y: symbol.getBBox().height/2

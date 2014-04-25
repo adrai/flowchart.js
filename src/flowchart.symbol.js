@@ -7,6 +7,8 @@ function Symbol(chart, options, symbol) {
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
 
   this.text = this.chart.paper.text(0, 0, options.text);
+  //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
+  if (options.key) { this.text.node.id = options.key + 't'; }
   this.text.attr({
     'text-anchor': 'start',
     'font-size': (this.chart.options.symbols[this.symbolType]['font-size'] || this.chart.options['font-size']),
@@ -52,6 +54,7 @@ function Symbol(chart, options, symbol) {
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
+    if (options.key) { symbol.node.id = options.key; }
 
     this.group.push(symbol);
     symbol.insertBefore(this.text);
