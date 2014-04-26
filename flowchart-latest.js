@@ -1,4 +1,4 @@
-// flowchart, v1.2.10
+// flowchart, v1.2.11
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -435,6 +435,8 @@
     this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
   
     this.text = this.chart.paper.text(0, 0, options.text);
+    //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
+    if (options.key) { this.text.node.id = options.key + 't'; }
     this.text.attr({
       'text-anchor': 'start',
       'font-size': (this.chart.options.symbols[this.symbolType]['font-size'] || this.chart.options['font-size']),
@@ -480,6 +482,7 @@
       });
       if (options.link) { symbol.attr('href', options.link); }
       if (options.target) { symbol.attr('target', options.target); }
+      if (options.key) { symbol.node.id = options.key; }
   
       this.group.push(symbol);
       symbol.insertBefore(this.text);
@@ -899,6 +902,7 @@
       height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
       fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
     });
+    if (options.key) { innerWrap.node.id = options.key + 'i'; }
   
     var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
     var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
@@ -947,6 +951,7 @@
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
+    if (options.key) { symbol.node.id = options.key; }
   
     this.text.attr({
       y: symbol.getBBox().height/2
@@ -1034,6 +1039,7 @@
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
+    if (options.key) { symbol.node.id = options.key; }
   
     this.text.attr({
       y: symbol.getBBox().height/2
