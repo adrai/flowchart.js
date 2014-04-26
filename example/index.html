@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>flowchart.js · Playground</title>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="../bin/flowchart-latest.js"></script>
         <script>
 
@@ -42,6 +43,10 @@
                           'fill': 'yellow'
                         }
                       }
+                    });
+
+                    $('[id^=sub1]').click(function(){
+                      alert('info here');
                     });
                 })();
 

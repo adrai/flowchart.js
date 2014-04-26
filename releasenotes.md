@@ -1,3 +1,7 @@
+### v1.2.11
+
+- Added node id to objects [#18](https://github.com/adrai/flowchart.js/pull/18) thanks to [billcavalieri](https://github.com/billcavalieri)
+
 ### v1.2.10
 
 - fix direction changes [#15](https://github.com/adrai/flowchart.js/issues/15)

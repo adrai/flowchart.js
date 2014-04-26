@@ -20,6 +20,7 @@ function Subroutine(chart, options) {
     height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
     fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
   });
+  if (options.key) { innerWrap.node.id = options.key + 'i'; }
 
   var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
   var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
