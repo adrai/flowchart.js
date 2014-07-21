@@ -4,6 +4,7 @@ $ cat .gitignore
 .settings.xml
 .monitor
 .DS_Store
+.idea
 
 # Use wildcards as well
 *~

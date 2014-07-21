@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>flowchart.js · Playground</title>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="../bin/flowchart-latest.js"></script>
         <script>
@@ -22,6 +22,8 @@
 
                     chart = flowchart.parse(code);
                     chart.drawSVG('canvas', {
+                      'x': 30,
+                      'y': 50,
                       'line-width': 3,
                       'line-length': 50,
                       'text-margin': 10,

@@ -1,5 +1,7 @@
 // defaults
 var o = {
+  'x': 0,
+  'y': 0,
   'line-width': 3,
   'line-length': 50,
   'text-margin': 10,

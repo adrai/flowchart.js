@@ -6,6 +6,8 @@ function parse(input) {
     symbols: {},
     start: null,
     drawSVG: function(container, options) {
+      var self = this;
+
       if (this.diagram) {
         this.diagram.clean();
       }
@@ -44,8 +46,6 @@ function parse(input) {
 
         return dispSymbols[s.key];
       }
-
-      var self = this;
 
       (function constructChart(s, prevDisp, prev) {
         var dispSymb = getDisplaySymbol(s);

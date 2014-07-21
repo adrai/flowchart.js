@@ -1,6 +1,7 @@
 function Symbol(chart, options, symbol) {
   this.chart = chart;
   this.group = this.chart.paper.set();
+  this.symbol = symbol;
   this.connectedTo = [];
   this.symbolType = options.symbolType;
 
