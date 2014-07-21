@@ -1,4 +1,4 @@
-// flowchart, v1.2.11
+// flowchart, v1.2.12
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -88,6 +88,8 @@
   }
   // defaults
   var o = {
+    'x': 0,
+    'y': 0,
     'line-width': 3,
     'line-length': 50,
     'text-margin': 10,
@@ -389,7 +391,8 @@
   
     for (i = 0, len = this.symbols.length; i < len; i++) {
       symbol = this.symbols[i];
-      symbol.shiftX((maxWidth - symbol.width)/2);
+      symbol.shiftX(this.options.x + (maxWidth - symbol.width)/2);
+      symbol.shiftY(this.options.y);
     }
   
     this.start.render();
@@ -429,6 +432,7 @@
   function Symbol(chart, options, symbol) {
     this.chart = chart;
     this.group = this.chart.paper.set();
+    this.symbol = symbol;
     this.connectedTo = [];
     this.symbolType = options.symbolType;
   
@@ -845,28 +849,28 @@
   f.inherits(Start, Symbol);
   
   
-  Start.prototype.render = function() {
-    if (this.next) {
-      var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
+  // Start.prototype.render = function() {
+  //   if (this.next) {
+  //     var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
   
-      var bottomPoint = this.getBottom();
-      var topPoint = this.next.getTop();
+  //     var bottomPoint = this.getBottom();
+  //     var topPoint = this.next.getTop();
   
-      if (!this.next.isPositioned) {
-        this.next.shiftY(this.getY() + this.height + lineLength);
-        this.next.setX(bottomPoint.x - this.next.width/2);
-        this.next.isPositioned = true;
+  //     if (!this.next.isPositioned) {
+  //       this.next.shiftY(this.getY() + this.height + lineLength);
+  //       this.next.setX(bottomPoint.x - this.next.width/2);
+  //       this.next.isPositioned = true;
   
-        this.next.render();
-      }
-    }
-  };
+  //       this.next.render();
+  //     }
+  //   }
+  // };
   
-  Start.prototype.renderLines = function() {
-    if (this.next) {
-      this.drawLineTo(this.next);
-    }
-  };
+  // Start.prototype.renderLines = function() {
+  //   if (this.next) {
+  //     this.drawLineTo(this.next);
+  //   }
+  // };
   function End(chart, options) {
     var symbol = chart.paper.rect(0, 0, 0, 0, 20);
     options = options || {};
@@ -1130,6 +1134,8 @@
       symbols: {},
       start: null,
       drawSVG: function(container, options) {
+        var self = this;
+  
         if (this.diagram) {
           this.diagram.clean();
         }
@@ -1168,8 +1174,6 @@
   
           return dispSymbols[s.key];
         }
-  
-        var self = this;
   
         (function constructChart(s, prevDisp, prev) {
           var dispSymb = getDisplaySymbol(s);
