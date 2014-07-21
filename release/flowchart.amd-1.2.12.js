@@ -378,6 +378,7 @@
   
   FlowChart.prototype.render = function() {
     var maxWidth = 0,
+        maxHeight = 0,
         i = 0,
         len = 0,
         maxX = 0,
@@ -389,12 +390,15 @@
       if (symbol.width > maxWidth) {
         maxWidth = symbol.width;
       }
+      if (symbol.height > maxHeight) {
+        maxHeight = symbol.height;
+      }
     }
   
     for (i = 0, len = this.symbols.length; i < len; i++) {
       symbol = this.symbols[i];
       symbol.shiftX(this.options.x + (maxWidth - symbol.width)/2);
-      symbol.shiftY(this.options.y);
+      symbol.shiftY(this.options.y + (maxHeight - symbol.height)/2);
     }
   
     this.start.render();
