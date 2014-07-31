@@ -6,7 +6,7 @@ function Symbol(chart, options, symbol) {
   this.symbolType = options.symbolType;
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
-  var class = (this.options.class) || (this.chart.options.symbols[this.symbolType]['class'] || this.chart.options['class']);
+  var class = (this.options.class || this.chart.options.symbols[this.symbolType]['class'] || this.chart.options['class']);
 
   this.text = this.chart.paper.text(0, 0, options.text);
   //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t

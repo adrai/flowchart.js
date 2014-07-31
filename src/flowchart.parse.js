@@ -167,7 +167,7 @@ function parse(input) {
         sub = symbol.text.split(':>');
         /* adding support for classes */
         var tmpText = sub[0];
-		if (tmpText.indexOf('|') >= 0 {
+		if (tmpText.indexOf('|') >= 0) {
 			var txtAndClass = tmpText.split('|');
 			symbol.text = txtAndClass[0];
 			symbol.class = txtAndClass[1];

@@ -195,8 +195,9 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'rig']);
-  grunt.registerTask('release', ['default', 'uglify', 'copy', 'compress']);
+  //grunt.registerTask('default', ['clean', 'rig']);
+  grunt.registerTask('default', ['rig']);
+  grunt.registerTask('release', ['clean','default', 'uglify', 'copy', 'compress']);
 
 
 };

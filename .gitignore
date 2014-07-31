@@ -14,5 +14,6 @@ $ cat .gitignore
 node_modules
 node_modules/**/*
 bin
+cdn
 reports
 reports/**/*
