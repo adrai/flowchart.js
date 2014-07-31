@@ -1,6 +1,6 @@
 ### v1.3.0
 
-- Added support for color coding (flowstate) [#18](https://github.com/adrai/flowchart.js/pull/23) thanks to [Stwissel](https://github.com/Stwissel)
+- Added support for color coding (flowstate) [#23](https://github.com/adrai/flowchart.js/pull/23) thanks to [Stwissel](https://github.com/Stwissel)
 
 ### v1.2.12
 
