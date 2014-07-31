@@ -6,6 +6,7 @@ function Symbol(chart, options, symbol) {
   this.symbolType = options.symbolType;
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
+  var class = (this.options.class) || (this.chart.options.symbols[this.symbolType]['class'] || this.chart.options['class']);
 
   this.text = this.chart.paper.text(0, 0, options.text);
   //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
@@ -24,6 +25,7 @@ function Symbol(chart, options, symbol) {
   if (font) this.text.attr({ 'font': font });
   if (fontF) this.text.attr({ 'font-family': fontF });
   if (fontW) this.text.attr({ 'font-weight': fontW });
+  if (class) this.text.attr({ 'class': class });
 
   if (options.link) { this.text.attr('href', options.link); }
   if (options.target) { this.text.attr('target', options.target); }
@@ -56,6 +58,7 @@ function Symbol(chart, options, symbol) {
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
     if (options.key) { symbol.node.id = options.key; }
+    if (class) { symbol.attr('class',class); }
 
     this.group.push(symbol);
     symbol.insertBefore(this.text);

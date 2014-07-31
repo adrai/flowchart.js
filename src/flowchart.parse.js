@@ -151,6 +151,7 @@ function parse(input) {
         symbolType: parts[1],
         text: null,
         link: null,
+        class : null,
         target: null
       };
 
@@ -164,7 +165,17 @@ function parse(input) {
 
       if (symbol.text && symbol.text.indexOf(':>') >= 0) {
         sub = symbol.text.split(':>');
-        symbol.text = sub[0];
+        /* adding support for classes */
+        var tmpText = sub[0];
+		if (tmpText.indexOf('|') >= 0 {
+			var txtAndClass = tmpText.split('|');
+			symbol.text = txtAndClass[0];
+			symbol.class = txtAndClass[1];
+		} else {
+			symbol.text = tmpText;
+		}
+        /* end of class support */
+        
         symbol.link = sub[1];
       } else if (symbol.symbolType.indexOf(':>') >= 0) {
         sub = symbol.symbolType.split(':>');
