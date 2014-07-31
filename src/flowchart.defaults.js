@@ -24,11 +24,11 @@ var o = {
     'inputoutput': {},
     'operation': {},
     'subroutine': {}
-  },
-  'flowstate' : {
-		'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
-		'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
-		'future' : { 'fill' : '#FFFF99'},
-		'invalid': {'fill' : '#444444'}
-		}
+  }//,
+  // 'flowstate' : {
+  //   'past' : { 'fill': '#CCCCCC', 'font-size': 12},
+  //   'current' : {'fill': 'yellow', 'font-color': 'red', 'font-weight': 'bold'},
+  //   'future' : { 'fill': '#FFFF99'},
+  //   'invalid': {'fill': '#444444'}
+  // }
 };

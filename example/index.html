@@ -3,12 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>flowchart.js · Playground</title>
-        <style type="text/css">
-			.tango { background-color : #FFCCFF; }
-        </style>
-        <script type="text/javascript" src="../cdn/raphael-min.js"></script>
-        <script type="text/javascript" src="../cdn/jquery.min.js"></script>
-        <script type="text/javascript" src="../bin/flowchart-latest.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="../bin/flowchart-latest.js"></script>
         <script>
 
             window.onload = function () {
@@ -41,6 +38,7 @@
                       'yes-text': 'yes',
                       'no-text': 'no',
                       'arrow-end': 'block',
+                      'className' : 'flowchart',
                       'symbols': {
                         'start': {
                           'font-color': 'red',
@@ -49,13 +47,14 @@
                         }
                       },
                       'flowstate' : {
-							'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
-							'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
-							'future' : { 'fill' : '#FFFF99'},
-							'invalid': {'fill' : '#444444'},
-							'approved' : { 'fill' : '#58C4A3', 'font-size' : 12, 'yes-text' : 'APPROVED', 'no-text' : 'n/a' },
-							'rejected' : { 'fill' : '#C45879', 'font-size' : 12, 'yes-text' : 'n/a', 'no-text' : 'REJECTED' }
-						}
+                        'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
+                        'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
+                        'future' : { 'fill' : '#FFFF99'},
+                        'request' : { 'fill' : 'blue'},
+                        'invalid': {'fill' : '#444444'},
+                        'approved' : { 'fill' : '#58C4A3', 'font-size' : 12, 'yes-text' : 'APPROVED', 'no-text' : 'n/a' },
+                        'rejected' : { 'fill' : '#C45879', 'font-size' : 12, 'yes-text' : 'n/a', 'no-text' : 'REJECTED' }
+                      }
                     });
 
                     $('[id^=sub1]').click(function(){
@@ -76,7 +75,7 @@ sub1=>subroutine: My Subroutine|invalid
 cond=>condition: Yes 
 or No?|approved:>http://www.google.com
 c2=>condition: Good idea|rejected
-io=>inputoutput: catch something...|future
+io=>inputoutput: catch something...|request
 
 st->op1(right)->cond
 cond(yes, right)->c2

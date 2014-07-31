@@ -140,7 +140,7 @@ function parse(input) {
     return next;
   }
 
-  while(lines.length > 0) {
+  while (lines.length > 0) {
     var line = lines.splice(0, 1)[0];
 
     if (line.indexOf('=>') >= 0) {
@@ -151,8 +151,8 @@ function parse(input) {
         symbolType: parts[1],
         text: null,
         link: null,
-        className : null,
-        target: null
+        target: null,
+        flowstate: null
       };
 
       var sub;
@@ -177,6 +177,7 @@ function parse(input) {
         symbol.symbolType = symbol.symbolType.split('\n')[0];
       }
 
+      /* adding support for links */
       if (symbol.link) {
         var startIndex = symbol.link.indexOf('[') + 1;
         var endIndex = symbol.link.indexOf(']');
@@ -185,16 +186,17 @@ function parse(input) {
           symbol.link = symbol.link.substring(0, startIndex - 1);
         }
       }
+      /* end of link support */
 
       /* adding support for flowstates */
-		if (symbol.text) {
-			if (symbol.text.indexOf('|') >= 0) {
-				var txtAndState = symbol.text.split('|');
-				symbol.text = txtAndState[0];
-				symbol.flowstate = txtAndState[1].trim();
-			}
-		}		
-     /* end of flowstate support */
+      if (symbol.text) {
+        if (symbol.text.indexOf('|') >= 0) {
+          var txtAndState = symbol.text.split('|');
+          symbol.text = txtAndState[0];
+          symbol.flowstate = txtAndState[1].trim();
+        }
+      }
+      /* end of flowstate support */
 
       chart.symbols[symbol.key] = symbol;
 

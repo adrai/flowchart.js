@@ -25,7 +25,7 @@ and then
                                 'sub1=>subroutine: My Subroutine\n' + 
                                 'cond=>condition: Yes \n' + 
                                 'or No?\n:>http://www.google.com' + 
-                                'io=>inputoutput: catch something...\n' + 
+                                'io=>inputoutput|request: catch something...\n' + 
                                 '' +
                                 'st->op1->cond\n' + 
                                 'cond(yes)->io->e\n' + // conditions can also be redirected like cond(yes, bottom) or cond(yes, right)
@@ -47,7 +47,23 @@ and then
                                 'fill': 'white',
                                 'yes-text': 'yes',
                                 'no-text': 'no',
-                                'arrow-end': 'block'
+                                'arrow-end': 'block',
+                                'symbols': {
+                                    'start': {
+                                      'font-color': 'red',
+                                      'element-color': 'green',
+                                      'fill': 'yellow'
+                                    }
+                                },
+                                'flowstate' : {
+                                    // 'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
+                                    // 'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
+                                    // 'future' : { 'fill' : '#FFFF99'},
+                                    'request' : { 'fill' : 'blue'}//,
+                                    // 'invalid': {'fill' : '#444444'},
+                                    // 'approved' : { 'fill' : '#58C4A3', 'font-size' : 12, 'yes-text' : 'APPROVED', 'no-text' : 'n/a' },
+                                    // 'rejected' : { 'fill' : '#C45879', 'font-size' : 12, 'yes-text' : 'n/a', 'no-text' : 'REJECTED' }
+                                  }
                               });
 </script>
 ```

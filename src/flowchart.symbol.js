@@ -11,10 +11,12 @@ function Symbol(chart, options, symbol) {
   this.text = this.chart.paper.text(0, 0, options.text);
   //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
   if (options.key) { this.text.node.id = options.key + 't'; }
-  this.text.attr({'text-anchor': 'start',
-                  'x'          : this.getAttr('text-margin'),
-                  'stroke'     : this.getAttr('font-color'),  
-                  'font-size'  : this.getAttr('font-size')});
+  this.text.attr({
+    'text-anchor': 'start',
+    'x'          : this.getAttr('text-margin'),
+    'stroke'     : this.getAttr('font-color'),
+    'font-size'  : this.getAttr('font-size')
+  });
 
   var font  = this.getAttr('font');
   var fontF = this.getAttr('font-family');
@@ -46,15 +48,17 @@ function Symbol(chart, options, symbol) {
   this.group.push(this.text);
 
   if (symbol) {
-	var tmpMargin = this.getAttr('text-margin');
-	
-	symbol.attr({'fill' : this.getAttr('fill'),
-	             'stroke' : this.getAttr('element-color'),
-	             'stroke-width' : this.getAttr('line-width'),
-	             'width' : this.text.getBBox().width + 2 * tmpMargin,
-	             'height' : this.text.getBBox().height + 2 * tmpMargin});
-    
-	if (options.link) { symbol.attr('href', options.link); }
+  var tmpMargin = this.getAttr('text-margin');
+  
+  symbol.attr({
+    'fill' : this.getAttr('fill'),
+    'stroke' : this.getAttr('element-color'),
+    'stroke-width' : this.getAttr('line-width'),
+    'width' : this.text.getBBox().width + 2 * tmpMargin,
+    'height' : this.text.getBBox().height + 2 * tmpMargin
+  });
+
+  if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
     if (options.key) { symbol.node.id = options.key; }
 
@@ -69,22 +73,20 @@ function Symbol(chart, options, symbol) {
   }
 
 }
+
 /* Gets the attribute based on Flowstate, Symbol-Name and default, first found wins */
 Symbol.prototype.getAttr = function(attName) {
-	if (!this.chart) {
-		return undefined;
-	}	
-	var opt3 = (this.chart.options) ? this.chart.options[attName] : undefined;
-	var opt2 = (this.chart.options.symbols) ? this.chart.options.symbols[this.symbolType][attName] : undefined;
-	var opt1 = undefined;
-	if (this.chart.options.flowstate) {
-		if (this.chart.options.flowstate[this.flowstate]) {
-			opt1 = this.chart.options.flowstate[this.flowstate][attName];
-		}
-	}
-	return (opt1 || opt2 || opt3);
-}
-
+  if (!this.chart) {
+    return undefined;
+  }
+  var opt3 = (this.chart.options) ? this.chart.options[attName] : undefined;
+  var opt2 = (this.chart.options.symbols) ? this.chart.options.symbols[this.symbolType][attName] : undefined;
+  var opt1;
+  if (this.chart.options.flowstate && this.chart.options.flowstate[this.flowstate]) {
+    opt1 = this.chart.options.flowstate[this.flowstate][attName];
+  }
+  return (opt1 || opt2 || opt3);
+};
 
 Symbol.prototype.initialize = function() {
   this.group.transform('t' + this.getAttr('line-width') + ',' + this.getAttr('line-width'));
