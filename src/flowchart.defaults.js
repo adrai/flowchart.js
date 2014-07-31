@@ -16,6 +16,7 @@ var o = {
   'yes-text': 'yes',
   'no-text': 'no',
   'arrow-end': 'block',
+  'className' : 'flowchart',
   'symbols': {
     'start': {},
     'end': {},
@@ -23,5 +24,11 @@ var o = {
     'inputoutput': {},
     'operation': {},
     'subroutine': {}
+  },
+  'flowstate' : {
+	'past' : {},
+	'current' : {},
+	'future' : {},
+	'invalid': {}
   }
 };

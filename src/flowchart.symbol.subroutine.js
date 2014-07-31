@@ -4,27 +4,27 @@ function Subroutine(chart, options) {
   Symbol.call(this, chart, options, symbol);
 
   symbol.attr({
-    width: this.text.getBBox().width + 4 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
+    width: this.text.getBBox().width + 4 * this.getAttr('text-margin')
   });
 
   this.text.attr({
-    'x': 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
+    'x': 2 * this.getAttr('text-margin')
   });
 
   var innerWrap = chart.paper.rect(0, 0, 0, 0);
   innerWrap.attr({
-    x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-    stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
-    'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
-    width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-    height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-    fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
+    x: this.getAttr('text-margin'),
+    stroke: this.getAttr('element-color'),
+    'stroke-width': this.getAttr('line-width'),
+    width: this.text.getBBox().width + 2 * this.getAttr('text-margin'),
+    height: this.text.getBBox().height + 2 * this.getAttr('text-margin'),
+    fill: this.getAttr('fill')
   });
   if (options.key) { innerWrap.node.id = options.key + 'i'; }
 
-  var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
-  var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
-  var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+  var font = this.getAttr('font');
+  var fontF = this.getAttr('font-family');
+  var fontW = this.getAttr('font-weight');
 
   if (font) innerWrap.attr({ 'font': font });
   if (fontF) innerWrap.attr({ 'font-family': fontF });

@@ -4,34 +4,31 @@ function Symbol(chart, options, symbol) {
   this.symbol = symbol;
   this.connectedTo = [];
   this.symbolType = options.symbolType;
+  this.flowstate = (options.flowstate || 'future');
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
-  var class = (this.options.class || this.chart.options.symbols[this.symbolType]['class'] || this.chart.options['class']);
-
+  
   this.text = this.chart.paper.text(0, 0, options.text);
   //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
   if (options.key) { this.text.node.id = options.key + 't'; }
-  this.text.attr({
-    'text-anchor': 'start',
-    'font-size': (this.chart.options.symbols[this.symbolType]['font-size'] || this.chart.options['font-size']),
-    'x': (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-    stroke: (this.chart.options.symbols[this.symbolType]['font-color'] || this.chart.options['font-color'])
-  });
+  this.text.attr({'text-anchor': 'start',
+                  'x'          : this.getAttr('text-margin'),
+                  'stroke'     : this.getAttr('font-color'),  
+                  'font-size'  : this.getAttr('font-size')});
 
-  var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
-  var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
-  var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+  var font  = this.getAttr('font');
+  var fontF = this.getAttr('font-family');
+  var fontW = this.getAttr('font-weight');
 
   if (font) this.text.attr({ 'font': font });
   if (fontF) this.text.attr({ 'font-family': fontF });
   if (fontW) this.text.attr({ 'font-weight': fontW });
-  if (class) this.text.attr({ 'class': class });
 
   if (options.link) { this.text.attr('href', options.link); }
   if (options.target) { this.text.attr('target', options.target); }
-  if (this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth']) {
+  var maxWidth = this.getAttr('maxWidth');
+  if (maxWidth) {
     // using this approach: http://stackoverflow.com/a/3153457/22466
-    var maxWidth = this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth'];
     var words = options.text.split(' ');
     var tempText = "";
     for (var i=0, ii=words.length; i<ii; i++) {
@@ -45,20 +42,21 @@ function Symbol(chart, options, symbol) {
     }
     this.text.attr("text", tempText.substring(1));
   }
+  
   this.group.push(this.text);
 
   if (symbol) {
-    symbol.attr({
-      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
-      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
-      width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-      height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
-    });
-    if (options.link) { symbol.attr('href', options.link); }
+	var tmpMargin = this.getAttr('text-margin');
+	
+	symbol.attr({'fill' : this.getAttr('fill'),
+	             'stroke' : this.getAttr('element-color'),
+	             'stroke-width' : this.getAttr('line-width'),
+	             'width' : this.text.getBBox().width + 2 * tmpMargin,
+	             'height' : this.text.getBBox().height + 2 * tmpMargin});
+    
+	if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
     if (options.key) { symbol.node.id = options.key; }
-    if (class) { symbol.attr('class',class); }
 
     this.group.push(symbol);
     symbol.insertBefore(this.text);
@@ -69,10 +67,27 @@ function Symbol(chart, options, symbol) {
 
     this.initialize();
   }
+
+}
+/* Gets the attribute based on Flowstate, Symbol-Name and default, first found wins */
+Symbol.prototype.getAttr = function(attName) {
+	if (!this.chart) {
+		return undefined;
+	}	
+	var opt3 = (this.chart.options) ? this.chart.options[attName] : undefined;
+	var opt2 = (this.chart.options.symbols) ? this.chart.options.symbols[this.symbolType][attName] : undefined;
+	var opt1 = undefined;
+	if (this.chart.options.flowstate) {
+		if (this.chart.options.flowstate[this.flowstate]) {
+			opt1 = this.chart.options.flowstate[this.flowstate][attName];
+		}
+	}
+	return (opt1 || opt2 || opt3);
 }
 
+
 Symbol.prototype.initialize = function() {
-  this.group.transform('t' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']) + ',' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']));
+  this.group.transform('t' + this.getAttr('line-width') + ',' + this.getAttr('line-width'));
 
   this.width = this.group.getBBox().width;
   this.height = this.group.getBBox().height;
@@ -134,7 +149,7 @@ Symbol.prototype.getRight = function() {
 Symbol.prototype.render = function() {
   if (this.next) {
 
-    var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
+    var lineLength = this.getAttr('line-length');
 
     if (this.next_direction === 'right') {
 
@@ -223,8 +238,8 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
 
   var maxX = 0,
       line,
-      lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'],
-      lineWith = this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width'];
+      lineLength = this.getAttr('line-length'),
+      lineWith = this.getAttr('line-width');
 
   if ((!origin || origin === 'bottom') && isOnSameColumn && isUnder) {
     line = drawLine(this.chart, bottom, symbolTop, text);

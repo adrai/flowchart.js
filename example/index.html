@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>flowchart.js · Playground</title>
+        <style type="text/css">
+			.tango { background-color : #FFCCFF; }
+        </style>
         <script type="text/javascript" src="../cdn/raphael-min.js"></script>
         <script type="text/javascript" src="../cdn/jquery.min.js"></script>
         <script type="text/javascript" src="../bin/flowchart-latest.js"></script>
@@ -44,7 +47,13 @@
                           'element-color': 'green',
                           'fill': 'yellow'
                         }
-                      }
+                      },
+                      'flowstate' : {
+							'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
+							'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
+							'future' : { 'fill' : '#FFFF99'},
+							'invalid': {'fill' : '#444444'}
+						}
                     });
 
                     $('[id^=sub1]').click(function(){
@@ -57,13 +66,13 @@
     </head>
     <body>
         <div><textarea id="code" style="width: 100%;" rows="11">
-st=>start: Start:>http://www.google.com[blank]
-e=>end:>http://www.google.com
-op1=>operation: My Operation|Test
-sub1=>subroutine: My Subroutine|Demo
+st=>start: Start|past:>http://www.google.com[blank]
+e=>end: Ende|future:>http://www.google.com
+op1=>operation: My Operation|past
+sub1=>subroutine: My Subroutine|invalid
 cond=>condition: Yes 
-or No?:>http://www.google.com
-io=>inputoutput: catch something...
+or No?|current:>http://www.google.com
+io=>inputoutput: catch something...|future
 
 st->op1(right)->cond
 cond(yes, right)->io->e

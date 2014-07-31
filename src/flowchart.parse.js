@@ -151,7 +151,7 @@ function parse(input) {
         symbolType: parts[1],
         text: null,
         link: null,
-        class : null,
+        className : null,
         target: null
       };
 
@@ -165,17 +165,7 @@ function parse(input) {
 
       if (symbol.text && symbol.text.indexOf(':>') >= 0) {
         sub = symbol.text.split(':>');
-        /* adding support for classes */
-        var tmpText = sub[0];
-		if (tmpText.indexOf('|') >= 0) {
-			var txtAndClass = tmpText.split('|');
-			symbol.text = txtAndClass[0];
-			symbol.class = txtAndClass[1];
-		} else {
-			symbol.text = tmpText;
-		}
-        /* end of class support */
-        
+        symbol.text = sub[0];
         symbol.link = sub[1];
       } else if (symbol.symbolType.indexOf(':>') >= 0) {
         sub = symbol.symbolType.split(':>');
@@ -195,6 +185,16 @@ function parse(input) {
           symbol.link = symbol.link.substring(0, startIndex - 1);
         }
       }
+
+      /* adding support for flowstates */
+		if (symbol.text) {
+			if (symbol.text.indexOf('|') >= 0) {
+				var txtAndState = symbol.text.split('|');
+				symbol.text = txtAndState[0];
+				symbol.flowstate = txtAndState[1].trim();
+			}
+		}		
+     /* end of flowstate support */
 
       chart.symbols[symbol.key] = symbol;
 
