@@ -1,4 +1,4 @@
-// flowchart, v1.2.12
+// flowchart, v1.3.0
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -111,7 +111,13 @@
       'inputoutput': {},
       'operation': {},
       'subroutine': {}
-    }
+    }//,
+    // 'flowstate' : {
+    //   'past' : { 'fill': '#CCCCCC', 'font-size': 12},
+    //   'current' : {'fill': 'yellow', 'font-color': 'red', 'font-weight': 'bold'},
+    //   'future' : { 'fill': '#FFFF99'},
+    //   'invalid': {'fill': '#444444'}
+    // }
   };
   function _defaults(options, defaultOptions) {
     if (!options || typeof options === 'function') {
@@ -439,22 +445,23 @@
     this.symbol = symbol;
     this.connectedTo = [];
     this.symbolType = options.symbolType;
+    this.flowstate = (options.flowstate || 'future');
   
     this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
-  
+    
     this.text = this.chart.paper.text(0, 0, options.text);
     //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
     if (options.key) { this.text.node.id = options.key + 't'; }
     this.text.attr({
       'text-anchor': 'start',
-      'font-size': (this.chart.options.symbols[this.symbolType]['font-size'] || this.chart.options['font-size']),
-      'x': (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-      stroke: (this.chart.options.symbols[this.symbolType]['font-color'] || this.chart.options['font-color'])
+      'x'          : this.getAttr('text-margin'),
+      'stroke'     : this.getAttr('font-color'),
+      'font-size'  : this.getAttr('font-size')
     });
   
-    var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
-    var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
-    var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+    var font  = this.getAttr('font');
+    var fontF = this.getAttr('font-family');
+    var fontW = this.getAttr('font-weight');
   
     if (font) this.text.attr({ 'font': font });
     if (fontF) this.text.attr({ 'font-family': fontF });
@@ -462,9 +469,9 @@
   
     if (options.link) { this.text.attr('href', options.link); }
     if (options.target) { this.text.attr('target', options.target); }
-    if (this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth']) {
+    var maxWidth = this.getAttr('maxWidth');
+    if (maxWidth) {
       // using this approach: http://stackoverflow.com/a/3153457/22466
-      var maxWidth = this.chart.options.symbols[this.symbolType]['maxWidth'] || this.chart.options['maxWidth'];
       var words = options.text.split(' ');
       var tempText = "";
       for (var i=0, ii=words.length; i<ii; i++) {
@@ -478,17 +485,21 @@
       }
       this.text.attr("text", tempText.substring(1));
     }
+    
     this.group.push(this.text);
   
     if (symbol) {
-      symbol.attr({
-        stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
-        'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
-        width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-        height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-        fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
-      });
-      if (options.link) { symbol.attr('href', options.link); }
+    var tmpMargin = this.getAttr('text-margin');
+    
+    symbol.attr({
+      'fill' : this.getAttr('fill'),
+      'stroke' : this.getAttr('element-color'),
+      'stroke-width' : this.getAttr('line-width'),
+      'width' : this.text.getBBox().width + 2 * tmpMargin,
+      'height' : this.text.getBBox().height + 2 * tmpMargin
+    });
+  
+    if (options.link) { symbol.attr('href', options.link); }
       if (options.target) { symbol.attr('target', options.target); }
       if (options.key) { symbol.node.id = options.key; }
   
@@ -501,10 +512,25 @@
   
       this.initialize();
     }
+  
   }
   
+  /* Gets the attribute based on Flowstate, Symbol-Name and default, first found wins */
+  Symbol.prototype.getAttr = function(attName) {
+    if (!this.chart) {
+      return undefined;
+    }
+    var opt3 = (this.chart.options) ? this.chart.options[attName] : undefined;
+    var opt2 = (this.chart.options.symbols) ? this.chart.options.symbols[this.symbolType][attName] : undefined;
+    var opt1;
+    if (this.chart.options.flowstate && this.chart.options.flowstate[this.flowstate]) {
+      opt1 = this.chart.options.flowstate[this.flowstate][attName];
+    }
+    return (opt1 || opt2 || opt3);
+  };
+  
   Symbol.prototype.initialize = function() {
-    this.group.transform('t' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']) + ',' + (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']));
+    this.group.transform('t' + this.getAttr('line-width') + ',' + this.getAttr('line-width'));
   
     this.width = this.group.getBBox().width;
     this.height = this.group.getBBox().height;
@@ -566,7 +592,7 @@
   Symbol.prototype.render = function() {
     if (this.next) {
   
-      var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
+      var lineLength = this.getAttr('line-length');
   
       if (this.next_direction === 'right') {
   
@@ -655,8 +681,8 @@
   
     var maxX = 0,
         line,
-        lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'],
-        lineWith = this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width'];
+        lineLength = this.getAttr('line-length'),
+        lineWith = this.getAttr('line-width');
   
     if ((!origin || origin === 'bottom') && isOnSameColumn && isUnder) {
       line = drawLine(this.chart, bottom, symbolTop, text);
@@ -894,27 +920,27 @@
     Symbol.call(this, chart, options, symbol);
   
     symbol.attr({
-      width: this.text.getBBox().width + 4 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
+      width: this.text.getBBox().width + 4 * this.getAttr('text-margin')
     });
   
     this.text.attr({
-      'x': 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])
+      'x': 2 * this.getAttr('text-margin')
     });
   
     var innerWrap = chart.paper.rect(0, 0, 0, 0);
     innerWrap.attr({
-      x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
-      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
-      width: this.text.getBBox().width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-      height: this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']),
-      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
+      x: this.getAttr('text-margin'),
+      stroke: this.getAttr('element-color'),
+      'stroke-width': this.getAttr('line-width'),
+      width: this.text.getBBox().width + 2 * this.getAttr('text-margin'),
+      height: this.text.getBBox().height + 2 * this.getAttr('text-margin'),
+      fill: this.getAttr('fill')
     });
     if (options.key) { innerWrap.node.id = options.key + 'i'; }
   
-    var font = (this.chart.options.symbols[this.symbolType]['font'] || this.chart.options['font']);
-    var fontF = (this.chart.options.symbols[this.symbolType]['font-family'] || this.chart.options['font-family']);
-    var fontW = (this.chart.options.symbols[this.symbolType]['font-weight'] || this.chart.options['font-weight']);
+    var font = this.getAttr('font');
+    var fontF = this.getAttr('font-family');
+    var fontW = this.getAttr('font-weight');
   
     if (font) innerWrap.attr({ 'font': font });
     if (fontF) innerWrap.attr({ 'font-family': fontF });
@@ -931,31 +957,32 @@
   function InputOutput(chart, options) {
     options = options || {};
     Symbol.call(this, chart, options);
-  
+    this.textMargin = this.getAttr('text-margin');
+    
     this.text.attr({
-      x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) * 3
+      x: this.textMargin * 3
     });
   
-    var width = this.text.getBBox().width + 4 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
-    var height = this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
-    var startX = (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var width = this.text.getBBox().width + 4 * this.textMargin;
+    var height = this.text.getBBox().height + 2 * this.textMargin;
+    var startX = this.textMargin;
     var startY = height/2;
   
     var start = {x: startX, y: startY};
     var points = [
-      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']), y: height},
-      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) + width, y: height},
-      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) + width + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']), y: 0},
-      {x: startX - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']), y: 0},
+      {x: startX - this.textMargin, y: height},
+      {x: startX - this.textMargin + width, y: height},
+      {x: startX - this.textMargin + width + 2 * this.textMargin, y: 0},
+      {x: startX - this.textMargin + 2 * this.textMargin, y: 0},
       {x: startX, y: startY}
     ];
   
     var symbol = drawPath(chart, start, points);
   
     symbol.attr({
-      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
-      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
-      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
+      stroke: this.getAttr('element-color'),
+      'stroke-width': this.getAttr('line-width'),
+      fill: this.getAttr('fill')
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
@@ -974,19 +1001,19 @@
   
   InputOutput.prototype.getLeft = function() {
     var y = this.getY() + this.group.getBBox().height/2;
-    var x = this.getX() + (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var x = this.getX() + this.textMargin;
     return {x: x, y: y};
   };
   
   InputOutput.prototype.getRight = function() {
     var y = this.getY() + this.group.getBBox().height/2;
-    var x = this.getX() + this.group.getBBox().width - (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var x = this.getX() + this.group.getBBox().width - this.textMargin;
     return {x: x, y: y};
   };
   function Condition(chart, options) {
     options = options || {};
     Symbol.call(this, chart, options);
-  
+    this.textMargin = this.getAttr('text-margin');
     this.yes_direction = 'bottom';
     this.no_direction = 'right';
     if (options.yes && options['direction_yes'] && options.no && !options['direction_no']) {
@@ -1014,19 +1041,19 @@
     this.no_direction = this.no_direction || 'right';
   
     this.text.attr({
-      x: (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']) * 2
+      x: this.textMargin * 2
     });
   
-    var width = this.text.getBBox().width + 3 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var width = this.text.getBBox().width + 3 * this.textMargin;
     width += width/2;
-    var height = this.text.getBBox().height + 2 * (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin']);
+    var height = this.text.getBBox().height + 2 * this.textMargin;
     height += height/2;
     height = Math.max(width * 0.5, height);
     var startX = width/4;
     var startY = height/4;
   
     this.text.attr({
-      x: startX + (this.chart.options.symbols[this.symbolType]['text-margin'] || this.chart.options['text-margin'])/2
+      x: startX + this.textMargin/2
     });
   
     var start = {x: startX, y: startY};
@@ -1041,9 +1068,9 @@
     var symbol = drawPath(chart, start, points);
   
     symbol.attr({
-      stroke: (this.chart.options.symbols[this.symbolType]['element-color'] || this.chart.options['element-color']),
-      'stroke-width': (this.chart.options.symbols[this.symbolType]['line-width'] || this.chart.options['line-width']),
-      fill: (this.chart.options.symbols[this.symbolType]['fill'] || this.chart.options['fill'])
+      stroke: this.getAttr('element-color'),
+      'stroke-width': this.getAttr('line-width'),
+      fill: this.getAttr('fill')
     });
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
@@ -1070,7 +1097,7 @@
       this[this.no_direction + '_symbol'] = this.no_symbol;
     }
   
-    var lineLength = this.chart.options.symbols[this.symbolType]['line-length'] || this.chart.options['line-length'];
+    var lineLength = this.getAttr('line-length');
   
     if (this.bottom_symbol) {
       var bottomPoint = this.getBottom();
@@ -1123,11 +1150,11 @@
   
   Condition.prototype.renderLines = function() {
     if (this.yes_symbol) {
-      this.drawLineTo(this.yes_symbol, this.chart.options['yes-text'], this.yes_direction);
+      this.drawLineTo(this.yes_symbol, this.getAttr('yes-text'), this.yes_direction);
     }
   
     if (this.no_symbol) {
-      this.drawLineTo(this.no_symbol, this.chart.options['no-text'], this.no_direction);
+      this.drawLineTo(this.no_symbol, this.getAttr('no-text'), this.no_direction);
     }
   };
   function parse(input) {
@@ -1272,7 +1299,7 @@
       return next;
     }
   
-    while(lines.length > 0) {
+    while (lines.length > 0) {
       var line = lines.splice(0, 1)[0];
   
       if (line.indexOf('=>') >= 0) {
@@ -1283,7 +1310,8 @@
           symbolType: parts[1],
           text: null,
           link: null,
-          target: null
+          target: null,
+          flowstate: null
         };
   
         var sub;
@@ -1308,6 +1336,7 @@
           symbol.symbolType = symbol.symbolType.split('\n')[0];
         }
   
+        /* adding support for links */
         if (symbol.link) {
           var startIndex = symbol.link.indexOf('[') + 1;
           var endIndex = symbol.link.indexOf(']');
@@ -1316,6 +1345,17 @@
             symbol.link = symbol.link.substring(0, startIndex - 1);
           }
         }
+        /* end of link support */
+  
+        /* adding support for flowstates */
+        if (symbol.text) {
+          if (symbol.text.indexOf('|') >= 0) {
+            var txtAndState = symbol.text.split('|');
+            symbol.text = txtAndState[0];
+            symbol.flowstate = txtAndState[1].trim();
+          }
+        }
+        /* end of flowstate support */
   
         chart.symbols[symbol.key] = symbol;
   

@@ -33,13 +33,13 @@
 
     <div id="main">
 
-      <section id="demo">
+      <section id="demo1">
         <table align="center" class="inner">
           <tr>
             <td>
-            <h3>Demo. Try editing me below</h3>
+            <h3>Demo 1. Try editing me below</h3>
             <div class="editor-wrapper">
-              <div class="editor">st=>start: Start:>http://www.google.com[blank]
+<div class="editor editor1">st=>start: Start:>http://www.google.com[blank]
 e=>end:>http://www.google.com
 op1=>operation: My Operation
 sub1=>subroutine: My Subroutine
@@ -50,14 +50,14 @@ io=>inputoutput: catch something...
 st->op1->cond
 cond(yes)->io->e
 cond(no)->sub1(right)->op1</div>
-           <!--  </div>
-            Theme:
+           </div>
+           <!--   Theme:
             <select class="theme">
               <option value="simple">Simple</option>
               <option value="hand" selected>Hand drawn</option>
             </select> -->
             </td>
-            <td class="diagram">This should be a diagram! If you don't see it you need Javascript enabled</td>
+            <td class="diagram diagram1">This should be a diagram! If you don't see it you need Javascript enabled</td>
           </tr>
         </table>
 
@@ -68,7 +68,7 @@ cond(no)->sub1(right)->op1</div>
       <div class="inner">
       <section id="usage">
         <h3>Usage</h3>
-        <p>flowchart.js depends on <a href="http://raphaeljs.com/">Raphaël</a></br>To use include the following:
+        flowchart.js depends on <a href="http://raphaeljs.com/">Raphaël</a><br/>To use include the following:
         <pre>&lt;script src=&quot;<a href="http://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js">raphael-min.js</a>&quot;&gt;&lt;
 &lt;script src=&quot;<a href="flowchart-latest.js">flowchart-latest.js</a>&quot;&gt;&lt;/script&gt;
 </pre>
@@ -94,14 +94,62 @@ You can parse the text:
                               'fill': 'white',
                               'yes-text': 'yes',
                               'no-text': 'no',
-                              'arrow-end': 'block'
+                              'arrow-end': 'block',
+                              // style symbol types
+                              'symbols': {
+                                'start': {
+                                  'font-color': 'red',
+                                  'element-color': 'green',
+                                  'fill': 'yellow'
+                                }
+                              },
+                              // even flowstate support ;-)
+                              'flowstate' : {
+                                'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
+                                'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
+                                'future' : { 'fill' : '#FFFF99'},
+                                'request' : { 'fill' : 'blue'},
+                                'invalid': {'fill' : '#444444'},
+                                'approved' : { 'fill' : '#58C4A3', 'font-size' : 12, 'yes-text' : 'APPROVED', 'no-text' : 'n/a' },
+                                'rejected' : { 'fill' : '#C45879', 'font-size' : 12, 'yes-text' : 'n/a', 'no-text' : 'REJECTED' }
+                              }
                             });
 &lt;/script&gt;
 </pre>
 
-</p>
+      <section id="demo2">
+        <table align="center" class="inner">
+          <tr>
+            <td>
+            <h3>Demo 2 with color coding (flowstate). Try editing me below</h3>
+            <div class="editor-wrapper">
+<div class="editor editor2">st=>start: Start|past:>http://www.google.com[blank]
+e=>end: Ende|future:>http://www.google.com
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes 
+or No?|approved:>http://www.google.com
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|future
+
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->sub1(left)->op1
+c2(yes)->io->e
+c2(no)->op2->e</div>
+           </div>
+           <!--   Theme:
+            <select class="theme">
+              <option value="simple">Simple</option>
+              <option value="hand" selected>Hand drawn</option>
+            </select> -->
+            </td>
+            <td class="diagram diagram2">This should be a diagram! If you don't see it you need Javascript enabled</td>
+          </tr>
+        </table>
+
       </section>
-      </div>
 
     <footer>
       <hr />
@@ -123,11 +171,11 @@ You can parse the text:
  
     <script type="text/javascript">
 
-      function setup_editor(div) {
+      function setup_editor(div, nr) {
 
-        var editor_div = div.find(".editor");
-        var diagram_div = div.find(".diagram");
-        var theme_div = div.find(".theme");
+        var editor_div = div.find(".editor" + nr);
+        var diagram_div = div.find(".diagram" + nr);
+        var theme_div = div.find(".theme" + nr);
 
         // Setup the editor diagram
         var editor = ace.edit(editor_div.get(0));
@@ -148,7 +196,20 @@ You can parse the text:
             diagram_div.html('');
 
             // Draw
-            diagram.drawSVG(diagram_div.get(0));
+            if (nr === 1) {
+              diagram.drawSVG(diagram_div.get(0));
+            } else if (nr === 2) {
+              diagram.drawSVG(diagram_div.get(0), {
+                'flowstate' : {
+                  'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
+                  'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},
+                  'future' : { 'fill' : '#FFFF99'},
+                  'invalid': {'fill' : '#444444'},
+                  'approved' : { 'fill' : '#58C4A3', 'font-size' : 12, 'yes-text' : 'APPROVED', 'no-text' : 'n/a' },
+                  'rejected' : { 'fill' : '#C45879', 'font-size' : 12, 'yes-text' : 'n/a', 'no-text' : 'REJECTED' }
+                }
+              });
+            }
 
           } catch(err) {
             var annotation = {
@@ -169,10 +230,11 @@ You can parse the text:
 
       $(document).ready(function() {
         // Example diagrams
-        //$('.diagram').sequenceDiagram();
-
+        
         // Setup all the editors
-        setup_editor($('#demo'));
+        setup_editor($('#demo1'), 1);
+
+        setup_editor($('#demo2'), 2);
       });
     </script>
 
