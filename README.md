@@ -48,6 +48,7 @@ and then
                                 'yes-text': 'yes',
                                 'no-text': 'no',
                                 'arrow-end': 'block',
+                                // style symbol types
                                 'symbols': {
                                     'start': {
                                       'font-color': 'red',
@@ -55,6 +56,7 @@ and then
                                       'fill': 'yellow'
                                     }
                                 },
+                                // even flowstate support ;-)
                                 'flowstate' : {
                                     // 'past' : { 'fill' : '#CCCCCC', 'font-size' : 12},
                                     // 'current' : {'fill' : 'yellow', 'font-color' : 'red', 'font-weight' : 'bold'},

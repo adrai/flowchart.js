@@ -16,7 +16,6 @@ var o = {
   'yes-text': 'yes',
   'no-text': 'no',
   'arrow-end': 'block',
-  'className' : 'flowchart',
   'symbols': {
     'start': {},
     'end': {},
