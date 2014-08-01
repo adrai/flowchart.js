@@ -1,4 +1,4 @@
-// flowchart, v1.3.0
+// flowchart, v1.3.1
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -104,6 +104,7 @@
     'yes-text': 'yes',
     'no-text': 'no',
     'arrow-end': 'block',
+    'class': 'flowchart',
     'symbols': {
       'start': {},
       'end': {},
@@ -452,6 +453,8 @@
     this.text = this.chart.paper.text(0, 0, options.text);
     //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
     if (options.key) { this.text.node.id = options.key + 't'; }
+    this.text.node.setAttribute('class', this.getAttr('class') + 't');
+    
     this.text.attr({
       'text-anchor': 'start',
       'x'          : this.getAttr('text-margin'),
@@ -469,6 +472,7 @@
   
     if (options.link) { this.text.attr('href', options.link); }
     if (options.target) { this.text.attr('target', options.target); }
+  
     var maxWidth = this.getAttr('maxWidth');
     if (maxWidth) {
       // using this approach: http://stackoverflow.com/a/3153457/22466
@@ -489,17 +493,19 @@
     this.group.push(this.text);
   
     if (symbol) {
-    var tmpMargin = this.getAttr('text-margin');
-    
-    symbol.attr({
-      'fill' : this.getAttr('fill'),
-      'stroke' : this.getAttr('element-color'),
-      'stroke-width' : this.getAttr('line-width'),
-      'width' : this.text.getBBox().width + 2 * tmpMargin,
-      'height' : this.text.getBBox().height + 2 * tmpMargin
-    });
+      var tmpMargin = this.getAttr('text-margin');
+      
+      symbol.attr({
+        'fill' : this.getAttr('fill'),
+        'stroke' : this.getAttr('element-color'),
+        'stroke-width' : this.getAttr('line-width'),
+        'width' : this.text.getBBox().width + 2 * tmpMargin,
+        'height' : this.text.getBBox().height + 2 * tmpMargin
+      });
   
-    if (options.link) { symbol.attr('href', options.link); }
+      symbol.node.setAttribute('class', this.getAttr('class'));
+  
+      if (options.link) { symbol.attr('href', options.link); }
       if (options.target) { symbol.attr('target', options.target); }
       if (options.key) { symbol.node.id = options.key; }
   
@@ -987,6 +993,7 @@
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
     if (options.key) { symbol.node.id = options.key; }
+    symbol.node.setAttribute('class', this.getAttr('class'));
   
     this.text.attr({
       y: symbol.getBBox().height/2
@@ -1075,6 +1082,7 @@
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
     if (options.key) { symbol.node.id = options.key; }
+    symbol.node.setAttribute('class', this.getAttr('class'));
   
     this.text.attr({
       y: symbol.getBBox().height/2
