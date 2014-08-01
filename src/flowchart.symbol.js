@@ -11,6 +11,8 @@ function Symbol(chart, options, symbol) {
   this.text = this.chart.paper.text(0, 0, options.text);
   //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
   if (options.key) { this.text.node.id = options.key + 't'; }
+  this.text.node.setAttribute('class', this.getAttr('class') + 't');
+  
   this.text.attr({
     'text-anchor': 'start',
     'x'          : this.getAttr('text-margin'),
@@ -28,6 +30,7 @@ function Symbol(chart, options, symbol) {
 
   if (options.link) { this.text.attr('href', options.link); }
   if (options.target) { this.text.attr('target', options.target); }
+
   var maxWidth = this.getAttr('maxWidth');
   if (maxWidth) {
     // using this approach: http://stackoverflow.com/a/3153457/22466
@@ -48,17 +51,19 @@ function Symbol(chart, options, symbol) {
   this.group.push(this.text);
 
   if (symbol) {
-  var tmpMargin = this.getAttr('text-margin');
-  
-  symbol.attr({
-    'fill' : this.getAttr('fill'),
-    'stroke' : this.getAttr('element-color'),
-    'stroke-width' : this.getAttr('line-width'),
-    'width' : this.text.getBBox().width + 2 * tmpMargin,
-    'height' : this.text.getBBox().height + 2 * tmpMargin
-  });
+    var tmpMargin = this.getAttr('text-margin');
+    
+    symbol.attr({
+      'fill' : this.getAttr('fill'),
+      'stroke' : this.getAttr('element-color'),
+      'stroke-width' : this.getAttr('line-width'),
+      'width' : this.text.getBBox().width + 2 * tmpMargin,
+      'height' : this.text.getBBox().height + 2 * tmpMargin
+    });
 
-  if (options.link) { symbol.attr('href', options.link); }
+    symbol.node.setAttribute('class', this.getAttr('class'));
+
+    if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
     if (options.key) { symbol.node.id = options.key; }
 

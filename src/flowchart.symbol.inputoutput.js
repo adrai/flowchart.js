@@ -31,6 +31,7 @@ function InputOutput(chart, options) {
   if (options.link) { symbol.attr('href', options.link); }
   if (options.target) { symbol.attr('target', options.target); }
   if (options.key) { symbol.node.id = options.key; }
+  symbol.node.setAttribute('class', this.getAttr('class'));
 
   this.text.attr({
     y: symbol.getBBox().height/2

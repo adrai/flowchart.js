@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>flowchart.js · Playground</title>
+        <style type="text/css">
+          .end-element { background-color : #FFCCFF; }
+        </style>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="../bin/flowchart-latest.js"></script>
@@ -43,6 +46,9 @@
                           'font-color': 'red',
                           'element-color': 'green',
                           'fill': 'yellow'
+                        },
+                        'end':{
+                          'class': 'end-element'
                         }
                       },
                       'flowstate' : {
@@ -67,7 +73,7 @@
     <body>
         <div><textarea id="code" style="width: 100%;" rows="11">
 st=>start: Start|past:>http://www.google.com[blank]
-e=>end: Ende|future:>http://www.google.com
+e=>end: Ende:>http://www.google.com
 op1=>operation: My Operation|past
 op2=>operation: Stuff|current
 sub1=>subroutine: My Subroutine|invalid

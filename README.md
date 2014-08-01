@@ -54,6 +54,9 @@ and then
                                       'font-color': 'red',
                                       'element-color': 'green',
                                       'fill': 'yellow'
+                                    },
+                                    'end':{
+                                        'class': 'end-element'
                                     }
                                 },
                                 // even flowstate support ;-)
