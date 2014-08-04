@@ -342,6 +342,20 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x + lineLength/2;
+  } else if ((origin === 'left') && isOnSameColumn && isUpper) {
+    var diffX = left.x - lineLength/2;
+    if (symbolLeft.x < left.x) {
+      diffX = symbolLeft.x - lineLength/2;
+    }
+    line = drawLine(this.chart, left, [
+      {x: diffX, y: left.y},
+      {x: diffX, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y}
+    ], text);
+    this.leftStart = true;
+    symbol.topEnd = true;
+    maxX = left.x;
   } else if ((origin === 'left')) {
     line = drawLine(this.chart, left, [
       {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: left.y},

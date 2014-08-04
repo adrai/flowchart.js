@@ -69,8 +69,8 @@ FlowChart.prototype.render = function() {
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];
-    symbol.shiftX(this.options.x + (maxWidth - symbol.width)/2);
-    symbol.shiftY(this.options.y + (maxHeight - symbol.height)/2);
+    symbol.shiftX(this.options.x + (maxWidth - symbol.width)/2 + this.options['line-width']);
+    symbol.shiftY(this.options.y + (maxHeight - symbol.height)/2 + this.options['line-width']);
   }
 
   this.start.render();

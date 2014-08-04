@@ -1,3 +1,7 @@
+### v1.3.2
+
+- Optimized a bit for left support [#26](https://github.com/adrai/flowchart.js/issues/26)
+
 ### v1.3.1
 
 - Added support for css class [#24](https://github.com/adrai/flowchart.js/pull/24)
