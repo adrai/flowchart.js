@@ -104,8 +104,8 @@ header h2 {
 }
 
 .editor { 
-    width: 380px;
-    height: 210px;
+    width: 400px;
+    height: 280px;
     font-size: 14px;
 }
 
@@ -120,7 +120,7 @@ header h2 {
 
 .inner {
   position: relative;
-  width: 940px;
+  width: 1040px;
   margin: 0 auto;
 }
 
