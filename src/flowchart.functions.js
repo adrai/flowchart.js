@@ -108,7 +108,7 @@ function drawLine(chart, from, to, text) {
     textPath.attr({
       'text-anchor': 'start',
       'font-size': chart.options['font-size'],
-      stroke: chart.options['font-color'],
+      'fill': chart.options['font-color'],
       x: x,
       y: y
     });

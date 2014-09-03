@@ -1,14 +1,18 @@
+### v1.3.3
+
+- make text better readable [#31](https://github.com/adrai/flowchart.js/issues/31)
+
 ### v1.3.2
 
-- Optimized a bit for left support [#26](https://github.com/adrai/flowchart.js/issues/26)
+- optimized a bit for left support [#26](https://github.com/adrai/flowchart.js/issues/26)
 
 ### v1.3.1
 
-- Added support for css class [#24](https://github.com/adrai/flowchart.js/pull/24)
+- added support for css class [#24](https://github.com/adrai/flowchart.js/pull/24)
 
 ### v1.3.0
 
-- Added support for color coding (flowstate) [#23](https://github.com/adrai/flowchart.js/pull/23) thanks to [Stwissel](https://github.com/Stwissel)
+- added support for color coding (flowstate) [#23](https://github.com/adrai/flowchart.js/pull/23) thanks to [Stwissel](https://github.com/Stwissel)
 
 ### v1.2.12
 
