@@ -16,7 +16,7 @@ function Symbol(chart, options, symbol) {
   this.text.attr({
     'text-anchor': 'start',
     'x'          : this.getAttr('text-margin'),
-    'fill'       : this.getAttr['font-color'],
+    'fill'       : this.getAttr('font-color'),
     'font-size'  : this.getAttr('font-size')
   });
 

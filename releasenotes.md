@@ -1,3 +1,8 @@
+### v1.3.4
+
+- make text better readable [#31](https://github.com/adrai/flowchart.js/issues/31)
+- sorry
+
 ### v1.3.3
 
 - make text better readable [#31](https://github.com/adrai/flowchart.js/issues/31)
