@@ -1,4 +1,4 @@
-// flowchart, v1.3.2
+// flowchart, v1.3.4
 // Copyright (c)2014 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -280,7 +280,7 @@
       textPath.attr({
         'text-anchor': 'start',
         'font-size': chart.options['font-size'],
-        stroke: chart.options['font-color'],
+        'fill': chart.options['font-color'],
         x: x,
         y: y
       });
@@ -458,7 +458,7 @@
     this.text.attr({
       'text-anchor': 'start',
       'x'          : this.getAttr('text-margin'),
-      'stroke'     : this.getAttr('font-color'),
+      'fill'       : this.getAttr('font-color'),
       'font-size'  : this.getAttr('font-size')
     });
   
