@@ -1,7 +1,7 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
-  var component = require('./component.json');
+  var component = require('./bower.json');
   // before release:
   // update component.js, package.json
   // after release:
