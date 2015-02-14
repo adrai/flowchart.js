@@ -1,5 +1,5 @@
-// flowchart, v1.3.4
-// Copyright (c)2014 Adriano Raiano (adrai).
+// flowchart, v1.4.0
+// Copyright (c)2015 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 (function() {
@@ -105,6 +105,7 @@
     'no-text': 'no',
     'arrow-end': 'block',
     'class': 'flowchart',
+    'scale': 1,
     'symbols': {
       'start': {},
       'end': {},
@@ -431,7 +432,10 @@
       }
     }
   
-    this.paper.setSize(maxX + this.options['line-width'], maxY + this.options['line-width']);
+    var scale = this.options['scale'];
+    var lineWidth = this.options['line-width'];
+    this.paper.setSize((maxX * scale) + (lineWidth * scale), (maxY * scale) + (lineWidth * scale));
+    this.paper.setViewBox(0, 0, maxX + lineWidth, maxY + lineWidth, true);
   };
   
   FlowChart.prototype.clean = function() {
