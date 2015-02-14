@@ -1,3 +1,7 @@
+### v1.4.0
+
+- Support scale option [#52](https://github.com/adrai/flowchart.js/pull/52) thanks to [hikarock](https://github.com/hikarock)
+
 ### v1.3.4
 
 - make text better readable [#31](https://github.com/adrai/flowchart.js/issues/31)
