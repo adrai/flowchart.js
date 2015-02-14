@@ -48,6 +48,7 @@ and then
                                 'yes-text': 'yes',
                                 'no-text': 'no',
                                 'arrow-end': 'block',
+                                'scale': 1,
                                 // style symbol types
                                 'symbols': {
                                     'start': {
