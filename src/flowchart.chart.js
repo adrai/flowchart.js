@@ -98,7 +98,10 @@ FlowChart.prototype.render = function() {
     }
   }
 
-  this.paper.setSize(maxX + this.options['line-width'], maxY + this.options['line-width']);
+  var scale = this.options['scale'];
+  var lineWidth = this.options['line-width'];
+  this.paper.setSize((maxX * scale) + (lineWidth * scale), (maxY * scale) + (lineWidth * scale));
+  this.paper.setViewBox(0, 0, maxX + lineWidth, maxY + lineWidth, true);
 };
 
 FlowChart.prototype.clean = function() {
