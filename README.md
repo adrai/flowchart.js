@@ -1,3 +1,5 @@
+https://img.shields.io/badge/js.org-flowchart-ffb400.svg?style=flat-square
+
 #Example
 
 [example](https://github.com/adrai/flowchart.js/blob/master/example/index.html)
