@@ -1,4 +1,4 @@
-https://img.shields.io/badge/js.org-flowchart-ffb400.svg?style=flat-square
+[![JS.ORG](https://img.shields.io/badge/js.org-flowchart-ffb400.svg?style=flat-square)](http://js.org)
 
 #Example
 
