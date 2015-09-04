@@ -1,7 +1,7 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
-  var component = require('./bower.json');
+  var component = require('./package.json');
   // before release:
   // update component.js, package.json
   // after release:
@@ -69,32 +69,72 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        banner: '<%= meta.banner %>'
+        banner: '<%= meta.banner %>',
       },
       // bin: {
       //   src: ['bin/flowchart-latest.js'],
       //   dest: 'bin/flowchart-<%= meta.version %>.min.js'
       // },
+      // release: {
+      //   src: ['bin/flowchart-latest.js'],
+      //   dest: 'release/flowchart-<%= meta.version %>.min.js',
+      //   options: {
+      //     sourceMap: true,
+      //     sourceMapName: 'release/flowchart-<%= meta.version %>.min.map'
+      //   }
+      // },
+      // amd: {
+      //   src: ['bin/flowchart.amd-latest.js'],
+      //   dest: 'release/flowchart.amd-<%= meta.version %>.min.js',
+      //   options: {
+      //     sourceMap: true,
+      //     sourceMapName: 'release/flowchart.amd-<%= meta.version %>.min.map'
+      //   }
+      // }
       release: {
         src: ['bin/flowchart-latest.js'],
-        dest: 'release/flowchart-<%= meta.version %>.min.js'
+        dest: 'release/flowchart.min.js',
+        options: {
+          sourceMap: true,
+          sourceMapName: 'release/flowchart.min.map'
+        }
       },
       amd: {
         src: ['bin/flowchart.amd-latest.js'],
-        dest: 'release/flowchart.amd-<%= meta.version %>.min.js'
+        dest: 'release/flowchart.amd.min.js',
+        options: {
+          sourceMap: true,
+          sourceMapName: 'release/flowchart.amd.min.map'
+        }
       }
     },
 
     copy: {
       js: {
+        // files: [
+        //   { expand: true, cwd: 'bin/', src: ['*.js'], dest: 'release/',
+        //     rename: function(dest, src) { console.log(src + ' -> ' + dest);
+        //       if (src == 'flowchart-latest.js') {
+        //         dest += 'flowchart-' + component.version + '.js';
+        //       }
+        //       if (src == 'flowchart.amd-latest.js') {
+        //         dest += 'flowchart.amd-' + component.version + '.js';
+        //       }
+        //       return dest;
+        //     }
+        //   },
+        //   { expand: true, cwd: 'bin/', src: ['flowchart-latest.js'], dest: 'site/'}
+        //   //'bin/': ['bin/flowchart-latest.js', 'bin/flowchart.amd-latest.js'],
+        //   //'release/': ['bin/flowchart-latest.js', 'bin/flowchart.amd-latest.js']
+        // ]
         files: [
           { expand: true, cwd: 'bin/', src: ['*.js'], dest: 'release/',
             rename: function(dest, src) { console.log(src + ' -> ' + dest);
               if (src == 'flowchart-latest.js') {
-                dest += 'flowchart-' + component.version + '.js';
+                dest += 'flowchart.js';
               }
               if (src == 'flowchart.amd-latest.js') {
-                dest += 'flowchart.amd-' + component.version + '.js';
+                dest += 'flowchart.amd.js';
               }
               return dest;
             }
@@ -107,28 +147,29 @@ module.exports = function(grunt) {
     },
 
     compress: {
-      zip: {
-        options: {
-          archive: 'release/flowchart-<%= meta.version %>.zip',
-          mode: 'zip',
-          level: 1
-        },
-        files: [
-          {
-            expand: true,
-            flatten: true,
-            cwd: 'release/',
-            src: [
-              'flowchart-<%= meta.version %>.js',
-              'flowchart-<%= meta.version %>.min.js'
-            ],
-            dest: 'flowchart-<%= meta.version %>/'
-          }
-        ]
-      },
+      // zip: {
+      //   options: {
+      //     archive: 'release/flowchart-<%= meta.version %>.zip',
+      //     mode: 'zip',
+      //     level: 1
+      //   },
+      //   files: [
+      //     {
+      //       expand: true,
+      //       flatten: true,
+      //       cwd: 'release/',
+      //       src: [
+      //         'flowchart-<%= meta.version %>.js',
+      //         'flowchart-<%= meta.version %>.min.js',
+      //         'flowchart-<%= meta.version %>.min.map'
+      //       ],
+      //       dest: 'flowchart-<%= meta.version %>/'
+      //     }
+      //   ]
+      // },
       'zip-latest': {
         options: {
-          archive: 'release/flowchart-latest.zip',
+          archive: 'release/flowchart.zip',
           mode: 'zip',
           level: 1
         },
@@ -138,35 +179,37 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'release/',
             src: [
-              'flowchart-<%= meta.version %>.js',
-              'flowchart-<%= meta.version %>.min.js'
+              'flowchart.js',
+              'flowchart.min.js',
+              'flowchart.min.map'
             ],
-            dest: 'flowchart-latest/'
+            dest: 'flowchart/'
           }
         ]
       },
-      zipamd: {
-        options: {
-          archive: 'release/flowchart.amd-<%= meta.version %>.zip',
-          mode: 'zip',
-          level: 1
-        },
-        files: [
-          {
-            expand: true,
-            flatten: true,
-            cwd: 'release/',
-            src: [
-              'flowchart.amd-<%= meta.version %>.js',
-              'flowchart.amd-<%= meta.version %>.min.js'
-            ],
-            dest: 'flowchart.amd-<%= meta.version %>/'
-          }
-        ]
-      },
+      // zipamd: {
+      //   options: {
+      //     archive: 'release/flowchart.amd-<%= meta.version %>.zip',
+      //     mode: 'zip',
+      //     level: 1
+      //   },
+      //   files: [
+      //     {
+      //       expand: true,
+      //       flatten: true,
+      //       cwd: 'release/',
+      //       src: [
+      //         'flowchart.amd-<%= meta.version %>.js',
+      //         'flowchart.amd-<%= meta.version %>.min.js',
+      //         'flowchart.amd-<%= meta.version %>.min.map'
+      //       ],
+      //       dest: 'flowchart.amd-<%= meta.version %>/'
+      //     }
+      //   ]
+      // },
       'zipamd-latest': {
         options: {
-          archive: 'release/flowchart.amd-latest.zip',
+          archive: 'release/flowchart.amd.zip',
           mode: 'zip',
           level: 1
         },
@@ -176,10 +219,11 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'release/',
             src: [
-              'flowchart.amd-<%= meta.version %>.js',
-              'flowchart.amd-<%= meta.version %>.min.js'
+              'flowchart.amd.js',
+              'flowchart.amd.min.js',
+              'flowchart.amd.min.map'
             ],
-            dest: 'flowchart-latest/'
+            dest: 'flowchart/'
           }
         ]
       }

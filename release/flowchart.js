@@ -1,18 +1,8 @@
-// flowchart, v1.3.3
-// Copyright (c)2014 Adriano Raiano (adrai).
+// flowchart, v1.4.1
+// Copyright (c)2015 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
-(function (root, factory) {
-  if (typeof exports === 'object') {
-
-    module.exports = factory();
-
-  } else if (typeof define === 'function' && define.amd) {
-
-    define([], factory);
-
-  }
-}(this, function () {
+(function() {
 
   // add indexOf to non ECMA-262 standard compliant browsers
   if (!Array.prototype.indexOf) {
@@ -88,6 +78,14 @@
   var root = this,
       flowchart = {};
 
+  // Export the flowchart object for **CommonJS**. 
+  // If we're not in CommonJS, add `flowchart` to the
+  // global object or to jquery.
+  if (typeof module !== 'undefined' && module.exports) {
+     module.exports = flowchart;
+  } else {
+    root.flowchart = root.flowchart || flowchart;
+  }
   // defaults
   var o = {
     'x': 0,
@@ -107,6 +105,7 @@
     'no-text': 'no',
     'arrow-end': 'block',
     'class': 'flowchart',
+    'scale': 1,
     'symbols': {
       'start': {},
       'end': {},
@@ -433,7 +432,10 @@
       }
     }
   
-    this.paper.setSize(maxX + this.options['line-width'], maxY + this.options['line-width']);
+    var scale = this.options['scale'];
+    var lineWidth = this.options['line-width'];
+    this.paper.setSize((maxX * scale) + (lineWidth * scale), (maxY * scale) + (lineWidth * scale));
+    this.paper.setViewBox(0, 0, maxX + lineWidth, maxY + lineWidth, true);
   };
   
   FlowChart.prototype.clean = function() {
@@ -460,7 +462,7 @@
     this.text.attr({
       'text-anchor': 'start',
       'x'          : this.getAttr('text-margin'),
-      'fill'       : this.getAttr['font-color'],
+      'fill'       : this.getAttr('font-color'),
       'font-size'  : this.getAttr('font-size')
     });
   
@@ -1418,6 +1420,4 @@
   // public api interface
   flowchart.parse = parse;
 
-  return flowchart;
-
-}));
+})();
