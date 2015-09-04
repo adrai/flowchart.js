@@ -25,8 +25,8 @@
         </a>
 
         <ul>
-          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart-latest.zip">ZIP File <strong>Download</strong></a></li>
-          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.amd-latest.zip">ZIP File <strong>AMD version</strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.zip">ZIP File <strong>Download</strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.amd.zip">ZIP File <strong>AMD version</strong></a></li>
           <li><a href="https://github.com/adrai/flowchart.js">View On <strong>GitHub</strong></a></li>
         </ul>
     </header>
@@ -43,7 +43,7 @@
 e=>end:>http://www.google.com
 op1=>operation: My Operation
 sub1=>subroutine: My Subroutine
-cond=>condition: Yes 
+cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
 
@@ -80,7 +80,7 @@ You can parse the text:
   diagram.drawSVG('diagram');
 
   // you can also try to pass options:
-  
+
   diagram.drawSVG('diagram', {
                               'x': 0,
                               'y': 0,
@@ -132,7 +132,7 @@ e=>end: Ende|future:>http://www.google.com
 op1=>operation: My Operation|past
 op2=>operation: Stuff|current
 sub1=>subroutine: My Subroutine|invalid
-cond=>condition: Yes 
+cond=>condition: Yes
 or No?|approved:>http://www.google.com
 c2=>condition: Good idea|rejected
 io=>inputoutput: catch something...|future
@@ -172,7 +172,7 @@ c2(no)->op2->e</div>
 
     <script src="flowchart-latest.js"></script>
     <script src="svginnerhtml.min.js"></script>
- 
+
     <script type="text/javascript">
 
       function setup_editor(div, nr) {
@@ -229,12 +229,12 @@ c2(no)->op2->e</div>
             editor.getSession().setAnnotations([annotation]);
             throw err;
           }
-        }        
+        }
       }
 
       $(document).ready(function() {
         // Example diagrams
-        
+
         // Setup all the editors
         setup_editor($('#demo1'), 1);
 
