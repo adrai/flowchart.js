@@ -94,7 +94,7 @@ Symbol.prototype.getAttr = function(attName) {
 };
 
 Symbol.prototype.initialize = function() {
-  this.group.transform('t' + this.getAttr('line-width') + ',' + this.getAttr('line-width'));
+  this.group.transforma('t' + this.getAttr('line-width') + ',' + this.getAttr('line-width'));
 
   this.width = this.group.getBBox().width;
   this.height = this.group.getBBox().height;
@@ -114,19 +114,19 @@ Symbol.prototype.getY = function() {
 };
 
 Symbol.prototype.shiftX = function(x) {
-  this.group.transform('t' + (this.getX() + x) + ',' + this.getY());
+  this.group.transforma('t' + (this.getX() + x) + ',' + this.getY());
 };
 
 Symbol.prototype.setX = function(x) {
-  this.group.transform('t' + x + ',' + this.getY());
+  this.group.transforma('t' + x + ',' + this.getY());
 };
 
 Symbol.prototype.shiftY = function(y) {
-  this.group.transform('t' + this.getX() + ',' + (this.getY() + y));
+  this.group.transforma('t' + this.getX() + ',' + (this.getY() + y));
 };
 
 Symbol.prototype.setY = function(y) {
-  this.group.transform('t' + this.getX() + ',' + y);
+  this.group.transforma('t' + this.getX() + ',' + y);
 };
 
 Symbol.prototype.getTop = function() {
@@ -377,8 +377,8 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
           intersections,
           inter;
 
-      var ePath = otherLine.attr('path'),
-          lPath = line.attr('path');
+      var ePath = otherLine.attr('d'),
+          lPath = line.attr('d');
 
       for (var iP = 0, lenP = ePath.length - 1; iP < lenP; iP++) {
         var newPath = [];
@@ -410,13 +410,13 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
                 lPath.splice(lP + 1, 0, newSegment);
                 newSegment = ['C', res.x + lineWith * 2,  line2_from_y, res.x, line2_from_y - lineWith * 4, res.x - lineWith * 2, line2_from_y];
                 lPath.splice(lP + 2, 0, newSegment);
-                line.attr('path', lPath);
+                line.attr('d', lPath);
               } else {
                 newSegment = ['L', res.x - lineWith * 2,  line2_from_y];
                 lPath.splice(lP + 1, 0, newSegment);
                 newSegment = ['C', res.x - lineWith * 2,  line2_from_y, res.x, line2_from_y - lineWith * 4, res.x + lineWith * 2, line2_from_y];
                 lPath.splice(lP + 2, 0, newSegment);
-                line.attr('path', lPath);
+                line.attr('d', lPath);
               }
             } else {
               if (line2_from_y > line2_to_y) {
@@ -424,13 +424,13 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
                 lPath.splice(lP + 1, 0, newSegment);
                 newSegment = ['C', line2_from_x, res.y + lineWith * 2, line2_from_x + lineWith * 4, res.y, line2_from_x, res.y - lineWith * 2];
                 lPath.splice(lP + 2, 0, newSegment);
-                line.attr('path', lPath);
+                line.attr('d', lPath);
               } else {
                 newSegment = ['L', line2_from_x, res.y - lineWith * 2];
                 lPath.splice(lP + 1, 0, newSegment);
                 newSegment = ['C', line2_from_x, res.y - lineWith * 2, line2_from_x + lineWith * 4, res.y, line2_from_x, res.y + lineWith * 2];
                 lPath.splice(lP + 2, 0, newSegment);
-                line.attr('path', lPath);
+                line.attr('d', lPath);
               }
             }
 
