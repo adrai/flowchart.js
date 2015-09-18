@@ -74,6 +74,10 @@ Raphael.prototype.setViewBox = function(x, y, w, h, fit){
 	this.paper.viewbox(x, y, w, h)  // , fit
 }
 
+Raphael.prototype.type = function(){
+	return "svg.js"
+}
+
 Raphael.registerFont = function(font){
 	//
 }
