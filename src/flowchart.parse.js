@@ -107,7 +107,7 @@ function parse(input) {
   for (var l = 1, len = lines.length; l < len;) {
     var currentLine = lines[l];
 
-    if (currentLine.indexOf(': ') < 0 && currentLine.indexOf('(') < 0 && currentLine.indexOf(')') < 0 && currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
+    if (currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
       lines[l - 1] += '\n' + currentLine;
       lines.splice(l, 1);
       len--;
@@ -159,18 +159,18 @@ function parse(input) {
 
       if (symbol.symbolType.indexOf(': ') >= 0) {
         sub = symbol.symbolType.split(': ');
-        symbol.symbolType = sub[0];
-        symbol.text = sub[1];
+        symbol.symbolType = sub.shift();
+        symbol.text = sub.join(': ');
       }
 
       if (symbol.text && symbol.text.indexOf(':>') >= 0) {
         sub = symbol.text.split(':>');
-        symbol.text = sub[0];
-        symbol.link = sub[1];
+        symbol.text = sub.shift();
+        symbol.link = sub.join(':>');
       } else if (symbol.symbolType.indexOf(':>') >= 0) {
         sub = symbol.symbolType.split(':>');
-        symbol.symbolType = sub[0];
-        symbol.link = sub[1];
+        symbol.symbolType = sub.shift;
+        symbol.link = sub.join(':>');
       }
 
       if (symbol.symbolType.indexOf('\n') >= 0) {
@@ -192,8 +192,8 @@ function parse(input) {
       if (symbol.text) {
         if (symbol.text.indexOf('|') >= 0) {
           var txtAndState = symbol.text.split('|');
-          symbol.text = txtAndState[0];
-          symbol.flowstate = txtAndState[1].trim();
+          symbol.flowstate = txtAndState.pop().trim();
+          symbol.text = txtAndState.join('|');
         }
       }
       /* end of flowstate support */

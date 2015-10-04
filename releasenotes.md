@@ -1,3 +1,7 @@
+### v1.4.2
+
+- optimized handling of special characters thanks to the advice of [Badhumvee](https://github.com/Badhumvee)
+
 ### v1.4.0
 
 - Support scale option [#52](https://github.com/adrai/flowchart.js/pull/52) thanks to [hikarock](https://github.com/hikarock)

@@ -20,22 +20,22 @@ and then
 ```html
 <div id="diagram">Diagram will be placed here</div>
 <script src="flowchart.js"></script>
-<script> 
-  var diagram = flowchart.parse('st=>start: Start:>http://www.google.com[blank]\n' + 
-                                'e=>end:>http://www.google.com\n' + 
-                                'op1=>operation: My Operation\n' + 
-                                'sub1=>subroutine: My Subroutine\n' + 
-                                'cond=>condition: Yes \n' + 
-                                'or No?\n:>http://www.google.com' + 
-                                'io=>inputoutput|request: catch something...\n' + 
+<script>
+  var diagram = flowchart.parse('st=>start: Start:>http://www.google.com[blank]\n' +
+                                'e=>end:>http://www.google.com\n' +
+                                'op1=>operation: My Operation\n' +
+                                'sub1=>subroutine: My Subroutine\n' +
+                                'cond=>condition: Yes \n' +
+                                'or No?\n:>http://www.google.com' +
+                                'io=>inputoutput|request: catch something...\n' +
                                 '' +
-                                'st->op1->cond\n' + 
+                                'st->op1->cond\n' +
                                 'cond(yes)->io->e\n' + // conditions can also be redirected like cond(yes, bottom) or cond(yes, right)
                                 'cond(no)->sub1(right)->op1');// the other symbols too...
   diagram.drawSVG('diagram');
 
   // you can also try to pass options:
-  
+
   diagram.drawSVG('diagram', {
                                 'x': 0,
                                 'y': 0,
@@ -76,6 +76,8 @@ and then
 </script>
 ```
 
+#Advice
+Symbols that should possibly not be used in the text: '=>' and '->' and ':>' and '|'
 
 #Contributors
 
