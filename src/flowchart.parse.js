@@ -169,7 +169,7 @@ function parse(input) {
         symbol.link = sub.join(':>');
       } else if (symbol.symbolType.indexOf(':>') >= 0) {
         sub = symbol.symbolType.split(':>');
-        symbol.symbolType = sub.shift;
+        symbol.symbolType = sub.shift();
         symbol.link = sub.join(':>');
       }
 
