@@ -222,7 +222,7 @@ c2(no)->op2->e</div>
               row: 0,
               text: err.message
             };
-            if (err instanceof Diagram.ParseError) {
+            if (err instanceof diagram.ParseError) {
               annotation.row    = err.loc.first_line - 1;
               annotation.column = err.loc.first_column;
             }
