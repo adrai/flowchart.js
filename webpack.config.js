@@ -1,7 +1,14 @@
 var path = require('path');
 var webpack = require('webpack');
+var moment = require('moment');
 
-var bundlename = 'flowchart';
+var component = require('./package.json');
+var banner =
+	'// ' + component.name + ', v' + component.version + '\n' +
+	'// Copyright (c)' + moment().format('yyyy') + ' Adriano Raiano (adrai).\n' +
+	'// Distributed under MIT license\n' +
+	'// http://adrai.github.io/flowchart.js\n';
+
 var NODE_ENV = process.env.NODE_ENV || 'development';
 var defines = new webpack.DefinePlugin({
 	'process.env': {
@@ -10,13 +17,14 @@ var defines = new webpack.DefinePlugin({
 });
 
 var config = {
+	devtool: 'source-map', // always build source map
 	entry: [
 		'webpack-hot-middleware/client',
 		'./index'
 	],
 	output: {
 		path: path.join(__dirname, 'build'),
-		filename: bundlename + '.js',
+		filename: component.name + '.js',
 		publicPath: '/build/'
 	},
 	plugins: [
@@ -24,19 +32,6 @@ var config = {
 		new webpack.NoErrorsPlugin(),
 		defines
 	],
-	module: {
-		loaders: [
-			{
-				test: /\.json$/,
-				loader: 'json'
-			},
-			{
-				test: /\.js$/,
-				loader: 'babel',
-				exclude: /node_modules/
-			}
-		]
-	},
 	resolve: {
 		extensions: ['', '.js'],
 		modulesDirectories: ['src', 'node_modules'],
@@ -49,15 +44,11 @@ var config = {
 	}
 };
 
-if (NODE_ENV === 'development') {
-	config.devtool = 'source-map';
-}
-
 if (NODE_ENV === 'production') {
 	var minified = process.env.MINIFIED == '1';
-	var filename = minified ? bundlename + '-min.js' : bundlename + '.js';
+	var filename = minified ? component.name + '.min.js' : component.name + '.js';
 	var uglifyOptions = {
-		sourceMap: false,
+		sourceMap: true,
 		comments: false,
 		compressor: {
 			warnings: false,
@@ -65,7 +56,6 @@ if (NODE_ENV === 'production') {
 		}
 	};
 	if (!minified) {
-		uglifyOptions.sourceMap = true;
 		uglifyOptions.beautify = true;
 		uglifyOptions.mangle = false;
 		uglifyOptions.comments = 'all';
@@ -75,10 +65,14 @@ if (NODE_ENV === 'production') {
 		raphael: 'Raphael'
 	};
 	config.output = {
+		devtoolLineToLine: true,
+		sourceMapFilename: filename + '.map',
 		path: path.join(__dirname, 'release'),
-		filename: filename
+		filename: filename,
+		libraryTarget: 'umd'
 	};
 	config.plugins = [
+		new webpack.BannerPlugin(banner, { raw: true, entryOnly: true }),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		defines,
 		new webpack.optimize.UglifyJsPlugin(uglifyOptions)
