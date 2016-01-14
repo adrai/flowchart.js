@@ -44,13 +44,5 @@
     "script"
   ],
   "homepage": "http://flowchart.js.org/",
-  "license": "MIT",
-  "files": [
-    "release/flowchart.js",
-    "release/flowchart.min.js",
-    "release/flowchart.min.map",
-    "release/flowchart.amd.js",
-    "release/flowchart.amd.min.js",
-    "release/flowchart.amd.min.map"
-  ]
+  "license": "MIT"
 }
