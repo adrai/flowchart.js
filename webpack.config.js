@@ -49,16 +49,19 @@ if (NODE_ENV === 'production') {
 	var filename = minified ? component.name + '.min.js' : component.name + '.js';
 	var uglifyOptions = {
 		sourceMap: true,
-		comments: false,
 		compressor: {
 			warnings: false,
 			dead_code: true
+		},
+		output: {
+			preamble: banner,
+			comments: false
 		}
 	};
 	if (!minified) {
 		uglifyOptions.beautify = true;
 		uglifyOptions.mangle = false;
-		uglifyOptions.comments = 'all';
+		uglifyOptions.output.comments = 'all';
 	}
 	config.entry = './index';
 	config.externals = {
@@ -72,7 +75,6 @@ if (NODE_ENV === 'production') {
 		libraryTarget: 'umd'
 	};
 	config.plugins = [
-		new webpack.BannerPlugin(banner, { raw: true, entryOnly: true }),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		defines,
 		new webpack.optimize.UglifyJsPlugin(uglifyOptions)
