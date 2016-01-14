@@ -159,3 +159,9 @@ function checkLineIntersection(line1StartX, line1StartY, line1EndX, line1EndY, l
   // if line1 and line2 are segments, they intersect if both of the above are true
   return result;
 }
+
+module.exports = {
+	drawPath: drawPath,
+	drawLine: drawLine,
+	checkLineIntersection: checkLineIntersection
+};

@@ -1,3 +1,7 @@
+var drawAPI = require('./flowchart.functions');
+var drawLine = drawAPI.drawLine;
+var checkLineIntersection = drawAPI.checkLineIntersection;
+
 function Symbol(chart, options, symbol) {
   this.chart = chart;
   this.group = this.chart.paper.set();
@@ -7,12 +11,12 @@ function Symbol(chart, options, symbol) {
   this.flowstate = (options.flowstate || 'future');
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
-  
+
   this.text = this.chart.paper.text(0, 0, options.text);
   //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
   if (options.key) { this.text.node.id = options.key + 't'; }
   this.text.node.setAttribute('class', this.getAttr('class') + 't');
-  
+
   this.text.attr({
     'text-anchor': 'start',
     'x'          : this.getAttr('text-margin'),
@@ -47,12 +51,12 @@ function Symbol(chart, options, symbol) {
     }
     this.text.attr("text", tempText.substring(1));
   }
-  
+
   this.group.push(this.text);
 
   if (symbol) {
     var tmpMargin = this.getAttr('text-margin');
-    
+
     symbol.attr({
       'fill' : this.getAttr('fill'),
       'stroke' : this.getAttr('element-color'),
@@ -161,7 +165,6 @@ Symbol.prototype.render = function() {
     if (this.next_direction === 'right') {
 
       var rightPoint = this.getRight();
-      var leftPoint = this.next.getLeft();
 
       if (!this.next.isPositioned) {
 
@@ -194,7 +197,6 @@ Symbol.prototype.render = function() {
       }
     } else {
       var bottomPoint = this.getBottom();
-      var topPoint = this.next.getTop();
 
       if (!this.next.isPositioned) {
         this.next.shiftY(this.getY() + this.height + lineLength);
@@ -224,7 +226,6 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
 
   var x = this.getCenter().x,
       y = this.getCenter().y,
-      top = this.getTop(),
       right = this.getRight(),
       bottom = this.getBottom(),
       left = this.getLeft();
@@ -233,7 +234,6 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
       symbolY = symbol.getCenter().y,
       symbolTop = symbol.getTop(),
       symbolRight = symbol.getRight(),
-      symbolBottom = symbol.getBottom(),
       symbolLeft = symbol.getLeft();
 
   var isOnSameColumn = x === symbolX,
@@ -369,13 +369,9 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
   }
 
   if (line) {
-    var self = this;
     for (var l = 0, llen = this.chart.lines.length; l < llen; l++) {
       var otherLine = this.chart.lines[l];
-      var i,
-          len,
-          intersections,
-          inter;
+      var len;
 
       var ePath = otherLine.attr('path'),
           lPath = line.attr('path');
@@ -448,3 +444,5 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     this.chart.maxXFromLine = maxX;
   }
 };
+
+module.exports = Symbol;

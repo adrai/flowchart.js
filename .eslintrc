@@ -1,0 +1,16 @@
+{
+  "extends": "defaults",
+
+  "env": {
+    "browser": true,
+    "node": true
+  },
+
+  "globals": {
+    "$": true
+  },
+
+  "rules": {
+    "no-console": 0
+  }
+}

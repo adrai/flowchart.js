@@ -1,9 +1,14 @@
+var Raphael = require('raphael');
+var defaults = require('./flowchart.helpers').defaults;
+var defaultOptions = require('./flowchart.defaults');
+var Condition = require('./flowchart.symbol.condition');
+
 function FlowChart(container, options) {
   options = options || {};
 
   this.paper = new Raphael(container);
 
-  this.options = f.defaults(options, o);
+  this.options = defaults(options, defaultOptions);
 
   this.symbols = [];
   this.lines = [];
@@ -110,3 +115,5 @@ FlowChart.prototype.clean = function() {
     paperDom.parentNode.removeChild(paperDom);
   }
 };
+
+module.exports = FlowChart;

@@ -1,3 +1,8 @@
+var Symbol = require('./flowchart.symbol');
+var inherits = require('./flowchart.helpers').inherits;
+var drawAPI = require('./flowchart.functions');
+var drawPath = drawAPI.drawPath;
+
 function Condition(chart, options) {
   options = options || {};
   Symbol.call(this, chart, options);
@@ -74,7 +79,7 @@ function Condition(chart, options) {
 
   this.initialize();
 }
-f.inherits(Condition, Symbol);
+inherits(Condition, Symbol);
 
 Condition.prototype.render = function() {
 
@@ -90,7 +95,6 @@ Condition.prototype.render = function() {
 
   if (this.bottom_symbol) {
     var bottomPoint = this.getBottom();
-    var topPoint = this.bottom_symbol.getTop();
 
     if (!this.bottom_symbol.isPositioned) {
       this.bottom_symbol.shiftY(this.getY() + this.height + lineLength);
@@ -103,7 +107,6 @@ Condition.prototype.render = function() {
 
   if (this.right_symbol) {
     var rightPoint = this.getRight();
-    var leftPoint = this.right_symbol.getLeft();
 
     if (!this.right_symbol.isPositioned) {
 
@@ -146,3 +149,5 @@ Condition.prototype.renderLines = function() {
     this.drawLineTo(this.no_symbol, this.getAttr('no-text'), this.no_direction);
   }
 };
+
+module.exports = Condition;

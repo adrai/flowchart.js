@@ -6,18 +6,32 @@
   "engines": {
     "node": "~v0.4.12"
   },
-  "dependencies": {},
+  "dependencies": {
+    "raphael": "git://github.com/DmitryBaranovskiy/raphael.git"
+  },
   "devDependencies": {
-    "grunt": ">=0.4.1",
-    "grunt-rigger": ">=0.5.0",
-    "grunt-contrib": ">=0.1.0",
-    "express": ">= 0.0.1",
     "async": ">= 0.1.18",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "eslint": "^1.10.3",
+    "eslint-config-defaults": "^8.0.2",
+    "express": ">= 0.0.1",
+    "grunt": ">=0.4.1",
+    "grunt-contrib": ">=0.1.0",
+    "grunt-rigger": ">=0.5.0",
+    "jquery": "^2.2.0",
     "lodash": ">=0.2.1",
+    "webpack": "^1.12.11",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0",
     "zipstream": ">=0.2.1"
   },
   "scripts": {
-    "test": ""
+    "start": "node devserver.js",
+    "lint": "eslint src",
+    "build:unminified": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:minified": "NODE_ENV=production MINIFIED=1 webpack --config webpack.config.js",
+    "build": "npm run build:unminified && npm run build:minified"
   },
   "repository": {
     "type": "git",
