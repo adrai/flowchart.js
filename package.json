@@ -2,6 +2,7 @@
   "author": "adrai",
   "name": "flowchart",
   "version": "1.4.2",
+	"main": "./index",
   "private": false,
   "engines": {
     "node": "~v0.4.12"
