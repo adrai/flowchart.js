@@ -1,4 +1,4 @@
-### v1.5.0
+### v1.6.0
 
 - changed build to use only webpack thanks to [sergeyt](https://github.com/sergeyt) [#70](https://github.com/adrai/flowchart.js/issues/70)
 
