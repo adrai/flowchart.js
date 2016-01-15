@@ -1,7 +1,7 @@
 {
   "author": "adrai",
-  "name": "flowchart",
-  "version": "1.4.2",
+  "name": "flowchart.js",
+  "version": "1.5.0",
   "main": "./index",
   "private": false,
   "engines": {
@@ -26,7 +26,7 @@
     "lint": "eslint src",
     "build:unminified": "NODE_ENV=production webpack -d --config webpack.config.js",
     "build:minified": "NODE_ENV=production MINIFIED=1 webpack -d --config webpack.config.js",
-    "build": "npm run build:unminified && npm run build:minified",
+    "build": "npm run build:unminified && npm run build:minified && cp ./release/flowchart.js ./site/flowchart-latest.js",
     "test": "npm run lint"
   },
   "repository": {

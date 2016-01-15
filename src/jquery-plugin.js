@@ -9,5 +9,5 @@ if (typeof jQuery != 'undefined') {
 				chart.drawSVG(this, options);
 			});
 		};
-	})( jQuery ); // eslint-disable-line
+	})(jQuery); // eslint-disable-line
 }

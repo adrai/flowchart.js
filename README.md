@@ -15,6 +15,12 @@ On your page you need to include raphael like so:
 <script src="raphael-min.js"></script>
 ```
 
+or
+
+```node.js
+npm install flowchart
+```
+
 and then
 
 ```html
@@ -89,7 +95,7 @@ Many thanks to [js-sequence-diagrams](http://bramp.github.io/js-sequence-diagram
 
 #Licence
 
-Copyright (c) 2015 Adriano Raiano
+Copyright (c) 2016 Adriano Raiano
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

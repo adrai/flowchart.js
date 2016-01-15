@@ -1,4 +1,4 @@
-// flowchart, v1.4.2
+// flowchart.js, v1.5.0
 // Copyright (c)yyyy Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -85,7 +85,7 @@
         var FlowChart = {
             parse: parse
         };
-        "undefined" != typeof window && (window.FlowChart = FlowChart), module.exports = FlowChart;
+        "undefined" != typeof window && (window.flowchart = FlowChart), module.exports = FlowChart;
     }, /* 1 */
     /*!**********************************!*\
   !*** ./src/flowchart.helpers.js ***!

@@ -46,7 +46,9 @@ var config = {
 
 if (NODE_ENV === 'production') {
 	var minified = process.env.MINIFIED == '1';
-	var filename = minified ? component.name + '.min.js' : component.name + '.js';
+	var withoutJs = component.name;
+	withoutJs = withoutJs.replace('.js', '');
+	var filename = minified ? withoutJs + '.min.js' : withoutJs + '.js';
 	var uglifyOptions = {
 		sourceMap: true,
 		compressor: {

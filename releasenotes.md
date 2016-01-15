@@ -1,3 +1,7 @@
+### v1.5.0
+
+- changed build to use only webpack thanks to [sergeyt](https://github.com/sergeyt) [#70](https://github.com/adrai/flowchart.js/issues/70)
+
 ### v1.4.2
 
 - optimized handling of special characters thanks to the advice of [Badhumvee](https://github.com/Badhumvee)

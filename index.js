@@ -7,7 +7,7 @@ var FlowChart = {
 };
 
 if (typeof window !== 'undefined') {
-	window.FlowChart = FlowChart;
+	window.flowchart = FlowChart;
 }
 
 module.exports = FlowChart;
