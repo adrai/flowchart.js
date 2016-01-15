@@ -44,7 +44,7 @@ function _inherits(ctor, superCtor) {
 
 // move dependent functions to a container so that
 // they can be overriden easier in no jquery environment (node.js)
-var f = {
+module.exports = {
   defaults: _defaults,
   inherits: _inherits
 };

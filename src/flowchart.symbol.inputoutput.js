@@ -1,8 +1,13 @@
+var Symbol = require('./flowchart.symbol');
+var inherits = require('./flowchart.helpers').inherits;
+var drawAPI = require('./flowchart.functions');
+var drawPath = drawAPI.drawPath;
+
 function InputOutput(chart, options) {
   options = options || {};
   Symbol.call(this, chart, options);
   this.textMargin = this.getAttr('text-margin');
-  
+
   this.text.attr({
     x: this.textMargin * 3
   });
@@ -42,7 +47,7 @@ function InputOutput(chart, options) {
 
   this.initialize();
 }
-f.inherits(InputOutput, Symbol);
+inherits(InputOutput, Symbol);
 
 InputOutput.prototype.getLeft = function() {
   var y = this.getY() + this.group.getBBox().height/2;
@@ -55,3 +60,5 @@ InputOutput.prototype.getRight = function() {
   var x = this.getX() + this.group.getBBox().width - this.textMargin;
   return {x: x, y: y};
 };
+
+module.exports = InputOutput;

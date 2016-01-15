@@ -1,3 +1,6 @@
+var Symbol = require('./flowchart.symbol');
+var inherits = require('./flowchart.helpers').inherits;
+
 function Subroutine(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0);
   options = options || {};
@@ -37,4 +40,6 @@ function Subroutine(chart, options) {
 
   this.initialize();
 }
-f.inherits(Subroutine, Symbol);
+inherits(Subroutine, Symbol);
+
+module.exports = Subroutine;

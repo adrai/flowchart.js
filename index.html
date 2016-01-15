@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Demo page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+  </head>
+  <body>
+    <div id="chart">
+st=>start: Start|past:>http://www.google.com[blank]
+e=>end: End:>http://www.google.com
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes
+or No?|approved:>http://www.google.com
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|request
+
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->sub1(left)->op1
+c2(yes)->io->e
+c2(no)->op2->e
+    </div>
+		<script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/build/flowchart.js"></script>
+		<script>
+		$('#chart').flowChart();
+		</script>
+  </body>
+</html>

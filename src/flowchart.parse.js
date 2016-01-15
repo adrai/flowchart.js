@@ -1,3 +1,11 @@
+var FlowChart = require('./flowchart.chart');
+var Start = require('./flowchart.symbol.start');
+var End = require('./flowchart.symbol.end');
+var Operation = require('./flowchart.symbol.operation');
+var InputOutput = require('./flowchart.symbol.inputoutput');
+var Subroutine = require('./flowchart.symbol.subroutine');
+var Condition = require('./flowchart.symbol.condition');
+
 function parse(input) {
   input = input || '';
   input = input.trim();
@@ -232,3 +240,5 @@ function parse(input) {
   }
   return chart;
 }
+
+module.exports = parse;

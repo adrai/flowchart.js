@@ -1,11 +1,15 @@
+var Symbol = require('./flowchart.symbol');
+var inherits = require('./flowchart.helpers').inherits;
+
 function Start(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0, 20);
   options = options || {};
   options.text = options.text || 'Start';
   Symbol.call(this, chart, options, symbol);
 }
-f.inherits(Start, Symbol);
+inherits(Start, Symbol);
 
+module.exports = Start;
 
 // Start.prototype.render = function() {
 //   if (this.next) {

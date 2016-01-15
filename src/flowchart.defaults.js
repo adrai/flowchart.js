@@ -1,5 +1,5 @@
 // defaults
-var o = {
+module.exports = {
   'x': 0,
   'y': 0,
   'line-width': 3,

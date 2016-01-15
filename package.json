@@ -2,22 +2,32 @@
   "author": "adrai",
   "name": "flowchart",
   "version": "1.4.2",
+  "main": "./index",
   "private": false,
   "engines": {
     "node": "~v0.4.12"
   },
-  "dependencies": {},
+  "dependencies": {
+    "raphael": "git://github.com/DmitryBaranovskiy/raphael.git"
+  },
   "devDependencies": {
-    "grunt": ">=0.4.1",
-    "grunt-rigger": ">=0.5.0",
-    "grunt-contrib": ">=0.1.0",
+    "eslint": "^1.10.3",
+    "eslint-config-defaults": "^8.0.2",
     "express": ">= 0.0.1",
-    "async": ">= 0.1.18",
+    "jquery": "^2.2.0",
     "lodash": ">=0.2.1",
-    "zipstream": ">=0.2.1"
+    "moment": "^2.11.1",
+    "webpack": "^1.12.11",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
   },
   "scripts": {
-    "test": ""
+    "start": "node devserver.js",
+    "lint": "eslint src",
+    "build:unminified": "NODE_ENV=production webpack -d --config webpack.config.js",
+    "build:minified": "NODE_ENV=production MINIFIED=1 webpack -d --config webpack.config.js",
+    "build": "npm run build:unminified && npm run build:minified",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -29,13 +39,5 @@
     "script"
   ],
   "homepage": "http://flowchart.js.org/",
-  "license": "MIT",
-  "files": [
-    "release/flowchart.js",
-    "release/flowchart.min.js",
-    "release/flowchart.min.map",
-    "release/flowchart.amd.js",
-    "release/flowchart.amd.min.js",
-    "release/flowchart.amd.min.map"
-  ]
+  "license": "MIT"
 }

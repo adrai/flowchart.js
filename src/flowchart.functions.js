@@ -13,7 +13,7 @@ function drawPath(chart, location, points) {
   symbol.attr('stroke', chart.options['element-color']);
   symbol.attr('stroke-width', chart.options['line-width']);
 
-  var font = chart.options['font'];
+  var font = chart.options.font;
   var fontF = chart.options['font-family'];
   var fontW = chart.options['font-weight'];
 
@@ -48,7 +48,7 @@ function drawLine(chart, from, to, text) {
     'arrow-end': chart.options['arrow-end']
   });
 
-  var font = chart.options['font'];
+  var font = chart.options.font;
   var fontF = chart.options['font-family'];
   var fontW = chart.options['font-weight'];
 
@@ -159,3 +159,9 @@ function checkLineIntersection(line1StartX, line1StartY, line1EndX, line1EndY, l
   // if line1 and line2 are segments, they intersect if both of the above are true
   return result;
 }
+
+module.exports = {
+	drawPath: drawPath,
+	drawLine: drawLine,
+	checkLineIntersection: checkLineIntersection
+};
