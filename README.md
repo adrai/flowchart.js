@@ -18,7 +18,7 @@ On your page you need to include raphael like so:
 or
 
 ```node.js
-npm install flowchart
+npm install flowchart.js
 ```
 
 and then
