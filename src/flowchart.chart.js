@@ -60,7 +60,8 @@ FlowChart.prototype.render = function() {
       len = 0,
       maxX = 0,
       maxY = 0,
-      symbol;
+      symbol,
+      line;
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];
@@ -95,6 +96,18 @@ FlowChart.prototype.render = function() {
     symbol = this.symbols[i];
     var x = symbol.getX() + symbol.width;
     var y = symbol.getY() + symbol.height;
+    if (x > maxX) {
+      maxX = x;
+    }
+    if (y > maxY) {
+      maxY = y;
+    }
+  }
+    
+  for (i = 0, len = this.lines.length; i < len; i++) {
+    line = this.lines[i].getBBox();
+    var x = line.x2;
+    var y = line.y2;
     if (x > maxX) {
       maxX = x;
     }
