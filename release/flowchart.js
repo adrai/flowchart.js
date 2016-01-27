@@ -1,4 +1,4 @@
-// flowchart.js, v1.6.0
+// flowchart.js, v1.6.1
 // Copyright (c)yyyy Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -741,7 +741,7 @@
         }, FlowChart.prototype.startWith = function(symbol) {
             return this.start = symbol, this.handle(symbol);
         }, FlowChart.prototype.render = function() {
-            var symbol, maxWidth = 0, maxHeight = 0, i = 0, len = 0, maxX = 0, maxY = 0;
+            var symbol, line, maxWidth = 0, maxHeight = 0, i = 0, len = 0, maxX = 0, maxY = 0;
             for (i = 0, len = this.symbols.length; len > i; i++) symbol = this.symbols[i], symbol.width > maxWidth && (maxWidth = symbol.width), 
             symbol.height > maxHeight && (maxHeight = symbol.height);
             for (i = 0, len = this.symbols.length; len > i; i++) symbol = this.symbols[i], symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options["line-width"]), 
@@ -755,6 +755,11 @@
             for (maxX = this.maxXFromLine, i = 0, len = this.symbols.length; len > i; i++) {
                 symbol = this.symbols[i];
                 var x = symbol.getX() + symbol.width, y = symbol.getY() + symbol.height;
+                x > maxX && (maxX = x), y > maxY && (maxY = y);
+            }
+            for (i = 0, len = this.lines.length; len > i; i++) {
+                line = this.lines[i].getBBox();
+                var x = line.x2, y = line.y2;
                 x > maxX && (maxX = x), y > maxY && (maxY = y);
             }
             var scale = this.options.scale, lineWidth = this.options["line-width"];
