@@ -21,12 +21,12 @@
         <p>Draws simple SVG flow chart diagrams from textual representation of the diagram</p>
 
         <a href="https://github.com/adrai/flowchart.js">
-          <img class="gh-forkme" src="//s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub">
+          <img class="gh-forkme" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub">
         </a>
 
         <ul>
-          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart-latest.zip">ZIP File <strong>Download</strong></a></li>
-          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.amd-latest.zip">ZIP File <strong>AMD version</strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.zip">ZIP File <strong>Download</strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.amd.zip">ZIP File <strong>AMD version</strong></a></li>
           <li><a href="https://github.com/adrai/flowchart.js">View On <strong>GitHub</strong></a></li>
         </ul>
     </header>
@@ -43,7 +43,7 @@
 e=>end:>http://www.google.com
 op1=>operation: My Operation
 sub1=>subroutine: My Subroutine
-cond=>condition: Yes 
+cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
 
@@ -80,7 +80,7 @@ You can parse the text:
   diagram.drawSVG('diagram');
 
   // you can also try to pass options:
-  
+
   diagram.drawSVG('diagram', {
                               'x': 0,
                               'y': 0,
@@ -95,6 +95,7 @@ You can parse the text:
                               'yes-text': 'yes',
                               'no-text': 'no',
                               'arrow-end': 'block',
+                              'scale': 1,
                               // style symbol types
                               'symbols': {
                                 'start': {
@@ -127,11 +128,11 @@ You can parse the text:
             <h3>Demo 2 with color coding (flowstate). Try editing me below</h3>
             <div class="editor-wrapper">
 <div class="editor editor2">st=>start: Start|past:>http://www.google.com[blank]
-e=>end: Ende|future:>http://www.google.com
+e=>end: End|future:>http://www.google.com
 op1=>operation: My Operation|past
 op2=>operation: Stuff|current
 sub1=>subroutine: My Subroutine|invalid
-cond=>condition: Yes 
+cond=>condition: Yes
 or No?|approved:>http://www.google.com
 c2=>condition: Good idea|rejected
 io=>inputoutput: catch something...|future
@@ -161,17 +162,17 @@ c2(no)->op2->e</div>
       </div>
     </footer>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
     <!-- Needed for the text editor -->
-    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="underscore-min.js"></script>
     <script src="raphael-min.js"></script>
 
     <script src="flowchart-latest.js"></script>
     <script src="svginnerhtml.min.js"></script>
- 
+
     <script type="text/javascript">
 
       function setup_editor(div, nr) {
@@ -221,19 +222,19 @@ c2(no)->op2->e</div>
               row: 0,
               text: err.message
             };
-            if (err instanceof Diagram.ParseError) {
+            if (err instanceof diagram.ParseError) {
               annotation.row    = err.loc.first_line - 1;
               annotation.column = err.loc.first_column;
             }
             editor.getSession().setAnnotations([annotation]);
             throw err;
           }
-        }        
+        }
       }
 
       $(document).ready(function() {
         // Example diagrams
-        
+
         // Setup all the editors
         setup_editor($('#demo1'), 1);
 
@@ -245,7 +246,7 @@ c2(no)->op2->e</div>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
       ga('create', 'UA-42950201-1', 'adrai.github.io');
       ga('send', 'pageview');
