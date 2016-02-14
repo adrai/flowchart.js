@@ -60,6 +60,8 @@ FlowChart.prototype.render = function() {
       len = 0,
       maxX = 0,
       maxY = 0,
+      minX = 0,
+      minY = 0,
       symbol,
       line;
 
@@ -103,23 +105,38 @@ FlowChart.prototype.render = function() {
       maxY = y;
     }
   }
-    
+
   for (i = 0, len = this.lines.length; i < len; i++) {
     line = this.lines[i].getBBox();
-    var x = line.x2;
-    var y = line.y2;
-    if (x > maxX) {
-      maxX = x;
+    var x = line.x;
+    var y = line.y;
+    var x2 = line.x2;
+    var y2 = line.y2;
+    if (x < minX) {
+      minX = x;
     }
-    if (y > maxY) {
-      maxY = y;
+    if (y < minY) {
+      minY = y;
+    }
+    if (x2 > maxX) {
+      maxX = x2;
+    }
+    if (y2 > maxY) {
+      maxY = y2;
     }
   }
 
   var scale = this.options['scale'];
   var lineWidth = this.options['line-width'];
-  this.paper.setSize((maxX * scale) + (lineWidth * scale), (maxY * scale) + (lineWidth * scale));
-  this.paper.setViewBox(0, 0, maxX + lineWidth, maxY + lineWidth, true);
+
+  if (minX < 0) minX -= lineWidth;
+  if (minY < 0) minY -= lineWidth;
+
+  var width = maxX + lineWidth - minX;
+  var height = maxY + lineWidth - minY;
+
+  this.paper.setSize(width * scale, height * scale);
+  this.paper.setViewBox(minX, minY, width, height, true);
 };
 
 FlowChart.prototype.clean = function() {
