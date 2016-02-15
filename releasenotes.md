@@ -1,3 +1,7 @@
+### v1.6.2
+
+- Fixed not calculate viewBox and size properly thanks to [jackycute](https://github.com/jackycute) [##74](https://github.com/adrai/flowchart.js/issues/#74)
+
 ### v1.6.1
 
 - Fixed lines are not included in the calculation of viewBox and size thanks to [jackycute](https://github.com/jackycute) [##72](https://github.com/adrai/flowchart.js/issues/#72) [##67](https://github.com/adrai/flowchart.js/issues/#67)

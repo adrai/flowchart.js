@@ -1,4 +1,4 @@
-// flowchart.js, v1.6.1
+// flowchart.js, v1.6.2
 // Copyright (c)yyyy Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -741,7 +741,7 @@
         }, FlowChart.prototype.startWith = function(symbol) {
             return this.start = symbol, this.handle(symbol);
         }, FlowChart.prototype.render = function() {
-            var symbol, line, maxWidth = 0, maxHeight = 0, i = 0, len = 0, maxX = 0, maxY = 0;
+            var symbol, line, maxWidth = 0, maxHeight = 0, i = 0, len = 0, maxX = 0, maxY = 0, minX = 0, minY = 0;
             for (i = 0, len = this.symbols.length; len > i; i++) symbol = this.symbols[i], symbol.width > maxWidth && (maxWidth = symbol.width), 
             symbol.height > maxHeight && (maxHeight = symbol.height);
             for (i = 0, len = this.symbols.length; len > i; i++) symbol = this.symbols[i], symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options["line-width"]), 
@@ -759,12 +759,13 @@
             }
             for (i = 0, len = this.lines.length; len > i; i++) {
                 line = this.lines[i].getBBox();
-                var x = line.x2, y = line.y2;
-                x > maxX && (maxX = x), y > maxY && (maxY = y);
+                var x = line.x, y = line.y, x2 = line.x2, y2 = line.y2;
+                minX > x && (minX = x), minY > y && (minY = y), x2 > maxX && (maxX = x2), y2 > maxY && (maxY = y2);
             }
             var scale = this.options.scale, lineWidth = this.options["line-width"];
-            this.paper.setSize(maxX * scale + lineWidth * scale, maxY * scale + lineWidth * scale), 
-            this.paper.setViewBox(0, 0, maxX + lineWidth, maxY + lineWidth, !0);
+            0 > minX && (minX -= lineWidth), 0 > minY && (minY -= lineWidth);
+            var width = maxX + lineWidth - minX, height = maxY + lineWidth - minY;
+            this.paper.setSize(width * scale, height * scale), this.paper.setViewBox(minX, minY, width, height, !0);
         }, FlowChart.prototype.clean = function() {
             if (this.paper) {
                 var paperDom = this.paper.canvas;
