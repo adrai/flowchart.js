@@ -14,35 +14,25 @@
 
     <title>flowchart.js</title>
 
-    <script src="https://cdn.rawgit.com/locize/locizify/options-refactoring/locizify.min.js"></script>
-		<script>
-			window.locizify.init({
-				saveMissing: false,
-				fallbackLng: 'en',
-				backend: {
-					referenceLng: 'en',
-          apiKey: '13178a98-51c6-4287-af95-840fe9d1ef6a',
-          projectId: '43131754-3b83-4214-a5c9-214d0dac1506',
-          version: 'latest',
-					path: 'https://api-dev.locize.io'
-				}
-			});
-	  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/2.5.1/i18next.min.js"></script>
+    <script src="https://cdn.rawgit.com/locize/i18next-locize-backend/master/i18next-locize-backend.min.js"></script>
+    <script src="https://cdn.rawgit.com/i18next/jquery-i18next/master/jquery-i18next.min.js"></script>
+    <script src="https://cdn.rawgit.com/i18next/i18next-browser-languagedetector/master/i18nextBrowserLanguageDetector.min.js"></script>
   </head>
 
   <body>
     <header>
-      <h1 i18next-options='{"defaultValue": "flowchart.js"}'>title</h1>
-        <p i18next-options='{"defaultValue": "Draws simple SVG flow chart diagrams from textual representation of the diagram"}'>description</p>
+      <h1 data-i18n="title" data-i18n-options='{"defaultValue": "flowchart.js"}'></h1>
+        <p data-i18n="description" data-i18n-options='{"defaultValue": "Draws simple SVG flow chart diagrams from textual representation of the diagram"}'></p>
 
         <a href="https://github.com/adrai/flowchart.js">
           <img class="gh-forkme" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub">
         </a>
 
         <ul>
-          <li><a i18next-options='{"defaultValue": "ZIP File "}' href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.zip">zipfile<strong i18next-options='{"defaultValue": "Download"}'>download</strong></a></li>
-          <li><a i18next-options='{"defaultValue": "ZIP File "}' href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.amd.zip">zipfile<strong i18next-options='{"defaultValue": "AMD version"}'>download-amd</strong></a></li>
-          <li><a i18next-options='{"defaultValue": "View On "}' href="https://github.com/adrai/flowchart.js">view<strong i18next-options='{"defaultValue": "GitHub"}'>github</strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.zip"><span data-i18n="zipfile" data-i18n-options='{"defaultValue": "ZIP File "}'></span><strong data-i18n="download" data-i18n-options='{"defaultValue": "Download"}'></strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js/raw/master/release/flowchart.amd.zip"><span data-i18n="zipfile" data-i18n-options='{"defaultValue": "ZIP File "}'></span><strong data-i18n="download-amd" data-i18n-options='{"defaultValue": "AMD version"}'></strong></a></li>
+          <li><a href="https://github.com/adrai/flowchart.js"><span data-i18n="view" data-i18n-options='{"defaultValue": "View On "}'></span><strong data-i18n="github" data-i18n-options='{"defaultValue": "GitHub"}'></strong></a></li>
         </ul>
     </header>
 
@@ -52,7 +42,7 @@
         <table align="center" class="inner">
           <tr>
             <td>
-            <h3 i18next-options='{"defaultValue": "Demo 1. Try editing me below"}'>demo1</h3>
+            <h3 data-i18n="demo1" data-i18n-options='{"defaultValue": "Demo 1. Try editing me below"}'></h3>
             <div class="editor-wrapper">
 <div class="editor editor1">st=>start: Start:>http://www.google.com[blank]
 e=>end:>http://www.google.com
@@ -78,17 +68,17 @@ cond(no)->sub1(right)->op1</div>
 
       </section>
 
-      <b i18next-options='{"defaultValue": "Conditions can also be redirected like cond(yes, bottom) or cond(yes, right)"}'>conditions</b>
-      <b i18next-options='{"defaultValue": "... and the other symbols too... like sub1(right)"}'>contitions_2</b>
+      <b data-i18n="conditions" data-i18n-options='{"defaultValue": "Conditions can also be redirected like cond(yes, bottom) or cond(yes, right)"}'></b>
+      <b data-i18n="contitions_2" data-i18n-options='{"defaultValue": "... and the other symbols too... like sub1(right)"}'></b>
       <div class="inner">
       <section id="usage">
-        <h3 i18next-options='{"defaultValue": "Usage"}'>usage</h3>
-        <p i18next-options='{"defaultValue": "flowchart.js depends on "}'>depend<a href="http://raphaeljs.com/">Raphaël</a><br/><b i18next-options='{"defaultValue": "To use include the following:"}'>to_use</b>
+        <h3 data-i18n="usage" data-i18n-options='{"defaultValue": "Usage"}'></h3>
+        <p><span data-i18n="depend" data-i18n-options='{"defaultValue": "flowchart.js depends on "}'></span><a href="http://raphaeljs.com/">Raphaël</a><br/><b data-i18n="to_use" data-i18n-options='{"defaultValue": "To use include the following:"}'></b>
         </p>
         <pre>&lt;script src=&quot;<a href="http://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js">raphael-min.js</a>&quot;&gt;&lt;
 &lt;script src=&quot;<a href="flowchart-latest.js">flowchart-latest.js</a>&quot;&gt;&lt;/script&gt;
 </pre>
-<p i18next-options='{"defaultValue": "You can parse the text:"}'>parse</p>
+<p data-i18n="parse" data-i18n-options='{"defaultValue": "You can parse the text:"}'></p>
 <pre>
 &lt;div id=&quot;diagram&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
@@ -141,7 +131,7 @@ cond(no)->sub1(right)->op1</div>
         <table align="center" class="inner">
           <tr>
             <td>
-            <h3 i18next-options='{"defaultValue": "Demo 2 with color coding (flowstate). Try editing me below"}'>demo2</h3>
+            <h3 data-i18n="demo2" data-i18n-options='{"defaultValue": "Demo 2 with color coding (flowstate). Try editing me below"}'></h3>
             <div class="editor-wrapper">
 <div class="editor editor2">st=>start: Start|past:>http://www.google.com[blank]
 e=>end: End|future:>http://www.google.com
@@ -177,7 +167,7 @@ c2(no)->op2->e</div>
         by <a href="https://github.com/adrai">Adriano Raiano</a> - <a href="https://twitter.com/adrirai">@adrirai</a>
         </br>
         </br>
-        <i i18next-options='{"defaultValue": "localized by "}'>localized</i><a href="http://locize.com">locize</a> | <a href="?lng=en">en</a> <a href="?lng=de">de</a>
+        <i data-i18n="localized" data-i18n-options='{"defaultValue": "localized by "}'></i><a href="http://locize.com">locize</a> | <a href="?lng=en">en</a> <a href="?lng=de">de</a>
       </div>
     </footer>
 
@@ -258,6 +248,35 @@ c2(no)->op2->e</div>
         setup_editor($('#demo1'), 1);
 
         setup_editor($('#demo2'), 2);
+      });
+
+      $(document).ready(function() {
+        var i18nextOptions = {
+          fallbackLng: 'en',
+          backend: {
+            loadPath: 'https://api-dev.locize.io/{{projectId}}/{{version}}/{{lng}}/{{ns}}',
+            addPath: 'https://api-dev.locize.io/missing/{{projectId}}/{{version}}/{{lng}}/{{ns}}',
+            referenceLng: 'en',
+            projectId: '43131754-3b83-4214-a5c9-214d0dac1506'
+          }
+        };
+        var i18nextInstance = window.i18next
+          .use(window.i18nextLocizeBackend)
+          .use(window.i18nextBrowserLanguageDetector)
+          .init(i18nextOptions, function () {
+            jqueryI18next.init(i18nextInstance, $, {
+              tName: 't', // --> appends $.t = i18next.t
+              i18nName: 'i18n', // --> appends $.i18n = i18next
+              handleName: 'localize', // --> appends $(selector).localize(opts);
+              selectorAttr: 'data-i18n', // selector for translating elements
+              targetAttr: 'i18n-target', // data-() attribute to grab target element to translate (if diffrent then itself)
+              optionsAttr: 'i18n-options', // data-() attribute that contains options, will load/set if useOptionsAttr = true
+              useOptionsAttr: false, // see optionsAttr
+              parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
+            });
+
+            $('body').localize();
+          });
       });
     </script>
 
