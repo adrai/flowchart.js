@@ -5,7 +5,7 @@
 [example](https://github.com/adrai/flowchart.js/blob/master/example/index.html)
 
 #Requirements
-You will need [Raphaël](http://raphaeljs.com/)
+You will need [Raphaël](http://www.raphaeljs.com/)
 
 #Usage
 
