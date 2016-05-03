@@ -264,7 +264,7 @@ c2(no)->op2->e</div>
           .use(window.i18nextLocizeBackend)
           .use(window.i18nextBrowserLanguageDetector)
           .init(i18nextOptions, function () {
-            jqueryI18next.init(i18nextInstance, $, {
+            window.i18nextJquery.init(i18nextInstance, $, {
               tName: 't', // --> appends $.t = i18next.t
               i18nName: 'i18n', // --> appends $.i18n = i18next
               handleName: 'localize', // --> appends $(selector).localize(opts);
