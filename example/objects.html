@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>flowchart.js · Playground</title>
+    <style type="text/css">
+        .end-element {
+            background-color: #FFCCFF;
+        }
+    </style>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!--<script src="http://flowchart.js.org/flowchart-latest.js"></script>-->
+    <script src="../release/flowchart.js"></script>
+    <script>
+
+        window.onload = function () {
+
+            var chart;
+                    if (chart) {
+                chart.clean();
+            }
+
+
+            var data = {
+                symbols: {
+                    st: {
+                        key: 'st',
+                        symbolType: 'start',
+                        text: 'Start',
+                        link: 'http://www.google.com',
+                        target: 'blank',
+                        flowstate: 'past',
+                    }, e: {
+                        key: 'e',
+                        symbolType: 'end',
+                        text: 'End',
+                        link: 'http://www.google.com',
+                        target: null,
+                        flowstate: null,
+                    }, op1: {
+                        key: 'op1',
+                        symbolType: 'operation',
+                        text: 'My Operation',
+                        link: null,
+                        target: null,
+                        flowstate: 'past',
+                    }, op2: {
+                        key: 'op2',
+                        symbolType: 'operation',
+                        text: 'Stuff',
+                        link: null,
+                        target: null,
+                        flowstate: 'current',
+                    },
+                    sub1: {
+                        key: 'sub1',
+                        symbolType: 'subroutine',
+                        text: 'My Subroutine',
+                        link: null,
+                        target: null,
+                        flowstate: 'invalid',
+                    },
+                    cond: {
+                        key: 'cond',
+                        symbolType: 'condition',
+                        text: 'Yes or No?',
+                        link: 'http://www.google.com',
+                        target: null,
+                        flowstate: 'approved',
+                    },
+                    c2: {
+                        key: 'c2',
+                        symbolType: 'condition',
+                        text: 'Good idea',
+                        link: null,
+                        target: null,
+                        flowstate: 'rejected',
+                    },
+                    io: {
+                        key: 'io',
+                        symbolType: 'inputoutput',
+                        text: 'catch something...',
+                        link: null,
+                        target: null,
+                        flowstate: 'request',
+                    }
+                },
+
+
+                directions: {
+
+                    stop1: {
+                        key: 'st',
+                        symbolType: 'start',
+                        nextKey: 'op1',
+                        nextSymbolType: 'operation',
+                        next: 'next',
+                        direction: null
+                    },
+                    op1cond: {
+                        key: 'op1',
+                        symbolType: 'operation',
+                        nextKey: 'cond',
+                        nextSymbolType: 'condition',
+                        next: 'next',
+                        direction: 'right'
+                    },
+                    condc2: {
+                        key: 'cond',
+                        symbolType: 'condition',
+                        nextKey: 'c2',
+                        nextSymbolType: 'condition',
+                        next: 'yes',
+                        direction: 'right'
+                    },
+                    condsub1: {
+                        key: 'cond',
+                        symbolType: 'condition',
+                        nextKey: 'sub1',
+                        nextSymbolType: 'subroutine',
+                        next: 'no',
+                        direction: null
+                    },
+                    sub1op1: {
+                        key: 'sub1',
+                        symbolType: 'subroutine',
+                        nextKey: 'op1',
+                        nextSymbolType: 'operation',
+                        next: 'next',
+                        direction: 'left'
+                    },
+                    c2io: {
+                        key: 'c2',
+                        symbolType: 'condition',
+                        nextKey: 'io',
+                        nextSymbolType: 'inputoutput',
+                        next: 'yes',
+                        direction: null
+                    },
+                    ioe: {
+                        key: 'io',
+                        symbolType: 'inputoutput',
+                        nextKey: 'e',
+                        nextSymbolType: 'end',
+                        next: 'next',
+                        direction: null
+                    },
+                    c2op2: {
+                        key: 'c2',
+                        symbolType: 'condition',
+                        nextKey: 'op2',
+                        nextSymbolType: 'operation',
+                        next: 'no',
+                        direction: null
+                    },
+                    op2e: {
+                        key: 'op2',
+                        symbolType: 'operation',
+                        nextKey: 'e',
+                        nextSymbolType: 'end',
+                        next: 'next',
+                        direction: null
+                    }
+                }
+            };
+
+
+            var symbolsArray = data["symbols"];
+            var directionsArray =data["directions"];
+
+            chart = flowchart.parseObject(symbolsArray, directionsArray);
+
+
+            chart.drawSVG('canvas', {
+                // 'x': 30,
+                // 'y': 50,
+                'line-width': 3,
+                'line-length': 50,
+                'text-margin': 10,
+                'font-size': 14,
+                'font': 'normal',
+                'font-family': 'Helvetica',
+                'font-weight': 'normal',
+                'font-color': 'black',
+                'line-color': 'black',
+                'element-color': 'black',
+                'fill': 'white',
+                'yes-text': 'yes',
+                'no-text': 'no',
+                'arrow-end': 'block',
+                'scale': 1,
+                'symbols': {
+                    'start': {
+                        'font-color': 'red',
+                        'element-color': 'green',
+                        'fill': 'yellow'
+                    },
+                    'end': {
+                        'class': 'end-element'
+                    }
+                },
+                'flowstate': {
+                    'past': {'fill': '#CCCCCC', 'font-size': 12},
+                    'current': {'fill': 'yellow', 'font-color': 'red', 'font-weight': 'bold'},
+                    'future': {'fill': '#FFFF99'},
+                    'request': {'fill': 'blue'},
+                    'invalid': {'fill': '#444444'},
+                    'approved': {'fill': '#58C4A3', 'font-size': 12, 'yes-text': 'APPROVED', 'no-text': 'n/a'},
+                    'rejected': {'fill': '#C45879', 'font-size': 12, 'yes-text': 'n/a', 'no-text': 'REJECTED'}
+                }
+            });
+
+            $('[id^=sub1]').click(function () {
+                alert('info here');
+            });
+
+
+
+        };
+    </script>
+</head>
+<body>
+
+<div id="canvas"></div>
+</body>
+</html>
+
