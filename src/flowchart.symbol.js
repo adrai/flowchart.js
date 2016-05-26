@@ -239,7 +239,7 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
   var isOnSameColumn = x === symbolX,
       isOnSameLine = y === symbolY,
       isUnder = y < symbolY,
-      isUpper = y > symbolY,
+      isUpper = y > symbolY || this === symbol,
       isLeft = x > symbolX,
       isRight = x < symbolX;
 
