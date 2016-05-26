@@ -1,4 +1,4 @@
-// flowchart.js, v1.6.2
+// flowchart.js, v1.6.3
 // Copyright (c)yyyy Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -253,7 +253,7 @@
             this.next && (this.next_direction ? this.drawLineTo(this.next, "", this.next_direction) : this.drawLineTo(this.next));
         }, Symbol.prototype.drawLineTo = function(symbol, text, origin) {
             this.connectedTo.indexOf(symbol) < 0 && this.connectedTo.push(symbol);
-            var line, x = this.getCenter().x, y = this.getCenter().y, right = this.getRight(), bottom = this.getBottom(), left = this.getLeft(), symbolX = symbol.getCenter().x, symbolY = symbol.getCenter().y, symbolTop = symbol.getTop(), symbolRight = symbol.getRight(), symbolLeft = symbol.getLeft(), isOnSameColumn = x === symbolX, isOnSameLine = y === symbolY, isUnder = symbolY > y, isUpper = y > symbolY, isLeft = x > symbolX, isRight = symbolX > x, maxX = 0, lineLength = this.getAttr("line-length"), lineWith = this.getAttr("line-width");
+            var line, x = this.getCenter().x, y = this.getCenter().y, right = this.getRight(), bottom = this.getBottom(), left = this.getLeft(), symbolX = symbol.getCenter().x, symbolY = symbol.getCenter().y, symbolTop = symbol.getTop(), symbolRight = symbol.getRight(), symbolLeft = symbol.getLeft(), isOnSameColumn = x === symbolX, isOnSameLine = y === symbolY, isUnder = symbolY > y, isUpper = y > symbolY || this === symbol, isLeft = x > symbolX, isRight = symbolX > x, maxX = 0, lineLength = this.getAttr("line-length"), lineWith = this.getAttr("line-width");
             if (origin && "bottom" !== origin || !isOnSameColumn || !isUnder) if (origin && "right" !== origin || !isOnSameLine || !isRight) if (origin && "left" !== origin || !isOnSameLine || !isLeft) if (origin && "right" !== origin || !isOnSameColumn || !isUpper) if (origin && "right" !== origin || !isOnSameColumn || !isUnder) if (origin && "bottom" !== origin || !isLeft) if (origin && "bottom" !== origin || !isRight) if (origin && "right" === origin && isLeft) line = drawLine(this.chart, right, [ {
                 x: right.x + lineLength / 2,
                 y: right.y
