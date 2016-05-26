@@ -1,3 +1,7 @@
+### v1.6.3
+
+- Allow going to same symbol thanks to [nonylene](https://github.com/nonylene) [##83](https://github.com/adrai/flowchart.js/pull/#83)
+
 ### v1.6.2
 
 - Fixed not calculate viewBox and size properly thanks to [jackycute](https://github.com/jackycute) [##74](https://github.com/adrai/flowchart.js/issues/#74)
