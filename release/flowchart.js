@@ -1,4 +1,4 @@
-// flowchart.js, v1.6.1
+// flowchart.js, v1.6.3
 // Copyright (c)yyyy Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -253,7 +253,7 @@
             this.next && (this.next_direction ? this.drawLineTo(this.next, "", this.next_direction) : this.drawLineTo(this.next));
         }, Symbol.prototype.drawLineTo = function(symbol, text, origin) {
             this.connectedTo.indexOf(symbol) < 0 && this.connectedTo.push(symbol);
-            var line, x = this.getCenter().x, y = this.getCenter().y, right = this.getRight(), bottom = this.getBottom(), left = this.getLeft(), symbolX = symbol.getCenter().x, symbolY = symbol.getCenter().y, symbolTop = symbol.getTop(), symbolRight = symbol.getRight(), symbolLeft = symbol.getLeft(), isOnSameColumn = x === symbolX, isOnSameLine = y === symbolY, isUnder = symbolY > y, isUpper = y > symbolY, isLeft = x > symbolX, isRight = symbolX > x, maxX = 0, lineLength = this.getAttr("line-length"), lineWith = this.getAttr("line-width");
+            var line, x = this.getCenter().x, y = this.getCenter().y, right = this.getRight(), bottom = this.getBottom(), left = this.getLeft(), symbolX = symbol.getCenter().x, symbolY = symbol.getCenter().y, symbolTop = symbol.getTop(), symbolRight = symbol.getRight(), symbolLeft = symbol.getLeft(), isOnSameColumn = x === symbolX, isOnSameLine = y === symbolY, isUnder = symbolY > y, isUpper = y > symbolY || this === symbol, isLeft = x > symbolX, isRight = symbolX > x, maxX = 0, lineLength = this.getAttr("line-length"), lineWith = this.getAttr("line-width");
             if (origin && "bottom" !== origin || !isOnSameColumn || !isUnder) if (origin && "right" !== origin || !isOnSameLine || !isRight) if (origin && "left" !== origin || !isOnSameLine || !isLeft) if (origin && "right" !== origin || !isOnSameColumn || !isUpper) if (origin && "right" !== origin || !isOnSameColumn || !isUnder) if (origin && "bottom" !== origin || !isLeft) if (origin && "bottom" !== origin || !isRight) if (origin && "right" === origin && isLeft) line = drawLine(this.chart, right, [ {
                 x: right.x + lineLength / 2,
                 y: right.y
@@ -741,7 +741,7 @@
         }, FlowChart.prototype.startWith = function(symbol) {
             return this.start = symbol, this.handle(symbol);
         }, FlowChart.prototype.render = function() {
-            var symbol, line, maxWidth = 0, maxHeight = 0, i = 0, len = 0, maxX = 0, maxY = 0;
+            var symbol, line, maxWidth = 0, maxHeight = 0, i = 0, len = 0, maxX = 0, maxY = 0, minX = 0, minY = 0;
             for (i = 0, len = this.symbols.length; len > i; i++) symbol = this.symbols[i], symbol.width > maxWidth && (maxWidth = symbol.width), 
             symbol.height > maxHeight && (maxHeight = symbol.height);
             for (i = 0, len = this.symbols.length; len > i; i++) symbol = this.symbols[i], symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options["line-width"]), 
@@ -759,12 +759,13 @@
             }
             for (i = 0, len = this.lines.length; len > i; i++) {
                 line = this.lines[i].getBBox();
-                var x = line.x2, y = line.y2;
-                x > maxX && (maxX = x), y > maxY && (maxY = y);
+                var x = line.x, y = line.y, x2 = line.x2, y2 = line.y2;
+                minX > x && (minX = x), minY > y && (minY = y), x2 > maxX && (maxX = x2), y2 > maxY && (maxY = y2);
             }
             var scale = this.options.scale, lineWidth = this.options["line-width"];
-            this.paper.setSize(maxX * scale + lineWidth * scale, maxY * scale + lineWidth * scale), 
-            this.paper.setViewBox(0, 0, maxX + lineWidth, maxY + lineWidth, !0);
+            0 > minX && (minX -= lineWidth), 0 > minY && (minY -= lineWidth);
+            var width = maxX + lineWidth - minX, height = maxY + lineWidth - minY;
+            this.paper.setSize(width * scale, height * scale), this.paper.setViewBox(minX, minY, width, height, !0);
         }, FlowChart.prototype.clean = function() {
             if (this.paper) {
                 var paperDom = this.paper.canvas;
