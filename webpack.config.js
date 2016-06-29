@@ -23,9 +23,9 @@ var config = {
 		'./index'
 	],
 	output: {
-		path: path.join(__dirname, 'build'),
+		path: path.join(__dirname, 'release'),
 		filename: component.name + '.js',
-		publicPath: '/build/'
+		publicPath: '/release/'
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
