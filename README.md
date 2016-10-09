@@ -7,6 +7,9 @@
 #Requirements
 You will need [Raphaël](http://www.raphaeljs.com/)
 
+#CDN
+flowchart.js is on [CDNJS](https://cdnjs.com/libraries/flowchart), feel free to use it
+
 #Usage
 
 On your page you need to include raphael like so:
