@@ -1,14 +1,14 @@
 {
   "author": "adrai",
   "name": "flowchart.js",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "main": "./index",
   "private": false,
   "engines": {
     "node": "~v0.4.12"
   },
   "dependencies": {
-    "raphael": "git://github.com/DmitryBaranovskiy/raphael.git"
+    "raphael": "2.2.6"
   },
   "devDependencies": {
     "eslint": "^1.10.3",

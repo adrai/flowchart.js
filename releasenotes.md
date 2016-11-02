@@ -1,3 +1,7 @@
+### v1.6.4
+
+- raphael now is an npm dependency (not the git reference anymore)
+
 ### v1.6.3
 
 - Allow going to same symbol thanks to [nonylene](https://github.com/nonylene) [##83](https://github.com/adrai/flowchart.js/pull/#83)
