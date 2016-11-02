@@ -174,7 +174,7 @@ c2(no)->op2->e</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
     <!-- Needed for the text editor -->
-    <script src="https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="underscore-min.js"></script>
     <script src="raphael-min.js"></script>
@@ -231,7 +231,7 @@ c2(no)->op2->e</div>
               row: 0,
               text: err.message
             };
-            if (err instanceof diagram.ParseError) {
+            if (err && err.loc) {
               annotation.row    = err.loc.first_line - 1;
               annotation.column = err.loc.first_column;
             }
