@@ -5,7 +5,7 @@ var moment = require('moment');
 var component = require('./package.json');
 var banner =
 	'// ' + component.name + ', v' + component.version + '\n' +
-	'// Copyright (c)' + moment().format('yyyy') + ' Adriano Raiano (adrai).\n' +
+	'// Copyright (c)' + moment().format('YYYY') + ' Adriano Raiano (adrai).\n' +
 	'// Distributed under MIT license\n' +
 	'// http://adrai.github.io/flowchart.js\n';
 
