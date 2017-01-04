@@ -1,3 +1,7 @@
+### v1.6.5
+
+- set proper engine version in package.json
+
 ### v1.6.4
 
 - raphael now is an npm dependency (not the git reference anymore)
