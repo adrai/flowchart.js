@@ -149,7 +149,7 @@ function parse(input) {
   }
 
   while (lines.length > 0) {
-    var line = lines.splice(0, 1)[0];
+    var line = lines.splice(0, 1)[0].trim();
 
     if (line.indexOf('=>') >= 0) {
       // definition
