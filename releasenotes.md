@@ -1,3 +1,7 @@
+### v1.6.6
+
+- Fix disruptive space char when parsing [##105](https://github.com/adrai/flowchart.js/pull/#105)
+
 ### v1.6.5
 
 - set proper engine version in package.json

@@ -1,4 +1,4 @@
-// flowchart.js, v1.6.5
+// flowchart.js, v1.6.6
 // Copyright (c)2017 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -583,7 +583,7 @@
                 lines.splice(l, 1), len--) : l++;
             }
             for (;lines.length > 0; ) {
-                var line = lines.splice(0, 1)[0];
+                var line = lines.splice(0, 1)[0].trim();
                 if (line.indexOf("=>") >= 0) {
                     // definition
                     var sub, parts = line.split("=>"), symbol = {
@@ -752,14 +752,13 @@
             // }
             for (this.start.render(), i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], 
             symbol.renderLines();
-            for (maxX = this.maxXFromLine, i = 0, len = this.symbols.length; i < len; i++) {
-                symbol = this.symbols[i];
-                var x = symbol.getX() + symbol.width, y = symbol.getY() + symbol.height;
-                x > maxX && (maxX = x), y > maxY && (maxY = y);
-            }
+            maxX = this.maxXFromLine;
+            var x, y;
+            for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], x = symbol.getX() + symbol.width, 
+            y = symbol.getY() + symbol.height, x > maxX && (maxX = x), y > maxY && (maxY = y);
             for (i = 0, len = this.lines.length; i < len; i++) {
-                line = this.lines[i].getBBox();
-                var x = line.x, y = line.y, x2 = line.x2, y2 = line.y2;
+                line = this.lines[i].getBBox(), x = line.x, y = line.y;
+                var x2 = line.x2, y2 = line.y2;
                 x < minX && (minX = x), y < minY && (minY = y), x2 > maxX && (maxX = x2), y2 > maxY && (maxY = y2);
             }
             var scale = this.options.scale, lineWidth = this.options["line-width"];
