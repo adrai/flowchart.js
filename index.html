@@ -68,6 +68,11 @@ cond(no)->sub1(right)->op1</div>
 
       </section>
 
+      <br />
+      <hr />
+      <br />
+
+
       <b data-i18n="conditions" data-i18n-options='{"defaultValue": "Conditions can also be redirected like cond(yes, bottom) or cond(yes, right)"}'></b>
       <b data-i18n="contitions_2" data-i18n-options='{"defaultValue": "... and the other symbols too... like sub1(right)"}'></b>
       <div class="inner">
@@ -160,14 +165,54 @@ c2(no)->op2->e</div>
         </table>
 
       </section>
+      <br />
+      <hr />
+      <br />
+      <section id="demo3">
+        <table align="center" class="inner">
+          <tr>
+            <td>
+            <h3 data-i18n="[html]demo3" data-i18n-options='{"defaultValue": "Demo 3 tribute to {{- link}}", "link": "<a href=\"https://locize.com\">locize</a>"}'></h3>
+            <div class="editor-wrapper">
+  <div class="editor editor3">st=>start: Start to improve your localization process!
+e=>end: Continue to have fun!:>https://youtu.be/YQryHo1iHb8[blank]
+op1=>operation: Go to locize.com:>https://locize.com[blank]
+sub1=>subroutine: Read the awesomeness
+cond=>condition: Interested to
+getting started?
+io=>inputoutput: Register:>https://www.locize.io/register[blank]
+sub2=>subroutine: Read about improving
+your localization workflow
+or another source:>https://medium.com/@adrai/8-signs-you-should-improve-your-localization-process-3dc075d53998[blank]
+op2=>operation: Login:>https://www.locize.io/login[blank]
+sub3=>subroutine: Create a demo project
+sub4=>subroutine: Start your real project
+io2=>inputoutput: Subscribe
+
+st->op1->sub1->cond
+cond(yes)->io->op2->sub3->sub4->io2->e
+cond(no)->sub2(right)->op1</div>
+           </div>
+           <!--   Theme:
+            <select class="theme">
+              <option value="simple">Simple</option>
+              <option value="hand" selected>Hand drawn</option>
+            </select> -->
+            </td>
+            <td class="diagram diagram3">This should be a diagram! If you do not see it you need Javascript enabled</td>
+          </tr>
+        </table>
+
+      </section>
 
     <footer>
+      </br>
       <hr />
       <div class="inner">
         by <a href="https://github.com/adrai">Adriano Raiano</a> - <a href="https://twitter.com/adrirai">@adrirai</a>
         </br>
         </br>
-        <i data-i18n="localized" data-i18n-options='{"defaultValue": "localized by "}'></i><a href="http://locize.com">locize</a> | <a href="?lng=en">en</a> <a href="?lng=de">de</a>
+        <i data-i18n="localized" data-i18n-options='{"defaultValue": "localized by "}'></i><a href="https://locize.com"><img src="https://locize.com/img/locize_color.svg" style="max-width: 80px; position: relative; top: 8px;" alt="http://locize.com"></a> | <a href="?lng=en">en</a> <a href="?lng=de">de</a>
       </div>
     </footer>
 
@@ -209,7 +254,7 @@ c2(no)->op2->e</div>
             diagram_div.html('');
 
             // Draw
-            if (nr === 1) {
+            if (nr === 1 || nr === 3) {
               diagram.drawSVG(diagram_div.get(0));
             } else if (nr === 2) {
               diagram.drawSVG(diagram_div.get(0), {
@@ -248,6 +293,8 @@ c2(no)->op2->e</div>
         setup_editor($('#demo1'), 1);
 
         setup_editor($('#demo2'), 2);
+
+        setup_editor($('#demo3'), 3);
       });
 
       $(document).ready(function() {
@@ -269,7 +316,7 @@ c2(no)->op2->e</div>
               selectorAttr: 'data-i18n', // selector for translating elements
               targetAttr: 'i18n-target', // data-() attribute to grab target element to translate (if diffrent then itself)
               optionsAttr: 'i18n-options', // data-() attribute that contains options, will load/set if useOptionsAttr = true
-              useOptionsAttr: false, // see optionsAttr
+              useOptionsAttr: true, // see optionsAttr
               parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
             });
 
