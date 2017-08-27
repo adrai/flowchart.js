@@ -586,14 +586,20 @@
                 var line = lines.splice(0, 1)[0].trim();
                 if (line.indexOf("=>") >= 0) {
                     // definition
-                    var sub, parts = line.split("=>"), symbol = {
-                        key: parts[0],
+                    var parts = line.split("=>"), symbol = {
+                        key: parts[0].replace(/\(.*\)/, ""),
                         symbolType: parts[1],
                         text: null,
                         link: null,
                         target: null,
-                        flowstate: null
-                    };
+                        flowstate: null,
+                        params: {}
+                    }, params = parts[0].match(/\((.*)\)/);
+                    if (params && params.length > 1) for (var entries = params[1].split(","), i = 0; i < entries.length; i++) {
+                        var entry = entries[0].split("=");
+                        2 == entry.length && (symbol.params[entry[0]] = entry[1]);
+                    }
+                    var sub;
                     /* adding support for links */
                     if (symbol.symbolType.indexOf(": ") >= 0 && (sub = symbol.symbolType.split(": "), 
                     symbol.symbolType = sub.shift(), symbol.text = sub.join(": ")), symbol.text && symbol.text.indexOf(":>") >= 0 ? (sub = symbol.text.split(":>"), 
@@ -637,7 +643,8 @@
     function(module, exports, __webpack_require__) {
         function Condition(chart, options) {
             options = options || {}, Symbol.call(this, chart, options), this.textMargin = this.getAttr("text-margin"), 
-            this.yes_direction = "bottom", this.no_direction = "right", options.yes && options.direction_yes && options.no && !options.direction_no ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
+            this.yes_direction = "bottom", this.no_direction = "right", this.params = options.params, 
+            options.yes && options.direction_yes && options.no && !options.direction_no ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
             this.yes_direction = "right") : (this.no_direction = "right", this.yes_direction = "bottom") : options.yes && !options.direction_yes && options.no && options.direction_no ? "right" === options.direction_no ? (this.yes_direction = "bottom", 
             this.no_direction = "right") : (this.yes_direction = "right", this.no_direction = "bottom") : (this.yes_direction = "bottom", 
             this.no_direction = "right"), this.yes_direction = this.yes_direction || "bottom", 
@@ -698,8 +705,8 @@
                     this.right_symbol.setY(rightPoint.y - this.right_symbol.height / 2), this.right_symbol.shiftX(this.group.getBBox().x + this.width + lineLength);
                     var self = this;
                     !function shift() {
-                        for (var symb, hasSymbolUnder = !1, i = 0, len = self.chart.symbols.length; i < len; i++) {
-                            symb = self.chart.symbols[i];
+                        for (var symb, hasSymbolUnder = !1, i = 0, len = self.chart.symbols.length; i < len; i++) if (symb = self.chart.symbols[i], 
+                        !self.params["align-next"] || "no" !== self.params["align-next"]) {
                             var diff = Math.abs(symb.getCenter().x - self.right_symbol.getCenter().x);
                             if (symb.getCenter().y > self.right_symbol.getCenter().y && diff <= self.right_symbol.width / 2) {
                                 hasSymbolUnder = !0;
@@ -795,7 +802,7 @@
             "yes-text": "yes",
             "no-text": "no",
             "arrow-end": "block",
-            "class": "flowchart",
+            class: "flowchart",
             scale: 1,
             symbols: {
                 start: {},
