@@ -9,6 +9,7 @@ function Condition(chart, options) {
   this.textMargin = this.getAttr('text-margin');
   this.yes_direction = 'bottom';
   this.no_direction = 'right';
+  this.params = options.params;
   if (options.yes && options.direction_yes && options.no && !options.direction_no) {
     if (options.direction_yes === 'right') {
       this.no_direction = 'bottom';
@@ -120,10 +121,12 @@ Condition.prototype.render = function() {
         for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
           symb = self.chart.symbols[i];
 
-          var diff = Math.abs(symb.getCenter().x - self.right_symbol.getCenter().x);
-          if (symb.getCenter().y > self.right_symbol.getCenter().y && diff <= self.right_symbol.width/2) {
-            hasSymbolUnder = true;
-            break;
+          if (!self.params['align-next'] || self.params['align-next'] !== 'no') { 
+            var diff = Math.abs(symb.getCenter().x - self.right_symbol.getCenter().x);
+            if (symb.getCenter().y > self.right_symbol.getCenter().y && diff <= self.right_symbol.width/2) {
+              hasSymbolUnder = true;
+              break;
+            }
           }
         }
 
