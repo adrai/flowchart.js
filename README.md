@@ -88,7 +88,13 @@ and then
 ```
 
 ## Advice
-Symbols that should possibly not be used in the text: '=>' and '->' and ':>' and '|'
+Symbols that should possibly not be used in the text: '=>' and '->' and ':>' and '|' and '@>'
+
+If you want to emphasize a specific path in your flowchart, you can additionally define it like this:
+
+```
+st@>op1({"stroke":"Red"})@>cond({"stroke":"Red","stroke-width":6,"arrow-end":"classic-wide-long"})@>c2({"stroke":"Red"})@>op2({"stroke":"Red"})@>e({"stroke":"Red"})
+```
 
 ## Contributors
 
