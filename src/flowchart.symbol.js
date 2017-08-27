@@ -9,6 +9,8 @@ function Symbol(chart, options, symbol) {
   this.connectedTo = [];
   this.symbolType = options.symbolType;
   this.flowstate = (options.flowstate || 'future');
+  this.lineStyle = (options.lineStyle || {});
+  this.key = (options.key || '');
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
 
@@ -366,6 +368,11 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     this.leftStart = true;
     symbol.topEnd = true;
     maxX = left.x;
+  }
+
+  //update line style
+  if (this.lineStyle[symbol.key] && line){
+      line.attr( this.lineStyle[symbol.key]);
   }
 
   if (line) {

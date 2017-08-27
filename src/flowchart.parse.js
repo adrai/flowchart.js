@@ -115,13 +115,22 @@ function parse(input) {
   for (var l = 1, len = lines.length; l < len;) {
     var currentLine = lines[l];
 
-    if (currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0) {
+    if (currentLine.indexOf('->') < 0 && currentLine.indexOf('=>') < 0 && currentLine.indexOf('@>') < 0) {
       lines[l - 1] += '\n' + currentLine;
       lines.splice(l, 1);
       len--;
     } else {
       l++;
     }
+  }
+
+  function getStyle(s){
+    var startIndex = s.indexOf('(') + 1;
+    var endIndex = s.indexOf(')');
+    if (startIndex >= 0 && endIndex >= 0) {
+      return s.substring(startIndex,endIndex);
+    }
+    return '{}';
   }
 
   function getSymbol(s) {
@@ -161,6 +170,7 @@ function parse(input) {
         link: null,
         target: null,
         flowstate: null,
+        lineStyle: {},
         params: {}
       };
 
@@ -246,6 +256,19 @@ function parse(input) {
           realSymb[next] = getSymbol(nextSymb);
           realSymb['direction_' + next] = direction;
           direction = null;
+        }
+      }
+    } else if (line.indexOf('@>') >= 0) {
+
+      // line style
+      var lineStyleSymbols = line.split('@>');
+      for (var i = 0, lenS = lineStyleSymbols.length; i < lenS; i++) {
+
+        if ((i+1) != lenS){
+          var curSymb = getSymbol(lineStyleSymbols[i]);
+          var nextSymb = getSymbol(lineStyleSymbols[i+1])
+
+          curSymb['lineStyle'][nextSymb.key] = JSON.parse(getStyle(lineStyleSymbols[i+1]));
         }
       }
     }
