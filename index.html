@@ -41,7 +41,7 @@
       <section id="demo1">
         <table align="center" class="inner">
           <tr>
-            <td>
+            <td style="vertical-align: top;">
             <h3 data-i18n="demo1" data-i18n-options='{"defaultValue": "Demo 1. Try editing me below"}'></h3>
             <div class="editor-wrapper">
 <div class="editor editor1">st=>start: Start:>http://www.google.com[blank]
@@ -74,7 +74,9 @@ cond(no)->sub1(right)->op1</div>
 
 
       <b data-i18n="conditions" data-i18n-options='{"defaultValue": "Conditions can also be redirected like cond(yes, bottom) or cond(yes, right)"}'></b>
-      <b data-i18n="contitions_2" data-i18n-options='{"defaultValue": "... and the other symbols too... like sub1(right)"}'></b>
+      <br />
+      <b data-i18n="conditions_2" data-i18n-options='{"defaultValue": "... and the other symbols too... like sub1(right)"}'></b>
+
       <div class="inner">
       <section id="usage">
         <h3 data-i18n="usage" data-i18n-options='{"defaultValue": "Usage"}'></h3>
@@ -135,7 +137,7 @@ cond(no)->sub1(right)->op1</div>
       <section id="demo2">
         <table align="center" class="inner">
           <tr>
-            <td>
+            <td style="vertical-align: top;">
             <h3 data-i18n="demo2" data-i18n-options='{"defaultValue": "Demo 2 with color coding (flowstate). Try editing me below"}'></h3>
             <div class="editor-wrapper">
 <div class="editor editor2">st=>start: Start|past:>http://www.google.com[blank]
@@ -171,10 +173,10 @@ c2(no)->op2->e</div>
       <section id="demo3">
         <table align="center" class="inner">
           <tr>
-            <td>
+            <td style="vertical-align: top;">
             <h3 data-i18n="[html]demo3" data-i18n-options='{"defaultValue": "Demo 3 tribute to {{- link}}", "link": "<a href=\"https://locize.com\">locize</a>"}'></h3>
             <div class="editor-wrapper">
-  <div class="editor editor3">st=>start: Start to improve your localization process!
+  <div class="editor editor3" style="height: 480px;">st=>start: Improve your l10n process!
 e=>end: Continue to have fun!:>https://youtu.be/YQryHo1iHb8[blank]
 op1=>operation: Go to locize.com:>https://locize.com[blank]
 sub1=>subroutine: Read the awesomeness
@@ -200,7 +202,9 @@ cond3(yes)->op3
 op3(right)->op2
 cond2(yes)->sub3
 sub3->sub4->io2->e
-cond(no)->sub2(right)->op1</div>
+cond(no)->sub2(right)->op1
+
+st@>op1({"stroke":"Red"})@>sub1({"stroke":"Red"})@>cond({"stroke":"Red"})@>io({"stroke":"Red"})@>op2({"stroke":"Red"})@>cond2({"stroke":"Red"})@>sub3({"stroke":"Red"})@>sub4({"stroke":"Red"})@>io2({"stroke":"Red"})@>e({"stroke":"Red","stroke-width":6,"arrow-end":"classic-wide-long"})</div>
            </div>
            <!--   Theme:
             <select class="theme">
@@ -213,6 +217,11 @@ cond(no)->sub2(right)->op1</div>
         </table>
 
       </section>
+
+      <br />
+      <b data-i18n="emphasize" data-i18n-options='{"defaultValue": "If you want to emphasize a specific path in your flowchart, you can additionally define it like shown above."}'></b>
+      <br />
+      <b data-i18n="conditions_3" data-i18n-options='{"defaultValue": "Use cond(align-next=no) to disable vertical align of symbols below as shown above."}'></b>
 
     <footer>
       </br>
