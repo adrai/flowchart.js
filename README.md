@@ -36,7 +36,7 @@ and then
                                 'e=>end:>http://www.google.com\n' +
                                 'op1=>operation: My Operation\n' +
                                 'sub1=>subroutine: My Subroutine\n' +
-                                'cond=>condition: Yes \n' +
+                                'cond=>condition: Yes \n' + // use cond(align-next=no) to disable vertical align of symbols below
                                 'or No?\n:>http://www.google.com' +
                                 'io=>inputoutput|request: catch something...\n' +
                                 '' +
