@@ -155,13 +155,26 @@ function parse(input) {
       // definition
       var parts = line.split('=>');
       var symbol = {
-        key: parts[0],
+        key: parts[0].replace(/\(.*\)/, ''),
         symbolType: parts[1],
         text: null,
         link: null,
         target: null,
-        flowstate: null
+        flowstate: null,
+        params: {}
       };
+
+      //parse parameters
+      var params = parts[0].match(/\((.*)\)/);
+      if (params && params.length > 1){
+        var entries = params[1].split(',');
+        for(var i = 0; i < entries.length; i++) {
+          var entry = entries[0].split('=');
+          if (entry.length == 2){
+            symbol.params[entry[0]] = entry[1];
+          }
+        }
+      }
 
       var sub;
 
