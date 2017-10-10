@@ -15,6 +15,8 @@ function FlowChart(container, options) {
   this.start = null;
 }
 
+FlowChart.prototype.paper=null;
+
 FlowChart.prototype.handle = function(symbol) {
   if (this.symbols.indexOf(symbol) <= -1) {
     this.symbols.push(symbol);
