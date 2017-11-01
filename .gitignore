@@ -16,3 +16,4 @@ node_modules/**/*
 bin
 reports
 reports/**/*
+package-lock.json
