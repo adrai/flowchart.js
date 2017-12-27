@@ -1,3 +1,7 @@
+### v1.8.0
+
+- Allow Conditional to support 'true' or 'false' along with 'yes' and 'no' [#128](https://github.com/adrai/flowchart.js/pull/#128) thanks to [bhedge](https://github.com/bhedge)
+
 ### v1.7.0
 
 - add parameter to disable vertical alignment of condition symbol [#115](https://github.com/adrai/flowchart.js/pull/#115) thanks to [bertrandmartel](https://github.com/bertrandmartel)

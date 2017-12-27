@@ -1,4 +1,4 @@
-// flowchart.js, v1.7.0
+// flowchart.js, v1.8.0
 // Copyright (c)2017 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
