@@ -21,8 +21,8 @@ io=>inputoutput: catch something...|request
 st->op1(right)->cond
 cond(yes, right)->c2
 cond(no)->sub1(left)->op1
-c2(yes)->io->e
-c2(no)->op2->e
+c2(true)->io->e
+c2(false)->op2->e
     </div>
 		<script src="/node_modules/jquery/dist/jquery.js"></script>
     <script src="/node_modules/raphael/raphael.js"></script>

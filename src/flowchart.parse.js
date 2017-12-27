@@ -40,7 +40,7 @@ function parse(input) {
             dispSymbols[s.key] = new Operation(diagram, s);
             break;
           case 'inputoutput':
-            dispSymbols[s.key] = new InputOutput(diagram, s);
+            dispSymbols[s.key] = new InputOutput(diagram, s); 
             break;
           case 'subroutine':
             dispSymbols[s.key] = new Subroutine(diagram, s);
@@ -133,11 +133,20 @@ function parse(input) {
     return '{}';
   }
 
+  function getSymbValue(s){
+    var startIndex = s.indexOf('(') + 1;
+    var endIndex = s.indexOf(')');
+    if (startIndex >= 0 && endIndex >= 0) {
+      return s.substring(startIndex,endIndex);
+    }
+    return '';
+  }
+
   function getSymbol(s) {
     var startIndex = s.indexOf('(') + 1;
     var endIndex = s.indexOf(')');
     if (startIndex >= 0 && endIndex >= 0) {
-      return chart.symbols[s.substring(0, startIndex - 1)];
+      return chart.symbols[s.substring(0, startIndex - 1)];   
     }
     return chart.symbols[s];
   }
@@ -236,6 +245,13 @@ function parse(input) {
       var flowSymbols = line.split('->');
       for (var i = 0, lenS = flowSymbols.length; i < lenS; i++) {
         var flowSymb = flowSymbols[i];
+        var symbVal = getSymbValue(flowSymb);
+
+        if (symbVal === 'true' || symbVal === 'false') {
+          // map true or false to yes or no respectively
+          flowSymb = flowSymb.replace('true', 'yes');
+          flowSymb = flowSymb.replace('false', 'no');
+        }
 
         var realSymb = getSymbol(flowSymb);
         var next = getNextPath(flowSymb);
@@ -266,7 +282,7 @@ function parse(input) {
 
         if ((i+1) != lenS){
           var curSymb = getSymbol(lineStyleSymbols[i]);
-          var nextSymb = getSymbol(lineStyleSymbols[i+1])
+          var nextSymb = getSymbol(lineStyleSymbols[i+1]);
 
           curSymb['lineStyle'][nextSymb.key] = JSON.parse(getStyle(lineStyleSymbols[i+1]));
         }
