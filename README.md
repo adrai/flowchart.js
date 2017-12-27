@@ -44,10 +44,10 @@ and then
                                 '' +
                                 'st->op1(right)->cond\n' +
                                 'cond(yes, right)->c2\n' + // conditions can also be redirected like cond(yes, bottom) or cond(yes, right)
-                                'cond(no)->sub1(left)->op1\n' +
+                                'cond(no)->sub1(left)->op1\n' + // the other symbols too...
                                 'c2(true)->io->e\n' +
                                 'c2(false)->op2->e'  //allow for true and false in conditionals
-                                );// the other symbols too...
+                                );
   diagram.drawSVG('diagram');
 
   // you can also try to pass options:
