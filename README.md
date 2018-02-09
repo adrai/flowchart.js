@@ -38,10 +38,10 @@ and then
                                 'op2=>operation: Stuff|current\n' +
                                 'sub1=>subroutine: My Subroutine\n' +
                                 'cond=>condition: Yes \n' + // use cond(align-next=no) to disable vertical align of symbols below
-                                'or No?\n:>http://www.google.com' +
+                                'or No?\n:>http://www.google.com\n' +
                                 'c2=>condition: Good idea|rejected\n' +
-                                'io=>inputoutput|request: catch something...\n' +
-                                '' +
+                                'io=>inputoutput: catch something...|request\n' +
+                                '\n' +
                                 'st->op1(right)->cond\n' +
                                 'cond(yes, right)->c2\n' + // conditions can also be redirected like cond(yes, bottom) or cond(yes, right)
                                 'cond(no)->sub1(left)->op1\n' + // the other symbols too...
