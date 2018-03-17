@@ -214,9 +214,9 @@ Symbol.prototype.render = function() {
 Symbol.prototype.renderLines = function() {
   if (this.next) {
     if (this.next_direction) {
-      this.drawLineTo(this.next, '', this.next_direction);
+      this.drawLineTo(this.next, this.getAttr('arrow-text') || '', this.next_direction);
     } else {
-      this.drawLineTo(this.next);
+      this.drawLineTo(this.next, this.getAttr('arrow-text') || '');
     }
   }
 };
