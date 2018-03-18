@@ -1,3 +1,7 @@
+### v1.9.0
+
+- Add arrow-text attribute to symbols [#141](https://github.com/adrai/flowchart.js/pull/#141) thanks to [josephtocci](https://github.com/josephtocci)
+
 ### v1.8.0
 
 - Allow Conditional to support 'true' or 'false' along with 'yes' and 'no' [#128](https://github.com/adrai/flowchart.js/pull/#128) thanks to [bhedge](https://github.com/bhedge)
