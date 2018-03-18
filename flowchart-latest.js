@@ -1,5 +1,5 @@
-// flowchart.js, v1.8.0
-// Copyright (c)2017 Adriano Raiano (adrai).
+// flowchart.js, v1.9.0
+// Copyright (c)2018 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 
@@ -250,7 +250,7 @@
                 }
             }
         }, Symbol.prototype.renderLines = function() {
-            this.next && (this.next_direction ? this.drawLineTo(this.next, "", this.next_direction) : this.drawLineTo(this.next));
+            this.next && (this.next_direction ? this.drawLineTo(this.next, this.getAttr("arrow-text") || "", this.next_direction) : this.drawLineTo(this.next, this.getAttr("arrow-text") || ""));
         }, Symbol.prototype.drawLineTo = function(symbol, text, origin) {
             this.connectedTo.indexOf(symbol) < 0 && this.connectedTo.push(symbol);
             var line, x = this.getCenter().x, y = this.getCenter().y, right = this.getRight(), bottom = this.getBottom(), left = this.getLeft(), symbolX = symbol.getCenter().x, symbolY = symbol.getCenter().y, symbolTop = symbol.getTop(), symbolRight = symbol.getRight(), symbolLeft = symbol.getLeft(), isOnSameColumn = x === symbolX, isOnSameLine = y === symbolY, isUnder = y < symbolY, isUpper = y > symbolY || this === symbol, isLeft = x > symbolX, isRight = x < symbolX, maxX = 0, lineLength = this.getAttr("line-length"), lineWith = this.getAttr("line-width");
