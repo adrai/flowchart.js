@@ -14,6 +14,9 @@ function Condition(chart, options) {
     if (options.direction_yes === 'right') {
       this.no_direction = 'bottom';
       this.yes_direction = 'right';
+    } else if (options.direction_yes === 'top') {
+      this.no_direction = 'right';
+      this.yes_direction = 'top';
     } else {
       this.no_direction = 'right';
       this.yes_direction = 'bottom';

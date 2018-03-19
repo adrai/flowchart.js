@@ -230,6 +230,7 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
       y = this.getCenter().y,
       right = this.getRight(),
       bottom = this.getBottom(),
+      top = this.getTop(),
       left = this.getLeft();
 
   var symbolX = symbol.getCenter().x,
@@ -360,14 +361,23 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     maxX = left.x;
   } else if ((origin === 'left')) {
     line = drawLine(this.chart, left, [
-      {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: left.y},
-      {x: symbolTop.x + (left.x - symbolTop.x)/ 2, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x + (left.x - symbolTop.x)/2, y: left.y},
+      {x: symbolTop.x + (left.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y - lineLength/2},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
     this.leftStart = true;
     symbol.topEnd = true;
     maxX = left.x;
+  } else if ((origin === 'top')) {
+    line = drawLine(this.chart, top, [
+      {x: top.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y}
+    ], text);
+    this.topStart = true;
+    symbol.topEnd = true;
+    maxX = top.x;
   }
 
   //update line style

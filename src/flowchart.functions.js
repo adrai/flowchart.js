@@ -102,6 +102,9 @@ function drawLine(chart, from, to, text) {
       } else {
         x += chart.options['text-margin']/2;
         y += chart.options['text-margin'];
+        if (from.y > firstTo.y) {
+          y -= chart.options['text-margin']*2;
+        }
       }
     }
 
