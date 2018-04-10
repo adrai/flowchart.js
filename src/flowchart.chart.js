@@ -5,15 +5,15 @@ var Condition = require('./flowchart.symbol.condition');
 var Parallel = require('./flowchart.symbol.parallel');
 
 function FlowChart(container, options) {
-    options = options || {};
+  options = options || {};
 
-    this.paper = new Raphael(container);
+  this.paper = new Raphael(container);
 
-    this.options = defaults(options, defaultOptions);
+  this.options = defaults(options, defaultOptions);
 
-    this.symbols = [];
-    this.lines = [];
-    this.start = null;
+  this.symbols = [];
+  this.lines = [];
+  this.start = null;
 }
 
 FlowChart.prototype.handle = function(symbol) {
@@ -72,104 +72,104 @@ FlowChart.prototype.handle = function(symbol) {
 };
 
 FlowChart.prototype.startWith = function(symbol) {
-    this.start = symbol;
-    return this.handle(symbol);
+  this.start = symbol;
+  return this.handle(symbol);
 };
 
 FlowChart.prototype.render = function() {
-    var maxWidth = 0,
-        maxHeight = 0,
-        i = 0,
-        len = 0,
-        maxX = 0,
-        maxY = 0,
-        minX = 0,
-        minY = 0,
-        symbol,
-        line;
+  var maxWidth = 0,
+      maxHeight = 0,
+      i = 0,
+      len = 0,
+      maxX = 0,
+      maxY = 0,
+      minX = 0,
+      minY = 0,
+      symbol,
+      line;
 
-    for (i = 0, len = this.symbols.length; i < len; i++) {
-        symbol = this.symbols[i];
-        if (symbol.width > maxWidth) {
-            maxWidth = symbol.width;
-        }
-        if (symbol.height > maxHeight) {
-            maxHeight = symbol.height;
-        }
-    }
+  for (i = 0, len = this.symbols.length; i < len; i++) {
+      symbol = this.symbols[i];
+      if (symbol.width > maxWidth) {
+          maxWidth = symbol.width;
+      }
+      if (symbol.height > maxHeight) {
+          maxHeight = symbol.height;
+      }
+  }
 
-    for (i = 0, len = this.symbols.length; i < len; i++) {
-        symbol = this.symbols[i];
-        symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options['line-width']);
-        symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options['line-width']);
-    }
+  for (i = 0, len = this.symbols.length; i < len; i++) {
+      symbol = this.symbols[i];
+      symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options['line-width']);
+      symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options['line-width']);
+  }
 
-    this.start.render();
-    // for (i = 0, len = this.symbols.length; i < len; i++) {
-    //   symbol = this.symbols[i];
-    //   symbol.render();
-    // }
+  this.start.render();
+  // for (i = 0, len = this.symbols.length; i < len; i++) {
+  //   symbol = this.symbols[i];
+  //   symbol.render();
+  // }
 
-    for (i = 0, len = this.symbols.length; i < len; i++) {
-        symbol = this.symbols[i];
-        symbol.renderLines();
-    }
+  for (i = 0, len = this.symbols.length; i < len; i++) {
+      symbol = this.symbols[i];
+      symbol.renderLines();
+  }
 
-    maxX = this.maxXFromLine;
+  maxX = this.maxXFromLine;
 
-    var x;
-    var y;
+  var x;
+  var y;
 
-    for (i = 0, len = this.symbols.length; i < len; i++) {
-        symbol = this.symbols[i];
-        x = symbol.getX() + symbol.width;
-        y = symbol.getY() + symbol.height;
-        if (x > maxX) {
-            maxX = x;
-        }
-        if (y > maxY) {
-            maxY = y;
-        }
-    }
+  for (i = 0, len = this.symbols.length; i < len; i++) {
+      symbol = this.symbols[i];
+      x = symbol.getX() + symbol.width;
+      y = symbol.getY() + symbol.height;
+      if (x > maxX) {
+          maxX = x;
+      }
+      if (y > maxY) {
+          maxY = y;
+      }
+  }
 
-    for (i = 0, len = this.lines.length; i < len; i++) {
-        line = this.lines[i].getBBox();
-        x = line.x;
-        y = line.y;
-        var x2 = line.x2;
-        var y2 = line.y2;
-        if (x < minX) {
-            minX = x;
-        }
-        if (y < minY) {
-            minY = y;
-        }
-        if (x2 > maxX) {
-            maxX = x2;
-        }
-        if (y2 > maxY) {
-            maxY = y2;
-        }
-    }
+  for (i = 0, len = this.lines.length; i < len; i++) {
+      line = this.lines[i].getBBox();
+      x = line.x;
+      y = line.y;
+      var x2 = line.x2;
+      var y2 = line.y2;
+      if (x < minX) {
+          minX = x;
+      }
+      if (y < minY) {
+          minY = y;
+      }
+      if (x2 > maxX) {
+          maxX = x2;
+      }
+      if (y2 > maxY) {
+          maxY = y2;
+      }
+  }
 
-    var scale = this.options['scale'];
-    var lineWidth = this.options['line-width'];
+  var scale = this.options['scale'];
+  var lineWidth = this.options['line-width'];
 
-    if (minX < 0) minX -= lineWidth;
-    if (minY < 0) minY -= lineWidth;
+  if (minX < 0) minX -= lineWidth;
+  if (minY < 0) minY -= lineWidth;
 
-    var width = maxX + lineWidth - minX;
-    var height = maxY + lineWidth - minY;
+  var width = maxX + lineWidth - minX;
+  var height = maxY + lineWidth - minY;
 
-    this.paper.setSize(width * scale, height * scale);
-    this.paper.setViewBox(minX, minY, width, height, true);
+  this.paper.setSize(width * scale, height * scale);
+  this.paper.setViewBox(minX, minY, width, height, true);
 };
 
 FlowChart.prototype.clean = function() {
-    if (this.paper) {
-        var paperDom = this.paper.canvas;
-        paperDom.parentNode.removeChild(paperDom);
-    }
+  if (this.paper) {
+    var paperDom = this.paper.canvas;
+    paperDom.parentNode.removeChild(paperDom);
+  }
 };
 
 module.exports = FlowChart;
