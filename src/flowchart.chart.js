@@ -17,58 +17,58 @@ function FlowChart(container, options) {
 }
 
 FlowChart.prototype.handle = function(symbol) {
-    if (this.symbols.indexOf(symbol) <= -1) {
-        this.symbols.push(symbol);
-    }
+  if (this.symbols.indexOf(symbol) <= -1) {
+      this.symbols.push(symbol);
+  }
 
-    var flowChart = this;
+  var flowChart = this;
 
-    if (symbol instanceof(Condition)) {
-        symbol.yes = function(nextSymbol) {
-            symbol.yes_symbol = nextSymbol;
-            if (symbol.no_symbol) {
-                symbol.pathOk = true;
-            }
-            return flowChart.handle(nextSymbol);
-        };
-        symbol.no = function(nextSymbol) {
-            symbol.no_symbol = nextSymbol;
-            if (symbol.yes_symbol) {
-                symbol.pathOk = true;
-            }
-            return flowChart.handle(nextSymbol);
-        };
-    } else if (symbol instanceof(Parallel)) {
-        symbol.path1 = function(nextSymbol) {
-            symbol.path1_symbol = nextSymbol;
-            if (symbol.path2_symbol) {
-                symbol.pathOk = true;
-            }
-            return flowChart.handle(nextSymbol);
-        };
-        symbol.path2 = function(nextSymbol) {
-            symbol.path2_symbol = nextSymbol;
-            if (symbol.path3_symbol) {
-                symbol.pathOk = true;
-            }
-            return flowChart.handle(nextSymbol);
-        };
-        symbol.path3 = function(nextSymbol) {
-            symbol.path3_symbol = nextSymbol;
-            if (symbol.path1_symbol) {
-                symbol.pathOk = true;
-            }
-            return flowChart.handle(nextSymbol);
-        };
-    } else {
-        symbol.then = function(nextSymbol) {
-            symbol.next = nextSymbol;
-            symbol.pathOk = true;
-            return flowChart.handle(nextSymbol);
-        };
-    }
+  if (symbol instanceof(Condition)) {
+      symbol.yes = function(nextSymbol) {
+          symbol.yes_symbol = nextSymbol;
+          if (symbol.no_symbol) {
+              symbol.pathOk = true;
+          }
+          return flowChart.handle(nextSymbol);
+      };
+      symbol.no = function(nextSymbol) {
+          symbol.no_symbol = nextSymbol;
+          if (symbol.yes_symbol) {
+              symbol.pathOk = true;
+          }
+          return flowChart.handle(nextSymbol);
+      };
+  } else if (symbol instanceof(Parallel)) {
+      symbol.path1 = function(nextSymbol) {
+          symbol.path1_symbol = nextSymbol;
+          if (symbol.path2_symbol) {
+              symbol.pathOk = true;
+          }
+          return flowChart.handle(nextSymbol);
+      };
+      symbol.path2 = function(nextSymbol) {
+          symbol.path2_symbol = nextSymbol;
+          if (symbol.path3_symbol) {
+              symbol.pathOk = true;
+          }
+          return flowChart.handle(nextSymbol);
+      };
+      symbol.path3 = function(nextSymbol) {
+          symbol.path3_symbol = nextSymbol;
+          if (symbol.path1_symbol) {
+              symbol.pathOk = true;
+          }
+          return flowChart.handle(nextSymbol);
+      };
+  } else {
+      symbol.then = function(nextSymbol) {
+          symbol.next = nextSymbol;
+          symbol.pathOk = true;
+          return flowChart.handle(nextSymbol);
+      };
+  }
 
-    return symbol;
+  return symbol;
 };
 
 FlowChart.prototype.startWith = function(symbol) {
@@ -167,8 +167,8 @@ FlowChart.prototype.render = function() {
 
 FlowChart.prototype.clean = function() {
   if (this.paper) {
-    var paperDom = this.paper.canvas;
-    paperDom.parentNode.removeChild(paperDom);
+      var paperDom = this.paper.canvas;
+      paperDom.parentNode.removeChild(paperDom);
   }
 };
 
