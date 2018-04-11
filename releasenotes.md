@@ -1,3 +1,7 @@
+### v1.11.0
+
+- Add parallel component [#145](https://github.com/adrai/flowchart.js/pull/145) thanks to [sudhakar-sekar](https://github.com/sudhakar-sekar)
+
 ### v1.9.0
 
 - Add arrow-text attribute to symbols [#141](https://github.com/adrai/flowchart.js/pull/#141) thanks to [josephtocci](https://github.com/josephtocci)

@@ -1,7 +1,5 @@
 var Symbol = require('./flowchart.symbol');
 var inherits = require('./flowchart.helpers').inherits;
-var drawAPI = require('./flowchart.functions');
-var drawPath = drawAPI.drawPath;
 
 function Parallel(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0);
@@ -12,6 +10,16 @@ function Parallel(chart, options) {
   this.path2_direction = 'right';
   this.path3_direction = 'top';
   this.params = options.params;
+  if (options.direction_next === 'path1' && !options[options.direction_next] && options.next) {
+    options[options.direction_next] = options.next;
+  }
+  if (options.direction_next === 'path2' && !options[options.direction_next] && options.next) {
+    options[options.direction_next] = options.next;
+  }
+  if (options.direction_next === 'path3' && !options[options.direction_next] && options.next) {
+    options[options.direction_next] = options.next;
+  }
+
   if (options.path1 && options.direction_path1 && options.path2 && !options.direction_path2 && options.path3 && !options.direction_path3) {
     if (options.direction_path1 === 'right') {
       this.path2_direction = 'bottom';
@@ -20,7 +28,11 @@ function Parallel(chart, options) {
     } else if (options.direction_path1 === 'top') {
       this.path2_direction = 'right';
       this.path1_direction = 'top';
-      this.path3_direction = 'top';
+      this.path3_direction = 'bottom';
+    } else if (options.direction_path1 === 'left') {
+      this.path2_direction = 'right';
+      this.path1_direction = 'left';
+      this.path3_direction = 'bottom';
     } else {
       this.path2_direction = 'right';
       this.path1_direction = 'bottom';
@@ -31,6 +43,10 @@ function Parallel(chart, options) {
       this.path1_direction = 'bottom';
       this.path2_direction = 'right';
       this.path3_direction = 'top';
+    } else if (options.direction_path2 === 'left') {
+      this.path1_direction = 'bottom';
+      this.path2_direction = 'left';
+      this.path3_direction = 'right';
     } else {
       this.path1_direction = 'right';
       this.path2_direction = 'bottom';
@@ -41,15 +57,19 @@ function Parallel(chart, options) {
       this.path1_direction = 'bottom';
       this.path2_direction = 'top';
       this.path3_direction = 'right';
+    } else if (options.direction_path2 === 'left') {
+      this.path1_direction = 'bottom';
+      this.path2_direction = 'right';
+      this.path3_direction = 'left';
     } else {
       this.path1_direction = 'right';
       this.path2_direction = 'bottom';
       this.path3_direction = 'top';
     }
   } else {
-    this.path1_direction = 'bottom';
-    this.path2_direction = 'right';
-    this.path3_direction = 'top';
+    this.path1_direction = options.direction_path1;
+    this.path2_direction = options.direction_path2;
+    this.path3_direction = options.direction_path3;
   }
 
   this.path1_direction = this.path1_direction || 'bottom';
