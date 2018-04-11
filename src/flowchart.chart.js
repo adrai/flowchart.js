@@ -26,7 +26,7 @@ FlowChart.prototype.handle = function(symbol) {
   if (symbol instanceof(Condition)) {
     symbol.yes = function(nextSymbol) {
       symbol.yes_symbol = nextSymbol;
-      if (symbol.no_symbol) {
+      if(symbol.no_symbol) {
         symbol.pathOk = true;
       }
       return flowChart.handle(nextSymbol);
@@ -100,8 +100,8 @@ FlowChart.prototype.render = function() {
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];
-    symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options['line-width']);
-    symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options['line-width']);
+    symbol.shiftX(this.options.x + (maxWidth - symbol.width)/2 + this.options['line-width']);
+    symbol.shiftY(this.options.y + (maxHeight - symbol.height)/2 + this.options['line-width']);
   }
 
   this.start.render();

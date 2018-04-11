@@ -125,7 +125,7 @@ function parse(input) {
   var lines = [];
   var prevBreak = 0;
   for (var i0 = 1, i0len = input.length; i0 < i0len; i0++) {
-    if (input[i0] === '\n' && input[i0 - 1] !== '\\') {
+    if(input[i0] === '\n' && input[i0 - 1] !== '\\') {
       var line0 = input.substring(prevBreak, i0);
       prevBreak = i0 + 1;
       lines.push(line0.replace(/\\\n/g, '\n'));
@@ -133,7 +133,7 @@ function parse(input) {
   }
 
   if (prevBreak < input.length) {
-      lines.push(input.substr(prevBreak));
+    lines.push(input.substr(prevBreak));
   }
 
   for (var l = 1, len = lines.length; l < len;) {
@@ -148,20 +148,20 @@ function parse(input) {
     }
   }
 
-  function getStyle(s) {
+  function getStyle(s){
     var startIndex = s.indexOf('(') + 1;
     var endIndex = s.indexOf(')');
     if (startIndex >= 0 && endIndex >= 0) {
-      return s.substring(startIndex, endIndex);
+      return s.substring(startIndex,endIndex);
     }
     return '{}';
   }
 
-  function getSymbValue(s) {
+  function getSymbValue(s){
     var startIndex = s.indexOf('(') + 1;
     var endIndex = s.indexOf(')');
     if (startIndex >= 0 && endIndex >= 0) {
-      return s.substring(startIndex, endIndex);
+      return s.substring(startIndex,endIndex);
     }
     return '';
   }
@@ -209,13 +209,13 @@ function parse(input) {
 
       //parse parameters
       var params = parts[0].match(/\((.*)\)/);
-      if (params && params.length > 1) {
+      if (params && params.length > 1){
         var entries = params[1].split(',');
-        for (var i = 0; i < entries.length; i++) {
-           var entry = entries[0].split('=');
-           if (entry.length == 2) {
-             symbol.params[entry[0]] = entry[1];
-           }
+        for(var i = 0; i < entries.length; i++) {
+          var entry = entries[0].split('=');
+          if (entry.length == 2) {
+            symbol.params[entry[0]] = entry[1];
+          }
         }
       }
 
@@ -305,7 +305,7 @@ function parse(input) {
       for (var i = 0, lenS = lineStyleSymbols.length; i < lenS; i++) {
         if ((i + 1) != lenS) {
           var curSymb = getSymbol(lineStyleSymbols[i]);
-          var nextSymb = getSymbol(lineStyleSymbols[i + 1]);
+          var nextSymb = getSymbol(lineStyleSymbols[i+1]);
 
           curSymb['lineStyle'][nextSymb.key] = JSON.parse(getStyle(lineStyleSymbols[i + 1]));
         }
