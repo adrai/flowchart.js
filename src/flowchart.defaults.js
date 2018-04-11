@@ -19,13 +19,14 @@ module.exports = {
   'class': 'flowchart',
   'scale': 1,
   'symbols': {
-    'start': {},
-    'end': {},
-    'condition': {},
-    'inputoutput': {},
-    'operation': {},
-    'subroutine': {}
-  }//,
+      'start': {},
+      'end': {},
+      'condition': {},
+      'inputoutput': {},
+      'operation': {},
+      'subroutine': {},
+      'parallel': {}
+  } //,
   // 'flowstate' : {
   //   'past' : { 'fill': '#CCCCCC', 'font-size': 12},
   //   'current' : {'fill': 'yellow', 'font-color': 'red', 'font-weight': 'bold'},

@@ -5,6 +5,7 @@ var Operation = require('./flowchart.symbol.operation');
 var InputOutput = require('./flowchart.symbol.inputoutput');
 var Subroutine = require('./flowchart.symbol.subroutine');
 var Condition = require('./flowchart.symbol.condition');
+var Parallel = require('./flowchart.symbol.parallel');
 
 function parse(input) {
   input = input || '';
@@ -40,13 +41,16 @@ function parse(input) {
             dispSymbols[s.key] = new Operation(diagram, s);
             break;
           case 'inputoutput':
-            dispSymbols[s.key] = new InputOutput(diagram, s); 
+            dispSymbols[s.key] = new InputOutput(diagram, s);
             break;
           case 'subroutine':
             dispSymbols[s.key] = new Subroutine(diagram, s);
             break;
           case 'condition':
             dispSymbols[s.key] = new Condition(diagram, s);
+            break;
+          case 'parallel':
+            dispSymbols[s.key] = new Parallel(diagram, s);
             break;
           default:
             return new Error('Wrong symbol type!');
@@ -68,6 +72,16 @@ function parse(input) {
             if (prev.no === s) {
               prevDisp.no(dispSymb);
             }
+          } else if (prevDisp instanceof(Parallel)) {
+            if (prev.path1 === s) {
+              prevDisp.path1(dispSymb);
+            }
+            if (prev.path2 === s) {
+              prevDisp.path2(dispSymb);
+            }
+            if (prev.path3 === s) {
+              prevDisp.path3(dispSymb);
+            }
           } else {
             prevDisp.then(dispSymb);
           }
@@ -83,6 +97,16 @@ function parse(input) {
           }
           if (s.no) {
             constructChart(s.no, dispSymb, s);
+          }
+        } else if (dispSymb instanceof(Parallel)) {
+          if (s.path1) {
+            constructChart(s.path1, dispSymb, s);
+          }
+          if (s.path2) {
+            constructChart(s.path2, dispSymb, s);
+          }
+          if (s.path3) {
+            constructChart(s.path3, dispSymb, s);
           }
         } else if (s.next) {
           constructChart(s.next, dispSymb, s);
@@ -108,7 +132,7 @@ function parse(input) {
     }
   }
 
-  if(prevBreak < input.length) {
+  if (prevBreak < input.length) {
     lines.push(input.substr(prevBreak));
   }
 
@@ -146,7 +170,7 @@ function parse(input) {
     var startIndex = s.indexOf('(') + 1;
     var endIndex = s.indexOf(')');
     if (startIndex >= 0 && endIndex >= 0) {
-      return chart.symbols[s.substring(0, startIndex - 1)];   
+      return chart.symbols[s.substring(0, startIndex - 1)];
     }
     return chart.symbols[s];
   }
@@ -189,7 +213,7 @@ function parse(input) {
         var entries = params[1].split(',');
         for(var i = 0; i < entries.length; i++) {
           var entry = entries[0].split('=');
-          if (entry.length == 2){
+          if (entry.length == 2) {
             symbol.params[entry[0]] = entry[1];
           }
         }
@@ -279,12 +303,11 @@ function parse(input) {
       // line style
       var lineStyleSymbols = line.split('@>');
       for (var i = 0, lenS = lineStyleSymbols.length; i < lenS; i++) {
-
-        if ((i+1) != lenS){
+        if ((i + 1) != lenS) {
           var curSymb = getSymbol(lineStyleSymbols[i]);
           var nextSymb = getSymbol(lineStyleSymbols[i+1]);
 
-          curSymb['lineStyle'][nextSymb.key] = JSON.parse(getStyle(lineStyleSymbols[i+1]));
+          curSymb['lineStyle'][nextSymb.key] = JSON.parse(getStyle(lineStyleSymbols[i + 1]));
         }
       }
     }

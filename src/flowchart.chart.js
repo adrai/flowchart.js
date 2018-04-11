@@ -2,6 +2,7 @@ var Raphael = require('raphael');
 var defaults = require('./flowchart.helpers').defaults;
 var defaultOptions = require('./flowchart.defaults');
 var Condition = require('./flowchart.symbol.condition');
+var Parallel = require('./flowchart.symbol.parallel');
 
 function FlowChart(container, options) {
   options = options || {};
@@ -32,7 +33,29 @@ FlowChart.prototype.handle = function(symbol) {
     };
     symbol.no = function(nextSymbol) {
       symbol.no_symbol = nextSymbol;
-      if(symbol.yes_symbol) {
+      if (symbol.yes_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
+  } else if (symbol instanceof(Parallel)) {
+    symbol.path1 = function(nextSymbol) {
+      symbol.path1_symbol = nextSymbol;
+      if (symbol.path2_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
+    symbol.path2 = function(nextSymbol) {
+      symbol.path2_symbol = nextSymbol;
+      if (symbol.path3_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
+    symbol.path3 = function(nextSymbol) {
+      symbol.path3_symbol = nextSymbol;
+      if (symbol.path1_symbol) {
         symbol.pathOk = true;
       }
       return flowChart.handle(nextSymbol);
@@ -55,15 +78,15 @@ FlowChart.prototype.startWith = function(symbol) {
 
 FlowChart.prototype.render = function() {
   var maxWidth = 0,
-      maxHeight = 0,
-      i = 0,
-      len = 0,
-      maxX = 0,
-      maxY = 0,
-      minX = 0,
-      minY = 0,
-      symbol,
-      line;
+    maxHeight = 0,
+    i = 0,
+    len = 0,
+    maxX = 0,
+    maxY = 0,
+    minX = 0,
+    minY = 0,
+    symbol,
+    line;
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];
