@@ -51,10 +51,13 @@ sub1=>subroutine: My Subroutine
 cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
+para=>parallel: parallel tasks
 
 st->op1->cond
 cond(yes)->io->e
-cond(no)->sub1(right)->op1</div>
+cond(no)->para
+para(path1, bottom)->sub1(right)->op1
+para(path2, top)->op1</div>
            </div>
            <!--   Theme:
             <select class="theme">

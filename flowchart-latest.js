@@ -1,4 +1,4 @@
-// flowchart.js, v1.10.0
+// flowchart.js, v1.11.0
 // Copyright (c)2018 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -8,7 +8,7 @@
         var a = factory("object" == typeof exports ? require("Raphael") : root.Raphael);
         for (var i in a) ("object" == typeof exports ? exports : root)[i] = a[i];
     }
-}(this, function(__WEBPACK_EXTERNAL_MODULE_15__) {
+}(this, function(__WEBPACK_EXTERNAL_MODULE_16__) {
     /******/
     return function(modules) {
         /******/
@@ -79,9 +79,9 @@
   \******************/
     /***/
     function(module, exports, __webpack_require__) {
-        __webpack_require__(/*! ./src/flowchart.shim */ 8);
+        __webpack_require__(/*! ./src/flowchart.shim */ 9);
         var parse = __webpack_require__(/*! ./src/flowchart.parse */ 4);
-        __webpack_require__(/*! ./src/jquery-plugin */ 14);
+        __webpack_require__(/*! ./src/jquery-plugin */ 15);
         var FlowChart = {
             parse: parse
         };
@@ -569,6 +569,10 @@
                             dispSymbols[s.key] = new Condition(diagram, s);
                             break;
 
+                          case "parallel":
+                            dispSymbols[s.key] = new Parallel(diagram, s);
+                            break;
+
                           default:
                             return new Error("Wrong symbol type!");
                         }
@@ -582,8 +586,11 @@
                     !function constructChart(s, prevDisp, prev) {
                         var dispSymb = getDisplaySymbol(s);
                         return self.start === s ? diagram.startWith(dispSymb) : prevDisp && prev && !prevDisp.pathOk && (prevDisp instanceof Condition ? (prev.yes === s && prevDisp.yes(dispSymb), 
-                        prev.no === s && prevDisp.no(dispSymb)) : prevDisp.then(dispSymb)), dispSymb.pathOk ? dispSymb : (dispSymb instanceof Condition ? (s.yes && constructChart(s.yes, dispSymb, s), 
-                        s.no && constructChart(s.no, dispSymb, s)) : s.next && constructChart(s.next, dispSymb, s), 
+                        prev.no === s && prevDisp.no(dispSymb)) : prevDisp instanceof Parallel ? (prev.path1 === s && prevDisp.path1(dispSymb), 
+                        prev.path2 === s && prevDisp.path2(dispSymb), prev.path3 === s && prevDisp.path3(dispSymb)) : prevDisp.then(dispSymb)), 
+                        dispSymb.pathOk ? dispSymb : (dispSymb instanceof Condition ? (s.yes && constructChart(s.yes, dispSymb, s), 
+                        s.no && constructChart(s.no, dispSymb, s)) : dispSymb instanceof Parallel ? (s.path1 && constructChart(s.path1, dispSymb, s), 
+                        s.path2 && constructChart(s.path2, dispSymb, s), s.path3 && constructChart(s.path3, dispSymb, s)) : s.next && constructChart(s.next, dispSymb, s), 
                         dispSymb);
                     }(this.start), diagram.render();
                 },
@@ -658,7 +665,7 @@
             }
             return chart;
         }
-        var FlowChart = __webpack_require__(/*! ./flowchart.chart */ 6), Start = __webpack_require__(/*! ./flowchart.symbol.start */ 12), End = __webpack_require__(/*! ./flowchart.symbol.end */ 9), Operation = __webpack_require__(/*! ./flowchart.symbol.operation */ 11), InputOutput = __webpack_require__(/*! ./flowchart.symbol.inputoutput */ 10), Subroutine = __webpack_require__(/*! ./flowchart.symbol.subroutine */ 13), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5);
+        var FlowChart = __webpack_require__(/*! ./flowchart.chart */ 7), Start = __webpack_require__(/*! ./flowchart.symbol.start */ 13), End = __webpack_require__(/*! ./flowchart.symbol.end */ 10), Operation = __webpack_require__(/*! ./flowchart.symbol.operation */ 12), InputOutput = __webpack_require__(/*! ./flowchart.symbol.inputoutput */ 11), Subroutine = __webpack_require__(/*! ./flowchart.symbol.subroutine */ 14), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5), Parallel = __webpack_require__(/*! ./flowchart.symbol.parallel */ 6);
         module.exports = parse;
     }, /* 5 */
     /*!*******************************************!*\
@@ -749,6 +756,76 @@
             this.no_symbol && this.drawLineTo(this.no_symbol, this.getAttr("no-text"), this.no_direction);
         }, module.exports = Condition;
     }, /* 6 */
+    /*!******************************************!*\
+  !*** ./src/flowchart.symbol.parallel.js ***!
+  \******************************************/
+    /***/
+    function(module, exports, __webpack_require__) {
+        function Parallel(chart, options) {
+            var symbol = chart.paper.rect(0, 0, 0, 0);
+            options = options || {}, Symbol.call(this, chart, options, symbol), this.textMargin = this.getAttr("text-margin"), 
+            this.path1_direction = "bottom", this.path2_direction = "right", this.path3_direction = "top", 
+            this.params = options.params, "path1" === options.direction_next && !options[options.direction_next] && options.next && (options[options.direction_next] = options.next), 
+            "path2" === options.direction_next && !options[options.direction_next] && options.next && (options[options.direction_next] = options.next), 
+            "path3" === options.direction_next && !options[options.direction_next] && options.next && (options[options.direction_next] = options.next), 
+            options.path1 && options.direction_path1 && options.path2 && !options.direction_path2 && options.path3 && !options.direction_path3 ? "right" === options.direction_path1 ? (this.path2_direction = "bottom", 
+            this.path1_direction = "right", this.path3_direction = "top") : "top" === options.direction_path1 ? (this.path2_direction = "right", 
+            this.path1_direction = "top", this.path3_direction = "bottom") : "left" === options.direction_path1 ? (this.path2_direction = "right", 
+            this.path1_direction = "left", this.path3_direction = "bottom") : (this.path2_direction = "right", 
+            this.path1_direction = "bottom", this.path3_direction = "top") : options.path1 && !options.direction_path1 && options.path2 && options.direction_path2 && options.path3 && !options.direction_path3 ? "right" === options.direction_path2 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "right", this.path3_direction = "top") : "left" === options.direction_path2 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "left", this.path3_direction = "right") : (this.path1_direction = "right", 
+            this.path2_direction = "bottom", this.path3_direction = "top") : options.path1 && !options.direction_path1 && options.path2 && !options.direction_path2 && options.path3 && options.direction_path3 ? "right" === options.direction_path2 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "top", this.path3_direction = "right") : "left" === options.direction_path2 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "right", this.path3_direction = "left") : (this.path1_direction = "right", 
+            this.path2_direction = "bottom", this.path3_direction = "top") : (this.path1_direction = options.direction_path1, 
+            this.path2_direction = options.direction_path2, this.path3_direction = options.direction_path3), 
+            this.path1_direction = this.path1_direction || "bottom", this.path2_direction = this.path2_direction || "right", 
+            this.path3_direction = this.path3_direction || "top", this.initialize();
+        }
+        var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
+        inherits(Parallel, Symbol), Parallel.prototype.render = function() {
+            this.path1_direction && (this[this.path1_direction + "_symbol"] = this.path1_symbol), 
+            this.path2_direction && (this[this.path2_direction + "_symbol"] = this.path2_symbol), 
+            this.path3_direction && (this[this.path3_direction + "_symbol"] = this.path3_symbol);
+            var lineLength = this.getAttr("line-length");
+            if (this.bottom_symbol) {
+                var bottomPoint = this.getBottom();
+                this.bottom_symbol.isPositioned || (this.bottom_symbol.shiftY(this.getY() + this.height + lineLength), 
+                this.bottom_symbol.setX(bottomPoint.x - this.bottom_symbol.width / 2), this.bottom_symbol.isPositioned = !0, 
+                this.bottom_symbol.render());
+            }
+            if (this.top_symbol) {
+                var topPoint = this.getTop();
+                this.top_symbol.isPositioned || (this.top_symbol.shiftY(this.getY() - this.top_symbol.height - lineLength), 
+                this.top_symbol.setX(topPoint.x + this.top_symbol.width), this.top_symbol.isPositioned = !0, 
+                this.top_symbol.render());
+            }
+            if (this.right_symbol) {
+                var rightPoint = this.getRight();
+                if (!this.right_symbol.isPositioned) {
+                    this.right_symbol.setY(rightPoint.y - this.right_symbol.height / 2), this.right_symbol.shiftX(this.group.getBBox().x + this.width + lineLength);
+                    var self = this;
+                    !function shift() {
+                        for (var symb, hasSymbolUnder = !1, i = 0, len = self.chart.symbols.length; len > i; i++) if (symb = self.chart.symbols[i], 
+                        !self.params["align-next"] || "no" !== self.params["align-next"]) {
+                            var diff = Math.abs(symb.getCenter().x - self.right_symbol.getCenter().x);
+                            if (symb.getCenter().y > self.right_symbol.getCenter().y && diff <= self.right_symbol.width / 2) {
+                                hasSymbolUnder = !0;
+                                break;
+                            }
+                        }
+                        hasSymbolUnder && (self.right_symbol.setX(symb.getX() + symb.width + lineLength), 
+                        shift());
+                    }(), this.right_symbol.isPositioned = !0, this.right_symbol.render();
+                }
+            }
+        }, Parallel.prototype.renderLines = function() {
+            this.path1_symbol && this.drawLineTo(this.path1_symbol, "", this.path1_direction), 
+            this.path2_symbol && this.drawLineTo(this.path2_symbol, "", this.path2_direction), 
+            this.path3_symbol && this.drawLineTo(this.path3_symbol, "", this.path3_direction);
+        }, module.exports = Parallel;
+    }, /* 7 */
     /*!********************************!*\
   !*** ./src/flowchart.chart.js ***!
   \********************************/
@@ -758,7 +835,7 @@
             options = options || {}, this.paper = new Raphael(container), this.options = defaults(options, defaultOptions), 
             this.symbols = [], this.lines = [], this.start = null;
         }
-        var Raphael = __webpack_require__(/*! raphael */ 15), defaults = __webpack_require__(/*! ./flowchart.helpers */ 1).defaults, defaultOptions = __webpack_require__(/*! ./flowchart.defaults */ 7), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5);
+        var Raphael = __webpack_require__(/*! raphael */ 16), defaults = __webpack_require__(/*! ./flowchart.helpers */ 1).defaults, defaultOptions = __webpack_require__(/*! ./flowchart.defaults */ 8), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5), Parallel = __webpack_require__(/*! ./flowchart.symbol.parallel */ 6);
         FlowChart.prototype.handle = function(symbol) {
             this.symbols.indexOf(symbol) <= -1 && this.symbols.push(symbol);
             var flowChart = this;
@@ -767,6 +844,15 @@
                 flowChart.handle(nextSymbol);
             }, symbol.no = function(nextSymbol) {
                 return symbol.no_symbol = nextSymbol, symbol.yes_symbol && (symbol.pathOk = !0), 
+                flowChart.handle(nextSymbol);
+            }) : symbol instanceof Parallel ? (symbol.path1 = function(nextSymbol) {
+                return symbol.path1_symbol = nextSymbol, symbol.path2_symbol && (symbol.pathOk = !0), 
+                flowChart.handle(nextSymbol);
+            }, symbol.path2 = function(nextSymbol) {
+                return symbol.path2_symbol = nextSymbol, symbol.path3_symbol && (symbol.pathOk = !0), 
+                flowChart.handle(nextSymbol);
+            }, symbol.path3 = function(nextSymbol) {
+                return symbol.path3_symbol = nextSymbol, symbol.path1_symbol && (symbol.pathOk = !0), 
                 flowChart.handle(nextSymbol);
             }) : symbol.then = function(nextSymbol) {
                 return symbol.next = nextSymbol, symbol.pathOk = !0, flowChart.handle(nextSymbol);
@@ -804,7 +890,7 @@
                 paperDom.parentNode.removeChild(paperDom);
             }
         }, module.exports = FlowChart;
-    }, /* 7 */
+    }, /* 8 */
     /*!***********************************!*\
   !*** ./src/flowchart.defaults.js ***!
   \***********************************/
@@ -836,10 +922,11 @@
                 condition: {},
                 inputoutput: {},
                 operation: {},
-                subroutine: {}
+                subroutine: {},
+                parallel: {}
             }
         };
-    }, /* 8 */
+    }, /* 9 */
     /*!*******************************!*\
   !*** ./src/flowchart.shim.js ***!
   \*******************************/
@@ -869,7 +956,7 @@
         }), String.prototype.trim || (String.prototype.trim = function() {
             return this.replace(/^\s+|\s+$/g, "");
         });
-    }, /* 9 */
+    }, /* 10 */
     /*!*************************************!*\
   !*** ./src/flowchart.symbol.end.js ***!
   \*************************************/
@@ -881,7 +968,7 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(End, Symbol), module.exports = End;
-    }, /* 10 */
+    }, /* 11 */
     /*!*********************************************!*\
   !*** ./src/flowchart.symbol.inputoutput.js ***!
   \*********************************************/
@@ -935,7 +1022,7 @@
                 y: y
             };
         }, module.exports = InputOutput;
-    }, /* 11 */
+    }, /* 12 */
     /*!*******************************************!*\
   !*** ./src/flowchart.symbol.operation.js ***!
   \*******************************************/
@@ -947,7 +1034,7 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(Operation, Symbol), module.exports = Operation;
-    }, /* 12 */
+    }, /* 13 */
     /*!***************************************!*\
   !*** ./src/flowchart.symbol.start.js ***!
   \***************************************/
@@ -959,7 +1046,7 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(Start, Symbol), module.exports = Start;
-    }, /* 13 */
+    }, /* 14 */
     /*!********************************************!*\
   !*** ./src/flowchart.symbol.subroutine.js ***!
   \********************************************/
@@ -993,7 +1080,7 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(Subroutine, Symbol), module.exports = Subroutine;
-    }, /* 14 */
+    }, /* 15 */
     /*!******************************!*\
   !*** ./src/jquery-plugin.js ***!
   \******************************/
@@ -1010,13 +1097,13 @@
                 };
             }(jQuery);
         }
-    }, /* 15 */
+    }, /* 16 */
     /*!**************************!*\
   !*** external "Raphael" ***!
   \**************************/
     /***/
     function(module, exports) {
-        module.exports = __WEBPACK_EXTERNAL_MODULE_15__;
+        module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
     } ]);
 });
 //# sourceMappingURL=flowchart.js.map
