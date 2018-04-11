@@ -18,54 +18,54 @@ function FlowChart(container, options) {
 
 FlowChart.prototype.handle = function(symbol) {
   if (this.symbols.indexOf(symbol) <= -1) {
-      this.symbols.push(symbol);
+    this.symbols.push(symbol);
   }
 
   var flowChart = this;
 
   if (symbol instanceof(Condition)) {
-      symbol.yes = function(nextSymbol) {
-          symbol.yes_symbol = nextSymbol;
-          if (symbol.no_symbol) {
-              symbol.pathOk = true;
-          }
-          return flowChart.handle(nextSymbol);
-      };
-      symbol.no = function(nextSymbol) {
-          symbol.no_symbol = nextSymbol;
-          if (symbol.yes_symbol) {
-              symbol.pathOk = true;
-          }
-          return flowChart.handle(nextSymbol);
-      };
+    symbol.yes = function(nextSymbol) {
+      symbol.yes_symbol = nextSymbol;
+      if (symbol.no_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
+    symbol.no = function(nextSymbol) {
+      symbol.no_symbol = nextSymbol;
+      if (symbol.yes_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
   } else if (symbol instanceof(Parallel)) {
-      symbol.path1 = function(nextSymbol) {
-          symbol.path1_symbol = nextSymbol;
-          if (symbol.path2_symbol) {
-              symbol.pathOk = true;
-          }
-          return flowChart.handle(nextSymbol);
-      };
-      symbol.path2 = function(nextSymbol) {
-          symbol.path2_symbol = nextSymbol;
-          if (symbol.path3_symbol) {
-              symbol.pathOk = true;
-          }
-          return flowChart.handle(nextSymbol);
-      };
-      symbol.path3 = function(nextSymbol) {
-          symbol.path3_symbol = nextSymbol;
-          if (symbol.path1_symbol) {
-              symbol.pathOk = true;
-          }
-          return flowChart.handle(nextSymbol);
-      };
+    symbol.path1 = function(nextSymbol) {
+      symbol.path1_symbol = nextSymbol;
+      if (symbol.path2_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
+    symbol.path2 = function(nextSymbol) {
+      symbol.path2_symbol = nextSymbol;
+      if (symbol.path3_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
+    symbol.path3 = function(nextSymbol) {
+      symbol.path3_symbol = nextSymbol;
+      if (symbol.path1_symbol) {
+        symbol.pathOk = true;
+      }
+      return flowChart.handle(nextSymbol);
+    };
   } else {
-      symbol.then = function(nextSymbol) {
-          symbol.next = nextSymbol;
-          symbol.pathOk = true;
-          return flowChart.handle(nextSymbol);
-      };
+    symbol.then = function(nextSymbol) {
+      symbol.next = nextSymbol;
+      symbol.pathOk = true;
+      return flowChart.handle(nextSymbol);
+    };
   }
 
   return symbol;
@@ -78,30 +78,30 @@ FlowChart.prototype.startWith = function(symbol) {
 
 FlowChart.prototype.render = function() {
   var maxWidth = 0,
-      maxHeight = 0,
-      i = 0,
-      len = 0,
-      maxX = 0,
-      maxY = 0,
-      minX = 0,
-      minY = 0,
-      symbol,
-      line;
+    maxHeight = 0,
+    i = 0,
+    len = 0,
+    maxX = 0,
+    maxY = 0,
+    minX = 0,
+    minY = 0,
+    symbol,
+    line;
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
-      symbol = this.symbols[i];
-      if (symbol.width > maxWidth) {
-          maxWidth = symbol.width;
-      }
-      if (symbol.height > maxHeight) {
-          maxHeight = symbol.height;
-      }
+    symbol = this.symbols[i];
+    if (symbol.width > maxWidth) {
+      maxWidth = symbol.width;
+    }
+    if (symbol.height > maxHeight) {
+      maxHeight = symbol.height;
+    }
   }
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
-      symbol = this.symbols[i];
-      symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options['line-width']);
-      symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options['line-width']);
+    symbol = this.symbols[i];
+    symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options['line-width']);
+    symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options['line-width']);
   }
 
   this.start.render();
@@ -111,8 +111,8 @@ FlowChart.prototype.render = function() {
   // }
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
-      symbol = this.symbols[i];
-      symbol.renderLines();
+    symbol = this.symbols[i];
+    symbol.renderLines();
   }
 
   maxX = this.maxXFromLine;
@@ -121,35 +121,35 @@ FlowChart.prototype.render = function() {
   var y;
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
-      symbol = this.symbols[i];
-      x = symbol.getX() + symbol.width;
-      y = symbol.getY() + symbol.height;
-      if (x > maxX) {
-          maxX = x;
-      }
-      if (y > maxY) {
-          maxY = y;
-      }
+    symbol = this.symbols[i];
+    x = symbol.getX() + symbol.width;
+    y = symbol.getY() + symbol.height;
+    if (x > maxX) {
+      maxX = x;
+    }
+    if (y > maxY) {
+      maxY = y;
+    }
   }
 
   for (i = 0, len = this.lines.length; i < len; i++) {
-      line = this.lines[i].getBBox();
-      x = line.x;
-      y = line.y;
-      var x2 = line.x2;
-      var y2 = line.y2;
-      if (x < minX) {
-          minX = x;
-      }
-      if (y < minY) {
-          minY = y;
-      }
-      if (x2 > maxX) {
-          maxX = x2;
-      }
-      if (y2 > maxY) {
-          maxY = y2;
-      }
+    line = this.lines[i].getBBox();
+    x = line.x;
+    y = line.y;
+    var x2 = line.x2;
+    var y2 = line.y2;
+    if (x < minX) {
+      minX = x;
+    }
+    if (y < minY) {
+      minY = y;
+    }
+    if (x2 > maxX) {
+      maxX = x2;
+    }
+    if (y2 > maxY) {
+      maxY = y2;
+    }
   }
 
   var scale = this.options['scale'];
@@ -167,8 +167,8 @@ FlowChart.prototype.render = function() {
 
 FlowChart.prototype.clean = function() {
   if (this.paper) {
-      var paperDom = this.paper.canvas;
-      paperDom.parentNode.removeChild(paperDom);
+    var paperDom = this.paper.canvas;
+    paperDom.parentNode.removeChild(paperDom);
   }
 };
 
