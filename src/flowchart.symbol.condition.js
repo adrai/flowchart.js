@@ -29,6 +29,17 @@ function Condition(chart, options) {
       this.yes_direction = 'right';
       this.no_direction = 'bottom';
     }
+  } else if (options.yes && options.direction_yes && options.no && options.direction_no && options.direction_no !== options.direction_yes) {
+    if (options.direction_yes === 'right') {
+      this.no_direction = 'bottom';
+      this.yes_direction = 'right';
+    } else if (options.direction_yes === 'top') {
+      this.no_direction = 'right';
+      this.yes_direction = 'top';
+    } else {
+      this.no_direction = 'right';
+      this.yes_direction = 'bottom';
+    }
   } else {
     this.yes_direction = 'bottom';
     this.no_direction = 'right';

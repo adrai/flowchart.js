@@ -1,4 +1,4 @@
-// flowchart.js, v1.11.0
+// flowchart.js, v1.11.1
 // Copyright (c)2018 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -679,7 +679,9 @@
             options.yes && options.direction_yes && options.no && !options.direction_no ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
             this.yes_direction = "right") : "top" === options.direction_yes ? (this.no_direction = "right", 
             this.yes_direction = "top") : (this.no_direction = "right", this.yes_direction = "bottom") : options.yes && !options.direction_yes && options.no && options.direction_no ? "right" === options.direction_no ? (this.yes_direction = "bottom", 
-            this.no_direction = "right") : (this.yes_direction = "right", this.no_direction = "bottom") : (this.yes_direction = "bottom", 
+            this.no_direction = "right") : (this.yes_direction = "right", this.no_direction = "bottom") : options.yes && options.direction_yes && options.no && options.direction_no && options.direction_no !== options.direction_yes ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
+            this.yes_direction = "right") : "top" === options.direction_yes ? (this.no_direction = "right", 
+            this.yes_direction = "top") : (this.no_direction = "right", this.yes_direction = "bottom") : (this.yes_direction = "bottom", 
             this.no_direction = "right"), this.yes_direction = this.yes_direction || "bottom", 
             this.no_direction = this.no_direction || "right", this.text.attr({
                 x: 2 * this.textMargin

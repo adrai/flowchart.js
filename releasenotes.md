@@ -1,3 +1,7 @@
+### v1.11.1
+
+- fix direction issue for condition [#151](https://github.com/adrai/flowchart.js/issues/151)
+
 ### v1.11.0
 
 - Add parallel component [#145](https://github.com/adrai/flowchart.js/pull/145) thanks to [sudhakar-sekar](https://github.com/sudhakar-sekar)
