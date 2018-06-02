@@ -1,3 +1,7 @@
+### v1.11.2
+
+- try to optimize left handling [#152](https://github.com/adrai/flowchart.js/issues/152)
+
 ### v1.11.1
 
 - fix direction issue for condition [#151](https://github.com/adrai/flowchart.js/issues/151)

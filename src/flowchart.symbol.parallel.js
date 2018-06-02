@@ -120,14 +120,47 @@ Parallel.prototype.render = function() {
     }
   }
 
+  var self = this;
+
+  if (this.left_symbol) {
+    var leftPoint = this.getLeft();
+
+    if (!this.left_symbol.isPositioned) {
+      this.left_symbol.setY(leftPoint.y - this.left_symbol.height / 2);
+      this.left_symbol.shiftX(-(this.group.getBBox().x + this.width + lineLength));
+      (function shift() {
+        var hasSymbolUnder = false;
+        var symb;
+        for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+          symb = self.chart.symbols[i];
+
+          if (!self.params['align-next'] || self.params['align-next'] !== 'no') {
+            var diff = Math.abs(symb.getCenter().x - self.left_symbol.getCenter().x);
+            if (symb.getCenter().y > self.left_symbol.getCenter().y && diff <= self.left_symbol.width / 2) {
+              hasSymbolUnder = true;
+              break;
+            }
+          }
+        }
+
+        if (hasSymbolUnder) {
+          self.left_symbol.setX(symb.getX() + symb.width + lineLength);
+          shift();
+        }
+      })();
+
+      this.left_symbol.isPositioned = true;
+
+      this.left_symbol.render();
+    }
+  }
+
   if (this.right_symbol) {
     var rightPoint = this.getRight();
 
     if (!this.right_symbol.isPositioned) {
-
       this.right_symbol.setY(rightPoint.y - this.right_symbol.height / 2);
       this.right_symbol.shiftX(this.group.getBBox().x + this.width + lineLength);
-      var self = this;
       (function shift() {
         var hasSymbolUnder = false;
         var symb;

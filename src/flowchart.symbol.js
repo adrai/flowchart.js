@@ -162,6 +162,7 @@ Symbol.prototype.getRight = function() {
 Symbol.prototype.render = function() {
   if (this.next) {
 
+    var self = this;
     var lineLength = this.getAttr('line-length');
 
     if (this.next_direction === 'right') {
@@ -169,11 +170,40 @@ Symbol.prototype.render = function() {
       var rightPoint = this.getRight();
 
       if (!this.next.isPositioned) {
-
         this.next.setY(rightPoint.y - this.next.height/2);
         this.next.shiftX(this.group.getBBox().x + this.width + lineLength);
 
-        var self = this;
+        (function shift() {
+          var hasSymbolUnder = false;
+          var symb;
+          for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+            symb = self.chart.symbols[i];
+
+            var diff = Math.abs(symb.getCenter().x - self.next.getCenter().x);
+            if (symb.getCenter().y > self.next.getCenter().y && diff <= self.next.width/2) {
+              hasSymbolUnder = true;
+              break;
+            }
+          }
+
+          if (hasSymbolUnder) {
+            self.next.setX(symb.getX() + symb.width + lineLength);
+            shift();
+          }
+        })();
+
+        this.next.isPositioned = true;
+
+        this.next.render();
+      }
+    } else if (this.next_direction === 'left') {
+
+      var leftPoint = this.getLeft();
+
+      if (!this.next.isPositioned) {
+        this.next.setY(leftPoint.y - this.next.height/2);
+        this.next.shiftX(-(this.group.getBBox().x + this.width + lineLength));
+
         (function shift() {
           var hasSymbolUnder = false;
           var symb;
@@ -305,6 +335,16 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x + (bottom.x - symbolTop.x)/2;
+  } else if ((!origin || origin === 'bottom') && isRight && isUnder) {
+    line = drawLine(this.chart, bottom, [
+      {x: bottom.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x, y: symbolTop.y}
+    ], text);
+    this.bottomStart = true;
+    symbol.topEnd = true;
+    maxX = bottom.x;
+    if (symbolTop.x > maxX) maxX = symbolTop.x;
   } else if ((!origin || origin === 'bottom') && isRight) {
     line = drawLine(this.chart, bottom, [
       {x: bottom.x, y: bottom.y + lineLength/2},
@@ -382,7 +422,7 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
 
   //update line style
   if (this.lineStyle[symbol.key] && line){
-      line.attr( this.lineStyle[symbol.key]);
+    line.attr(this.lineStyle[symbol.key]);
   }
 
   if (line) {
@@ -455,6 +495,9 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     }
 
     this.chart.lines.push(line);
+    if (this.chart.minXFromSymbols === undefined || this.chart.minXFromSymbols > left.x) {
+      this.chart.minXFromSymbols = left.x;
+    }
   }
 
   if (!this.chart.maxXFromLine || (this.chart.maxXFromLine && maxX > this.chart.maxXFromLine)) {

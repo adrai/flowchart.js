@@ -155,6 +155,8 @@ FlowChart.prototype.render = function() {
   var scale = this.options['scale'];
   var lineWidth = this.options['line-width'];
 
+  if (this.minXFromSymbols < minX) minX = this.minXFromSymbols;
+
   if (minX < 0) minX -= lineWidth;
   if (minY < 0) minY -= lineWidth;
 
