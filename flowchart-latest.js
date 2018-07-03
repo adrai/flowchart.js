@@ -1,4 +1,4 @@
-// flowchart.js, v1.11.2
+// flowchart.js, v1.11.3
 // Copyright (c)2018 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -237,7 +237,10 @@
                                 break;
                             }
                         }
-                        hasSymbolUnder && (self.next.setX(symb.getX() + symb.width + lineLength), shift());
+                        if (hasSymbolUnder) {
+                            if ("end" === self.next.symbolType) return;
+                            self.next.setX(symb.getX() + symb.width + lineLength), shift();
+                        }
                     }(), this.next.isPositioned = !0, this.next.render());
                 } else if ("left" === this.next_direction) {
                     var leftPoint = this.getLeft();
@@ -251,7 +254,10 @@
                                 break;
                             }
                         }
-                        hasSymbolUnder && (self.next.setX(symb.getX() + symb.width + lineLength), shift());
+                        if (hasSymbolUnder) {
+                            if ("end" === self.next.symbolType) return;
+                            self.next.setX(symb.getX() + symb.width + lineLength), shift();
+                        }
                     }(), this.next.isPositioned = !0, this.next.render());
                 } else {
                     var bottomPoint = this.getBottom();
@@ -768,8 +774,10 @@
                                 break;
                             }
                         }
-                        hasSymbolUnder && (self.right_symbol.setX(symb.getX() + symb.width + lineLength), 
-                        shift());
+                        if (hasSymbolUnder) {
+                            if ("end" === self.right_symbol.symbolType) return;
+                            self.right_symbol.setX(symb.getX() + symb.width + lineLength), shift();
+                        }
                     }(), this.right_symbol.isPositioned = !0, this.right_symbol.render();
                 }
             }
@@ -836,8 +844,10 @@
                             break;
                         }
                     }
-                    hasSymbolUnder && (self.left_symbol.setX(symb.getX() + symb.width + lineLength), 
-                    shift());
+                    if (hasSymbolUnder) {
+                        if ("end" === self.left_symbol.symbolType) return;
+                        self.left_symbol.setX(symb.getX() + symb.width + lineLength), shift();
+                    }
                 }(), this.left_symbol.isPositioned = !0, this.left_symbol.render());
             }
             if (this.right_symbol) {
@@ -852,8 +862,10 @@
                             break;
                         }
                     }
-                    hasSymbolUnder && (self.right_symbol.setX(symb.getX() + symb.width + lineLength), 
-                    shift());
+                    if (hasSymbolUnder) {
+                        if ("end" === self.right_symbol.symbolType) return;
+                        self.right_symbol.setX(symb.getX() + symb.width + lineLength), shift();
+                    }
                 }(), this.right_symbol.isPositioned = !0, this.right_symbol.render());
             }
         }, Parallel.prototype.renderLines = function() {
