@@ -1,3 +1,7 @@
+### v1.11.3
+
+- try to optimize horizontal rendering for end symbols [#155](https://github.com/adrai/flowchart.js/issues/155)
+
 ### v1.11.2
 
 - try to optimize left handling [#152](https://github.com/adrai/flowchart.js/issues/152)

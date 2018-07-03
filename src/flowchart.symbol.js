@@ -187,6 +187,7 @@ Symbol.prototype.render = function() {
           }
 
           if (hasSymbolUnder) {
+            if (self.next.symbolType === 'end') return;
             self.next.setX(symb.getX() + symb.width + lineLength);
             shift();
           }
@@ -218,6 +219,7 @@ Symbol.prototype.render = function() {
           }
 
           if (hasSymbolUnder) {
+            if (self.next.symbolType === 'end') return;
             self.next.setX(symb.getX() + symb.width + lineLength);
             shift();
           }

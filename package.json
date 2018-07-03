@@ -1,7 +1,7 @@
 {
   "author": "adrai",
   "name": "flowchart.js",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "main": "./index",
   "private": false,
   "engines": {

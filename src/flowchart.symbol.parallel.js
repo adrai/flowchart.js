@@ -144,6 +144,7 @@ Parallel.prototype.render = function() {
         }
 
         if (hasSymbolUnder) {
+          if (self.left_symbol.symbolType === 'end') return;
           self.left_symbol.setX(symb.getX() + symb.width + lineLength);
           shift();
         }
@@ -177,6 +178,7 @@ Parallel.prototype.render = function() {
         }
 
         if (hasSymbolUnder) {
+          if (self.right_symbol.symbolType === 'end') return;
           self.right_symbol.setX(symb.getX() + symb.width + lineLength);
           shift();
         }
