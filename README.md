@@ -14,7 +14,7 @@ flowchart.js is on [CDNJS](https://cdnjs.com/libraries/flowchart), feel free to 
 
 ## Usage
 
-On your page you need to include raphael like so:
+On your page you need to include Raphaël like so:
 
 ```html
 <script src="raphael-min.js"></script>
@@ -93,7 +93,7 @@ and then
 ```
 
 ## Advice
-Symbols that should possibly not be used in the text: '=>' and '->' and ':>' and '|' and '@>'
+Symbols that should possibly not be used in the text: `=>` and `->` and `:>` and `|` and `@>`
 
 If you want to emphasize a specific path in your flowchart, you can additionally define it like this:
 
