@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "956eda8fc2ba02f9a592";
+/******/ 	var hotCurrentHash = "094473d280dc47a542a5";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -3435,8 +3435,13 @@ function Symbol(chart, options, symbol) {
 
   if (options.link) { this.text.attr('href', options.link); }
   
+  //ndrqu Add click function with event and options params
   if (options.function) { 
-    this.text.node.setAttribute('onclick', options.function);
+    this.text.attr({ 'cursor' : 'pointer' });
+
+    this.text.node.addEventListener("click", function(evt) {
+        window[options.function](evt,options);
+    }, false);
    }
    
   if (options.target) { this.text.attr('target', options.target); }
@@ -3475,8 +3480,13 @@ function Symbol(chart, options, symbol) {
 
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
+
+    //ndrqu Add click function with event and options params
     if (options.function) { 
-      symbol.node.setAttribute('onclick', options.function);
+        symbol.node.addEventListener("click", function(evt) {
+          window[options.function](evt,options);
+        }, false);
+      symbol.attr({ 'cursor' : 'pointer' });
     }
     if (options.key) { symbol.node.id = options.key; }
 
