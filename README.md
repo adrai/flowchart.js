@@ -34,7 +34,7 @@ and then
 <script>
   var diagram = flowchart.parse('st=>start: Start:>http://www.google.com[blank]\n' +
                                 'e=>end:>http://www.google.com\n' +
-                                'op1=>operation: My Operation\n' +
+                                'op1=>operation: My Operation:$myFunction\n' +
                                 'op2=>operation: Stuff|current\n' +
                                 'sub1=>subroutine: My Subroutine\n' +
                                 'cond=>condition: Yes \n' + // use cond(align-next=no) to disable vertical align of symbols below
