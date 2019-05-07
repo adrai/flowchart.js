@@ -35,6 +35,11 @@ function Symbol(chart, options, symbol) {
   if (fontW) this.text.attr({ 'font-weight': fontW });
 
   if (options.link) { this.text.attr('href', options.link); }
+  
+  if (options.function) { 
+    this.text.node.setAttribute('onclick', options.function);
+   }
+   
   if (options.target) { this.text.attr('target', options.target); }
 
   var maxWidth = this.getAttr('maxWidth');
@@ -71,6 +76,9 @@ function Symbol(chart, options, symbol) {
 
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
+    if (options.function) { 
+      symbol.node.setAttribute('onclick', options.function);
+    }
     if (options.key) { symbol.node.id = options.key; }
 
     this.group.push(symbol);

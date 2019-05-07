@@ -9,7 +9,7 @@
   <body>
     <div id="chart">
 st=>start: Start|past:>http://www.google.com[blank]
-e=>end: End:>http://www.google.com
+e=>end: End:$myFunction()
 op1=>operation: My Operation|past
 op2=>operation: Stuff|current
 sub1=>subroutine: My Subroutine|invalid
@@ -28,6 +28,11 @@ c2(false)->e
 para(path1, bottom)->sub1(left)->op1
 para(path2, right)->op2->e
     </div>
+    <script>
+      function myFunction() {
+        console.log("HELLO!!!")
+      }
+    </script>
 		<script src="/node_modules/jquery/dist/jquery.js"></script>
     <script src="/node_modules/raphael/raphael.js"></script>
     <script src="/release/flowchart.js"></script>
