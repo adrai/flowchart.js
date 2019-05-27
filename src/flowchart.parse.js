@@ -203,6 +203,7 @@ function parse(input) {
         link: null,
         target: null,
         flowstate: null,
+        function: null,
         lineStyle: {},
         params: {}
       };
@@ -227,7 +228,15 @@ function parse(input) {
         symbol.text = sub.join(': ');
       }
 
-      if (symbol.text && symbol.text.indexOf(':>') >= 0) {
+      if (symbol.text && symbol.text.indexOf(':$') >= 0) {
+        sub = symbol.text.split(':$');
+        symbol.text = sub.shift();
+        symbol.function = sub.join(':$');
+      } else if (symbol.symbolType.indexOf(':$') >= 0) {
+        sub = symbol.symbolType.split(':$');
+        symbol.symbolType = sub.shift();
+        symbol.function = sub.join(':$');
+      } else if (symbol.text && symbol.text.indexOf(':>') >= 0) {
         sub = symbol.text.split(':>');
         symbol.text = sub.shift();
         symbol.link = sub.join(':>');

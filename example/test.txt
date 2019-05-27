@@ -1,6 +1,6 @@
 st=>start: Start:>http://www.google.com[blank]
 e=>end:>http://www.google.com
-op1=>operation: My Ooooperation
+op1=>operation: My Ooooperation:$myFunction
 sub1=>subroutine: My Subroutine
 cond=>condition: Yes
 or No?:>http://www.google.com
