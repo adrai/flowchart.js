@@ -24,17 +24,17 @@ var config = {
 	],
 	output: {
 		path: path.join(__dirname, 'release'),
-		filename: component.name,
+		filename: component.name + '.js',
 		publicPath: '/release/'
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoEmitOnErrorsPlugin(),
+		new webpack.NoErrorsPlugin(),
 		defines
 	],
 	resolve: {
-		extensions: ['.js'],
-		modules: ['src', 'node_modules'],
+		extensions: ['', '.js'],
+		modulesDirectories: ['src', 'node_modules'],
 		alias: {
 			'dev/raphael.core.js': './dev/raphael.core.js',
 			'raphael.core': './raphael.core.js',

@@ -1,3 +1,8 @@
+### v1.12.0
+
+- onclick function binding to chart nodes [#172](https://github.com/adrai/flowchart.js/pull/#172) thanks to [ndrqu](https://github.com/ndrqu)
+
+
 ### v1.11.3
 
 - try to optimize horizontal rendering for end symbols [#155](https://github.com/adrai/flowchart.js/issues/155)

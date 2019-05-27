@@ -91,7 +91,6 @@ and then
                               });
                               
     // function called when you click the "My Operation" node
-
     function myFunction(event, node) {
         console.log("You just clicked this node:", node);
     }
@@ -100,7 +99,7 @@ and then
 ```
 
 ## Advice
-Symbols that should possibly not be used in the text: `=>` and `->` and `:>` and `|` and `@>`
+Symbols that should possibly not be used in the text: `=>` and `->` and `:>` and `|` and `@>` and `:$`
 
 If you want to emphasize a specific path in your flowchart, you can additionally define it like this:
 
@@ -118,7 +117,7 @@ Many thanks to [js-sequence-diagrams](http://bramp.github.io/js-sequence-diagram
 
 ## Licence
 
-Copyright (c) 2018 Adriano Raiano
+Copyright (c) 2019 Adriano Raiano
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
