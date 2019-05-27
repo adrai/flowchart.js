@@ -89,7 +89,6 @@ and then
                                     // 'rejected' : { 'fill' : '#C45879', 'font-size' : 12, 'yes-text' : 'n/a', 'no-text' : 'REJECTED' }
                                   }
                               });
-    }
 
     // function called when you click the "My Operation" node
 
