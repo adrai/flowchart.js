@@ -8,7 +8,6 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "nodemon": "^1.19.0",
     "raphael": "2.2.7"
   },
   "devDependencies": {
