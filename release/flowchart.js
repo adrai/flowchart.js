@@ -1,4 +1,4 @@
-// flowchart.js, v1.12.0
+// flowchart.js, v1.12.1
 // Copyright (c)2019 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -659,7 +659,7 @@
                         params: {}
                     }, params = parts[0].match(/\((.*)\)/);
                     if (params && params.length > 1) for (var entries = params[1].split(","), i = 0; i < entries.length; i++) {
-                        var entry = entries[0].split("=");
+                        var entry = entries[i].split("=");
                         2 == entry.length && (symbol.params[entry[0]] = entry[1]);
                     }
                     var sub;

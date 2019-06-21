@@ -1,3 +1,8 @@
+### v1.12.1
+
+- Fix params bug [#173](https://github.com/adrai/flowchart.js/pull/#173) thanks to [leo108](https://github.com/leo108)
+
+
 ### v1.12.0
 
 - onclick function binding to chart nodes [#172](https://github.com/adrai/flowchart.js/pull/#172) thanks to [ndrqu](https://github.com/ndrqu)
