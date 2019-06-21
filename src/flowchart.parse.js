@@ -213,7 +213,7 @@ function parse(input) {
       if (params && params.length > 1){
         var entries = params[1].split(',');
         for(var i = 0; i < entries.length; i++) {
-          var entry = entries[0].split('=');
+          var entry = entries[i].split('=');
           if (entry.length == 2) {
             symbol.params[entry[0]] = entry[1];
           }
