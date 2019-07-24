@@ -99,13 +99,17 @@ and then
 ```
 
 ## Node Syntax
-`nodeName=>nodeType: nodeText`
+`nodeName=>nodeType: nodeText[|flowstate][:>urlLink]`
 
 _nodeName_ defines the nodes variable name within the flowchart document.
 
 _nodeType_ defines what type the node is. See **Node Types** for more information.
 
 _nodeText_ is the text that will be inserted into the node. Newlines are allowed and will be reflected in the rendered node text.
+
+_flowstate_ is optional and uses the `|` operator that specifies extra styling for the node.
+
+_urlLink_ is optional and uses the `:>` operator to specify the url to link to.
 
 ## Node Types
 Defines the shape that the node will take.
@@ -172,6 +176,18 @@ Allows for multiple flows to happen simultaneously.
 
 ```flowchart
 para=>parallel: parallel
+```
+
+## Links
+A external link can be added to a node with the `:>` operator.
+
+The `st` node is linked to `http://www.google.com` and will open a new tab because `[blank]` is at the end of the URL.
+
+The `e` node is linked to `http://www.yahoo.com` and will cause the page to navigate to that page instead of opening a new tab.
+
+```flowchart
+st=>start: Start:>http://www.google.com[blank]
+e=>end: End:>http://www.yahoo.com
 ```
 
 ## Advice
