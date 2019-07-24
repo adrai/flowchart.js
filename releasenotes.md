@@ -1,3 +1,8 @@
+### v1.12.2
+
+- shrink npm package
+
+
 ### v1.12.1
 
 - Fix params bug [#173](https://github.com/adrai/flowchart.js/pull/#173) thanks to [leo108](https://github.com/leo108)
