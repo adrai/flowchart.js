@@ -276,8 +276,8 @@ function parse(input) {
     } else if (line.indexOf('->') >= 0) {
       // flow
       var flowSymbols = line.split('->');
-      for (var i = 0, lenS = flowSymbols.length; i < lenS; i++) {
-        var flowSymb = flowSymbols[i];
+      for (var iS = 0, lenS = flowSymbols.length; iS < lenS; iS++) {
+        var flowSymb = flowSymbols[iS];
         var symbVal = getSymbValue(flowSymb);
 
         if (symbVal === 'true' || symbVal === 'false') {
@@ -300,8 +300,8 @@ function parse(input) {
           chart.start = realSymb;
         }
 
-        if (i + 1 < lenS) {
-          var nextSymb = flowSymbols[i + 1];
+        if (iS + 1 < lenS) {
+          var nextSymb = flowSymbols[iS + 1];
           realSymb[next] = getSymbol(nextSymb);
           realSymb['direction_' + next] = direction;
           direction = null;
@@ -311,12 +311,12 @@ function parse(input) {
 
       // line style
       var lineStyleSymbols = line.split('@>');
-      for (var i = 0, lenS = lineStyleSymbols.length; i < lenS; i++) {
-        if ((i + 1) != lenS) {
-          var curSymb = getSymbol(lineStyleSymbols[i]);
-          var nextSymb = getSymbol(lineStyleSymbols[i+1]);
+      for (var iSS = 0, lenSS = lineStyleSymbols.length; iSS < lenSS; i++) {
+        if ((iSS + 1) != lenSS) {
+          var curSymb = getSymbol(lineStyleSymbols[iSS]);
+          var nextSymbol = getSymbol(lineStyleSymbols[iSS+1]);
 
-          curSymb['lineStyle'][nextSymb.key] = JSON.parse(getStyle(lineStyleSymbols[i + 1]));
+          curSymb['lineStyle'][nextSymbol.key] = JSON.parse(getStyle(lineStyleSymbols[i + 1]));
         }
       }
     }

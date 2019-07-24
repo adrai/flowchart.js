@@ -11,10 +11,10 @@
     "raphael": "2.2.7"
   },
   "devDependencies": {
-    "eslint": "^1.10.3",
+    "eslint": "^4.18.2",
     "eslint-config-defaults": "^8.0.2",
     "express": ">= 0.0.1",
-    "jquery": "^2.2.0",
+    "jquery": "^3.4.0",
     "lodash": ">=0.2.1",
     "moment": "^2.11.1",
     "webpack": "^1.12.11",

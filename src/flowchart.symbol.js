@@ -448,7 +448,6 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
   if (line) {
     for (var l = 0, llen = this.chart.lines.length; l < llen; l++) {
       var otherLine = this.chart.lines[l];
-      var len;
 
       var ePath = otherLine.attr('path'),
           lPath = line.attr('path');
@@ -508,7 +507,6 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
             }
 
             lP += 2;
-            len += 2;
           }
         }
       }
