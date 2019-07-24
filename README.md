@@ -98,6 +98,82 @@ and then
 </script>
 ```
 
+## Node Syntax
+`nodeName=>nodeType: nodeText`
+
+_nodeName_ defines the nodes variable name within the flowchart document.
+
+_nodeType_ defines what type the node is. See **Node Types** for more information.
+
+_nodeText_ is the text that will be inserted into the node. Newlines are allowed and will be reflected in the rendered node text.
+
+## Node Types
+Defines the shape that the node will take.
+
+### start
+Used as the first node where flows start from.
+
+![start image](imgs/start.png "start image")
+
+```flowchart
+st=>start: start
+```
+
+### end
+Used as the last node where a flow ends.
+
+![end image](imgs/end.png "end image")
+
+```flowchart
+e=>end: end
+```
+
+### operation
+Indicates that an operation needs to happen in the flow.
+
+![operation image](imgs/operation.png "operation image")
+
+```flowchart
+op1=>operation: operation
+```
+
+### inputoutput
+Indicates that IO happens in a flow.
+
+![inputoutput image](imgs/inputoutput.png "inputoutput image")
+
+```flowchart
+io=>inputoutput: inputoutput
+```
+
+### subroutine
+Indicates that a subroutine happens in the flow and that there should be another flowchart that documents this subroutine.
+
+![subroutine image](imgs/subroutine.png "subroutine image")
+
+```flowchart
+sub1=>subroutine: subroutine
+```
+
+### condition
+Allows for a conditional or logical statement to direct the flow into one of two or more paths.
+
+![condition image](imgs/condition.png "condition image")
+
+```flowchart
+cond=>condition: condition
+Yes or No?
+```
+
+### parallel
+Allows for multiple flows to happen simultaneously.
+
+![parallel image](imgs/parallel.png "parallel image")
+
+```flowchart
+para=>parallel: parallel
+```
+
 ## Advice
 Symbols that should possibly not be used in the text: `=>` and `->` and `:>` and `|` and `@>` and `:$`
 
