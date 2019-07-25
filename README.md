@@ -2,7 +2,7 @@
 
 # [flowchart.js](http://flowchart.js.org)
 
-flowchart.js is a flowchart DSL and SVG render that runs in the browser and [terminal](https://github.com/francoislaberge/diagrams/).
+flowchart.js is a flowchart DSL and SVG render that runs in the browser and [terminal](https://github.com/francoislaberge/diagrams/#flowchart).
 
 Nodes and connections are defined in separately so that nodes can be reused and connections can be quickly changed.
 Fine grain changes to node and connector style can also be made right in the DSL.
@@ -195,98 +195,6 @@ Optional direction
 parallelVar(path1, <direction>)->nextNode1
 parallelVar(path2, <direction>)->nextNode2
 parallelVar(path3, <direction>)->nextNode3
-```
-
-## Links
-A external link can be added to a node with the `:>` operator.
-
-The `st` node is linked to `http://www.google.com` and will open a new tab because `[blank]` is at the end of the URL.
-
-The `e` node is linked to `http://www.yahoo.com` and will cause the page to navigate to that page instead of opening a new tab.
-
-```flowchart
-st=>start: Start:>http://www.google.com[blank]
-e=>end: End:>http://www.yahoo.com
-```
-
-## Node Syntax
-`nodeName=>nodeType: nodeText[|flowstate][:>urlLink]`
-
-_nodeName_ defines the nodes variable name within the flowchart document.
-
-_nodeType_ defines what type the node is. See **Node Types** for more information.
-
-_nodeText_ is the text that will be inserted into the node. Newlines are allowed and will be reflected in the rendered node text.
-
-_flowstate_ is optional and uses the `|` operator that specifies extra styling for the node.
-
-_urlLink_ is optional and uses the `:>` operator to specify the url to link to.
-
-## Node Types
-Defines the shape that the node will take.
-
-### start
-Used as the first node where flows start from.
-
-![start image](imgs/start.png "start image")
-
-```flowchart
-st=>start: start
-```
-
-### end
-Used as the last node where a flow ends.
-
-![end image](imgs/end.png "end image")
-
-```flowchart
-e=>end: end
-```
-
-### operation
-Indicates that an operation needs to happen in the flow.
-
-![operation image](imgs/operation.png "operation image")
-
-```flowchart
-op1=>operation: operation
-```
-
-### inputoutput
-Indicates that IO happens in a flow.
-
-![inputoutput image](imgs/inputoutput.png "inputoutput image")
-
-```flowchart
-io=>inputoutput: inputoutput
-```
-
-### subroutine
-Indicates that a subroutine happens in the flow and that there should be another flowchart that documents this subroutine.
-
-![subroutine image](imgs/subroutine.png "subroutine image")
-
-```flowchart
-sub1=>subroutine: subroutine
-```
-
-### condition
-Allows for a conditional or logical statement to direct the flow into one of two or more paths.
-
-![condition image](imgs/condition.png "condition image")
-
-```flowchart
-cond=>condition: condition
-Yes or No?
-```
-
-### parallel
-Allows for multiple flows to happen simultaneously.
-
-![parallel image](imgs/parallel.png "parallel image")
-
-```flowchart
-para=>parallel: parallel
 ```
 
 ## Links
