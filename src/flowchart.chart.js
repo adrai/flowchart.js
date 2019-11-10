@@ -170,7 +170,7 @@ FlowChart.prototype.render = function() {
 FlowChart.prototype.clean = function() {
   if (this.paper) {
     var paperDom = this.paper.canvas;
-    paperDom.parentNode.removeChild(paperDom);
+    paperDom.parentNode && paperDom.parentNode.removeChild(paperDom);
   }
 };
 
