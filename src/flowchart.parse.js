@@ -119,6 +119,9 @@ function parse(input) {
     },
     clean: function() {
       this.diagram.clean();
+    },
+    options: function() {
+      return this.diagram.options;
     }
   };
 
