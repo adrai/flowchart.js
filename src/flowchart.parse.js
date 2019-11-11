@@ -119,6 +119,9 @@ function parse(input) {
     },
     clean: function() {
       this.diagram.clean();
+    },
+    options: function() {
+      return this.diagram.options;
     }
   };
 
@@ -311,12 +314,12 @@ function parse(input) {
 
       // line style
       var lineStyleSymbols = line.split('@>');
-      for (var iSS = 0, lenSS = lineStyleSymbols.length; iSS < lenSS; i++) {
-        if ((iSS + 1) != lenSS) {
+      for (var iSS = 0, lenSS = lineStyleSymbols.length; iSS < lenSS; iSS++) {
+        if ((iSS + 1) !== lenSS) {
           var curSymb = getSymbol(lineStyleSymbols[iSS]);
           var nextSymbol = getSymbol(lineStyleSymbols[iSS+1]);
 
-          curSymb['lineStyle'][nextSymbol.key] = JSON.parse(getStyle(lineStyleSymbols[i + 1]));
+          curSymb['lineStyle'][nextSymbol.key] = JSON.parse(getStyle(lineStyleSymbols[iSS + 1]));
         }
       }
     }
