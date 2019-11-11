@@ -1,3 +1,8 @@
+### v1.12.3
+
+- Cleaning error fix, Linestyle parsing cycle fix, Dynamic flowState update [#188](https://github.com/adrai/flowchart.js/pull/#188) thanks to [murich](https://github.com/murich)
+
+
 ### v1.12.2
 
 - shrink npm package

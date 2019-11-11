@@ -28,7 +28,8 @@ if (typeof jQuery != 'undefined') {
 							var val = symbol.params[param];
 							if (paramFit(val, paramValue)) {
 								symbol.flowstate = newFlowState;
-								for (var nextSymbolKey of nextSymbolKeys) {
+								for (var nski = 0; nski < nextSymbolKeys.length; nski++) {
+									var nextSymbolKey = nextSymbolKeys[nski];
 									if (
 										symbol[nextSymbolKey] &&
 										symbol[nextSymbolKey]['params'] &&
