@@ -312,8 +312,6 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     } else {
       yOffset = Math.max(symbol.topLines.length, this.bottomLines.length) * 10;
       line = drawLine(this.chart, bottom, [
-        {x: right.x, y: right.y - yOffset},
-        {x: right.x, y: symbolTop.y - yOffset},
         {x: symbolTop.x, y: symbolTop.y - yOffset},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);

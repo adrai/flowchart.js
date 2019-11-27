@@ -475,12 +475,6 @@
             } ], text)), this.rightLines.push(line), symbol.leftLines.push(line), this.rightStart = !0, 
             symbol.leftEnd = !0, maxX = symbolLeft.x; else 0 === symbol.topLines.length && 0 === this.bottomLines.length ? line = drawLine(this.chart, bottom, symbolTop, text) : (yOffset = 10 * Math.max(symbol.topLines.length, this.bottomLines.length), 
             line = drawLine(this.chart, bottom, [ {
-                x: right.x,
-                y: right.y - yOffset
-            }, {
-                x: right.x,
-                y: symbolTop.y - yOffset
-            }, {
                 x: symbolTop.x,
                 y: symbolTop.y - yOffset
             }, {
