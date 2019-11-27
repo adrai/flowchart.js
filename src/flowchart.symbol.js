@@ -433,7 +433,7 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
   } else if ((origin && origin === 'right') && isLeft) {
     yOffset = Math.max(symbol.topLines.length, this.rightLines.length) * 10;
     line = drawLine(this.chart, right, [
-      {x: right.x + lineLength/2, y: right.y - yOffset},
+      {x: right.x + lineLength/2, y: right.y},
       {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}

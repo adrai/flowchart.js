@@ -285,7 +285,7 @@
             if (origin && "bottom" !== origin || !isOnSameColumn || !isUnder) if (origin && "right" !== origin || !isOnSameLine || !isRight) if (origin && "left" !== origin || !isOnSameLine || !isLeft) if (origin && "right" !== origin || !isOnSameColumn || !isUpper) if (origin && "right" !== origin || !isOnSameColumn || !isUnder) if (origin && "bottom" !== origin || !isLeft) if (origin && "bottom" !== origin || !isRight || !isUnder) if (origin && "bottom" !== origin || !isRight) if (origin && "right" === origin && isLeft) yOffset = 10 * Math.max(symbol.topLines.length, this.rightLines.length), 
             line = drawLine(this.chart, right, [ {
                 x: right.x + lineLength / 2,
-                y: right.y - yOffset
+                y: right.y
             }, {
                 x: right.x + lineLength / 2,
                 y: symbolTop.y - lineLength / 2 - yOffset
