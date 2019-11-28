@@ -1,3 +1,9 @@
+### v1.13.0
+
+- Provide low cost means of lines not colliding until they converge [#191](https://github.com/adrai/flowchart.js/pull/#191) thanks to [robertleeplummerjr](https://github.com/robertleeplummerjr)
+- update raphael dependency
+
+
 ### v1.12.3
 
 - Cleaning error fix, Linestyle parsing cycle fix, Dynamic flowState update [#188](https://github.com/adrai/flowchart.js/pull/#188) thanks to [murich](https://github.com/murich)

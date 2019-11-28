@@ -35,7 +35,7 @@ See [francoislaberge/diagrams](https://github.com/francoislaberge/diagrams/#flow
 
 flowchart.js is on [CDNJS](https://cdnjs.com/libraries/flowchart), feel free to use it.
 
-You will also need [Raphaël](http://www.raphaeljs.com/), which is also on [CDNJS](http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js).
+You will also need [Raphaël](http://www.raphaeljs.com/), which is also on [CDNJS](https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js).
 
 The demo html page is at [example/index.html](example/index.html).
 
