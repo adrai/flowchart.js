@@ -11,6 +11,10 @@ function Symbol(chart, options, symbol) {
   this.flowstate = (options.flowstate || 'future');
   this.lineStyle = (options.lineStyle || {});
   this.key = (options.key || '');
+  this.leftLines = [];
+  this.rightLines = [];
+  this.topLines = [];
+  this.bottomLines = [];
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
 
@@ -298,110 +302,169 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
 
   var maxX = 0,
       line,
+      yOffset,
       lineLength = this.getAttr('line-length'),
       lineWith = this.getAttr('line-width');
 
   if ((!origin || origin === 'bottom') && isOnSameColumn && isUnder) {
-    line = drawLine(this.chart, bottom, symbolTop, text);
+    if (symbol.topLines.length === 0 && this.bottomLines.length === 0) {
+      line = drawLine(this.chart, bottom, symbolTop, text);
+    } else {
+      yOffset = Math.max(symbol.topLines.length, this.bottomLines.length) * 10;
+      line = drawLine(this.chart, bottom, [
+        {x: symbolTop.x, y: symbolTop.y - yOffset},
+        {x: symbolTop.x, y: symbolTop.y}
+      ], text);
+    }
+    this.bottomLines.push(line);
+    symbol.topLines.push(line);
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x;
   } else if ((!origin || origin === 'right') && isOnSameLine && isRight) {
-    line = drawLine(this.chart, right, symbolLeft, text);
+    if (symbol.leftLines.length === 0 && this.rightLines.length === 0) {
+      line = drawLine(this.chart, right, symbolLeft, text);
+    } else {
+      yOffset = Math.max(symbol.leftLines.length, this.rightLines.length) * 10;
+      line = drawLine(this.chart, right, [
+        {x: right.x, y: right.y - yOffset},
+        {x: right.x, y: symbolLeft.y - yOffset},
+        {x: symbolLeft.x, y: symbolLeft.y - yOffset},
+        {x: symbolLeft.x, y: symbolLeft.y}
+      ], text);
+    }
+    this.rightLines.push(line);
+    symbol.leftLines.push(line);
     this.rightStart = true;
     symbol.leftEnd = true;
     maxX = symbolLeft.x;
   } else if ((!origin || origin === 'left') && isOnSameLine && isLeft) {
-    line = drawLine(this.chart, left, symbolRight, text);
+    if (symbol.rightLines.length === 0 && this.leftLines.length === 0) {
+      line = drawLine(this.chart, left, symbolRight, text);
+    } else {
+      yOffset = Math.max(symbol.rightLines.length, this.leftLines.length) * 10;
+      line = drawLine(this.chart, right, [
+        {x: right.x, y: right.y - yOffset},
+        {x: right.x, y: symbolRight.y - yOffset},
+        {x: symbolRight.x, y: symbolRight.y - yOffset},
+        {x: symbolRight.x, y: symbolRight.y}
+      ], text);
+    }
+    this.leftLines.push(line);
+    symbol.rightLines.push(line);
     this.leftStart = true;
     symbol.rightEnd = true;
     maxX = symbolRight.x;
   } else if ((!origin || origin === 'right') && isOnSameColumn && isUpper) {
+    yOffset = Math.max(symbol.topLines.length, this.rightLines.length) * 10;
     line = drawLine(this.chart, right, [
-      {x: right.x + lineLength/2, y: right.y},
-      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: right.x + lineLength/2, y: right.y - yOffset},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.rightLines.push(line);
+    symbol.topLines.push(line);
     this.rightStart = true;
     symbol.topEnd = true;
     maxX = right.x + lineLength/2;
   } else if ((!origin || origin === 'right') && isOnSameColumn && isUnder) {
+    yOffset = Math.max(symbol.topLines.length, this.rightLines.length) * 10;
     line = drawLine(this.chart, right, [
-      {x: right.x + lineLength/2, y: right.y},
-      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: right.x + lineLength/2, y: right.y - yOffset},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.rightLines.push(line);
+    symbol.topLines.push(line);
     this.rightStart = true;
     symbol.topEnd = true;
     maxX = right.x + lineLength/2;
   } else if ((!origin || origin === 'bottom') && isLeft) {
+    yOffset = Math.max(symbol.topLines.length, this.bottomLines.length) * 10;
     if (this.leftEnd && isUpper) {
       line = drawLine(this.chart, bottom, [
-        {x: bottom.x, y: bottom.y + lineLength/2},
-        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2},
-        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
-        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+        {x: bottom.x, y: bottom.y + lineLength/2 - yOffset},
+        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2 - yOffset},
+        {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2 - yOffset},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
     } else {
       line = drawLine(this.chart, bottom, [
-        {x: bottom.x, y: symbolTop.y - lineLength/2},
-        {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+        {x: bottom.x, y: symbolTop.y - lineLength/2 - yOffset},
+        {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
         {x: symbolTop.x, y: symbolTop.y}
       ], text);
     }
+    this.bottomLines.push(line);
+    symbol.topLines.push(line);
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x + (bottom.x - symbolTop.x)/2;
   } else if ((!origin || origin === 'bottom') && isRight && isUnder) {
+    yOffset = Math.max(symbol.topLines.length, this.bottomLines.length) * 10;
     line = drawLine(this.chart, bottom, [
-      {x: bottom.x, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: bottom.x, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.bottomLines.push(line);
+    symbol.topLines.push(line);
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x;
     if (symbolTop.x > maxX) maxX = symbolTop.x;
   } else if ((!origin || origin === 'bottom') && isRight) {
+    yOffset = Math.max(symbol.topLines.length, this.bottomLines.length) * 10;
     line = drawLine(this.chart, bottom, [
-      {x: bottom.x, y: bottom.y + lineLength/2},
-      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2},
-      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: bottom.x, y: bottom.y + lineLength/2 - yOffset},
+      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: bottom.y + lineLength/2 - yOffset},
+      {x: bottom.x + (bottom.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.bottomLines.push(line);
+    symbol.topLines.push(line);
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x + (bottom.x - symbolTop.x)/2;
   } else if ((origin && origin === 'right') && isLeft) {
+    yOffset = Math.max(symbol.topLines.length, this.rightLines.length) * 10;
     line = drawLine(this.chart, right, [
       {x: right.x + lineLength/2, y: right.y},
-      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.rightLines.push(line);
+    symbol.topLines.push(line);
     this.rightStart = true;
     symbol.topEnd = true;
     maxX = right.x + lineLength/2;
   } else if ((origin && origin === 'right') && isRight) {
+    yOffset = Math.max(symbol.topLines.length, this.rightLines.length) * 10;
     line = drawLine(this.chart, right, [
-      {x: symbolTop.x, y: right.y},
-      {x: symbolTop.x, y: symbolTop.y}
+      {x: symbolTop.x, y: right.y - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - yOffset}
     ], text);
+    this.rightLines.push(line);
+    symbol.topLines.push(line);
     this.rightStart = true;
     symbol.topEnd = true;
     maxX = right.x + lineLength/2;
   } else if ((origin && origin === 'bottom') && isOnSameColumn && isUpper) {
+    yOffset = Math.max(symbol.topLines.length, this.bottomLines.length) * 10;
     line = drawLine(this.chart, bottom, [
-      {x: bottom.x, y: bottom.y + lineLength/2},
-      {x: right.x + lineLength/2, y: bottom.y + lineLength/2},
-      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: bottom.x, y: bottom.y + lineLength/2 - yOffset},
+      {x: right.x + lineLength/2, y: bottom.y + lineLength/2 - yOffset},
+      {x: right.x + lineLength/2, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.bottomLines.push(line);
+    symbol.topLines.push(line);
     this.bottomStart = true;
     symbol.topEnd = true;
     maxX = bottom.x + lineLength/2;
@@ -410,31 +473,40 @@ Symbol.prototype.drawLineTo = function(symbol, text, origin) {
     if (symbolLeft.x < left.x) {
       diffX = symbolLeft.x - lineLength/2;
     }
+    yOffset = Math.max(symbol.topLines.length, this.leftLines.length) * 10;
     line = drawLine(this.chart, left, [
-      {x: diffX, y: left.y},
-      {x: diffX, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: diffX, y: left.y - yOffset},
+      {x: diffX, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.leftLines.push(line);
+    symbol.topLines.push(line);
     this.leftStart = true;
     symbol.topEnd = true;
     maxX = left.x;
   } else if ((origin === 'left')) {
+    yOffset = Math.max(symbol.topLines.length, this.leftLines.length) * 10;
     line = drawLine(this.chart, left, [
       {x: symbolTop.x + (left.x - symbolTop.x)/2, y: left.y},
-      {x: symbolTop.x + (left.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: symbolTop.x + (left.x - symbolTop.x)/2, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.leftLines.push(line);
+    symbol.topLines.push(line);
     this.leftStart = true;
     symbol.topEnd = true;
     maxX = left.x;
   } else if ((origin === 'top')) {
+    yOffset = Math.max(symbol.topLines.length, this.topLines.length) * 10;
     line = drawLine(this.chart, top, [
-      {x: top.x, y: symbolTop.y - lineLength/2},
-      {x: symbolTop.x, y: symbolTop.y - lineLength/2},
+      {x: top.x, y: symbolTop.y - lineLength/2 - yOffset},
+      {x: symbolTop.x, y: symbolTop.y - lineLength/2 - yOffset},
       {x: symbolTop.x, y: symbolTop.y}
     ], text);
+    this.topLines.push(line);
+    symbol.topLines.push(line);
     this.topStart = true;
     symbol.topEnd = true;
     maxX = top.x;
