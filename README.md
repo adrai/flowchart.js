@@ -105,7 +105,7 @@ sub1=>subroutine: subroutine
 ```
 
 ### condition
-Allows for a conditional or logical statement to direct the flow into one of two or more paths.
+Allows for a conditional or logical statement to direct the flow into one of two paths.
 
 ![condition image](imgs/condition.png "condition image")
 
