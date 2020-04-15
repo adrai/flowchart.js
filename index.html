@@ -15,7 +15,7 @@
     <title>flowchart.js</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/19.3.4/i18next.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-locize-backend/3.1.0/i18nextLocizeBackend.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/locize/i18next-locize-backend/i18nextLocizeBackend.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/1.2.1/jquery-i18next.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/4.0.2/i18nextBrowserLanguageDetector.min.js"></script>
   </head>
@@ -323,6 +323,7 @@ st@>op1({"stroke":"Red"})@>sub1({"stroke":"Red"})@>cond({"stroke":"Red"})@>io({"
       $(document).ready(function() {
         var i18nextOptions = {
           fallbackLng: 'en',
+          whitelist: ['en', 'de'],
           backend: {
             referenceLng: 'en',
             projectId: '8166472e-7ac6-44e5-a53f-96a6ca165e2b'
