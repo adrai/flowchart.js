@@ -4,8 +4,8 @@
 
 flowchart.js is a flowchart DSL and SVG render that runs in the browser and [terminal](https://github.com/francoislaberge/diagrams/#flowchart).
 
-Nodes and connections are defined in separately so that nodes can be reused and connections can be quickly changed.
-Fine grain changes to node and connector style can also be made right in the DSL.
+Nodes and connections are defined separately so that nodes can be reused and connections can be quickly changed.
+Fine grain changes to node and connection style can also be made right in the DSL.
 
 ## Example
 
