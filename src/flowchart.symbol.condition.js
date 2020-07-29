@@ -6,6 +6,8 @@ var drawPath = drawAPI.drawPath;
 function Condition(chart, options) {
   options = options || {};
   Symbol.call(this, chart, options);
+  this.yes_annotation = options.yes_annotation;
+  this.no_annotation = options.no_annotation;
   this.textMargin = this.getAttr('text-margin');
   this.yes_direction = 'bottom';
   this.no_direction = 'right';
@@ -160,11 +162,11 @@ Condition.prototype.render = function() {
 
 Condition.prototype.renderLines = function() {
   if (this.yes_symbol) {
-    this.drawLineTo(this.yes_symbol, this.getAttr('yes-text'), this.yes_direction);
+    this.drawLineTo(this.yes_symbol, this.yes_annotation ? this.yes_annotation : this.getAttr('yes-text'), this.yes_direction);
   }
 
   if (this.no_symbol) {
-    this.drawLineTo(this.no_symbol, this.getAttr('no-text'), this.no_direction);
+    this.drawLineTo(this.no_symbol, this.no_annotation ? this.no_annotation : this.getAttr('no-text'), this.no_direction);
   }
 };
 
