@@ -286,10 +286,9 @@ function parse(input) {
       chart.symbols[symbol.key] = symbol;
 
     } else if (line.indexOf('->') >= 0) {
-      
       var ann = getAnnotation(line);
-      if(ann) {
-	      line = line.replace("@" + ann, ""); 
+      if (ann) {
+        line = line.replace('@' + ann, ''); 
       }
       // flow
       var flowSymbols = line.split('->');

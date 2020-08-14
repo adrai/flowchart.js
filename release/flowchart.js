@@ -1,5 +1,5 @@
 // flowchart.js, v1.13.0
-// Copyright (c)2019 Adriano Raiano (adrai).
+// Copyright (c)2020 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 
@@ -629,6 +629,12 @@
                 next.indexOf(",") < 0 && "yes" !== next && "no" !== next && (next = "next, " + next)), 
                 next;
             }
+            function getAnnotation(s) {
+                var startIndex = s.indexOf("(") + 1, endIndex = s.indexOf(")"), tmp = s.substring(startIndex, endIndex);
+                tmp.indexOf(",") > 0 && (tmp = tmp.substring(0, tmp.indexOf(",")));
+                var tmp_split = tmp.split("@");
+                if (tmp_split.length > 1) return startIndex >= 0 && endIndex >= 0 ? tmp_split[1] : "";
+            }
             input = input || "", input = input.trim();
             for (var chart = {
                 symbols: {},
@@ -742,19 +748,26 @@
                     }
                     /* end of flowstate support */
                     chart.symbols[symbol.key] = symbol;
-                } else if (line.indexOf("->") >= 0) for (var flowSymbols = line.split("->"), iS = 0, lenS = flowSymbols.length; iS < lenS; iS++) {
-                    var flowSymb = flowSymbols[iS], symbVal = getSymbValue(flowSymb);
-                    "true" !== symbVal && "false" !== symbVal || (// map true or false to yes or no respectively
-                    flowSymb = flowSymb.replace("true", "yes"), flowSymb = flowSymb.replace("false", "no"));
-                    var realSymb = getSymbol(flowSymb), next = getNextPath(flowSymb), direction = null;
-                    if (next.indexOf(",") >= 0) {
-                        var condOpt = next.split(",");
-                        next = condOpt[0], direction = condOpt[1].trim();
-                    }
-                    if (chart.start || (chart.start = realSymb), iS + 1 < lenS) {
-                        var nextSymb = flowSymbols[iS + 1];
-                        realSymb[next] = getSymbol(nextSymb), realSymb["direction_" + next] = direction, 
-                        direction = null;
+                } else if (line.indexOf("->") >= 0) {
+                    var ann = getAnnotation(line);
+                    ann && (line = line.replace("@" + ann, ""));
+                    for (var flowSymbols = line.split("->"), iS = 0, lenS = flowSymbols.length; iS < lenS; iS++) {
+                        var flowSymb = flowSymbols[iS], symbVal = getSymbValue(flowSymb);
+                        "true" !== symbVal && "false" !== symbVal || (// map true or false to yes or no respectively
+                        flowSymb = flowSymb.replace("true", "yes"), flowSymb = flowSymb.replace("false", "no"));
+                        var realSymb = getSymbol(flowSymb);
+                        ann && ("yes" == symbVal || "true" == symbVal ? realSymb.yes_annotation = ann : realSymb.no_annotation = ann, 
+                        ann = null);
+                        var next = getNextPath(flowSymb), direction = null;
+                        if (next.indexOf(",") >= 0) {
+                            var condOpt = next.split(",");
+                            next = condOpt[0], direction = condOpt[1].trim();
+                        }
+                        if (chart.start || (chart.start = realSymb), iS + 1 < lenS) {
+                            var nextSymb = flowSymbols[iS + 1];
+                            realSymb[next] = getSymbol(nextSymb), realSymb["direction_" + next] = direction, 
+                            direction = null;
+                        }
                     }
                 } else if (line.indexOf("@>") >= 0) for (var lineStyleSymbols = line.split("@>"), iSS = 0, lenSS = lineStyleSymbols.length; iSS < lenSS; iSS++) if (iSS + 1 !== lenSS) {
                     var curSymb = getSymbol(lineStyleSymbols[iSS]), nextSymbol = getSymbol(lineStyleSymbols[iSS + 1]);
@@ -772,7 +785,8 @@
     /***/
     function(module, exports, __webpack_require__) {
         function Condition(chart, options) {
-            options = options || {}, Symbol.call(this, chart, options), this.textMargin = this.getAttr("text-margin"), 
+            options = options || {}, Symbol.call(this, chart, options), this.yes_annotation = options.yes_annotation, 
+            this.no_annotation = options.no_annotation, this.textMargin = this.getAttr("text-margin"), 
             this.yes_direction = "bottom", this.no_direction = "right", this.params = options.params, 
             options.yes && options.direction_yes && options.no && !options.direction_no ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
             this.yes_direction = "right") : "top" === options.direction_yes ? (this.no_direction = "right", 
@@ -854,8 +868,8 @@
                 }
             }
         }, Condition.prototype.renderLines = function() {
-            this.yes_symbol && this.drawLineTo(this.yes_symbol, this.getAttr("yes-text"), this.yes_direction), 
-            this.no_symbol && this.drawLineTo(this.no_symbol, this.getAttr("no-text"), this.no_direction);
+            this.yes_symbol && this.drawLineTo(this.yes_symbol, this.yes_annotation ? this.yes_annotation : this.getAttr("yes-text"), this.yes_direction), 
+            this.no_symbol && this.drawLineTo(this.no_symbol, this.no_annotation ? this.no_annotation : this.getAttr("no-text"), this.no_direction);
         }, module.exports = Condition;
     }, /* 6 */
     /*!******************************************!*\
