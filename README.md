@@ -218,6 +218,29 @@ If you want to emphasize a specific path in your flowchart, you can additionally
 st@>op1({"stroke":"Red"})@>cond({"stroke":"Red","stroke-width":6,"arrow-end":"classic-wide-long"})@>c2({"stroke":"Red"})@>op2({"stroke":"Red"})@>e({"stroke":"Red"})
 ```
 
+## Custom names for branches
+
+```
+st=>start: Start:>http://www.google.com[blank]
+e=>end:>http://www.google.com
+op1=>operation: My Operation
+sub1=>subroutine: My Subroutine
+cond=>condition: linear or polynomial :>http://www.google.com
+io=>inputoutput: catch something...
+
+st->op1->cond
+cond(true@linear)->io->e
+cond(false@polynomial)->sub1(right)
+sub1(right)->op1
+```
+<details>
+  
+  <summary>Demonstration</summary>
+  
+ ![img](https://user-images.githubusercontent.com/37659961/90231386-85a3ed80-de34-11ea-8265-976c36b2f0e2.png) 
+ 
+</details>
+
 ## Contributors
 
 via [GitHub](https://github.com/adrai/flowchart.js/graphs/contributors)

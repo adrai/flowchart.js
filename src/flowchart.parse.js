@@ -192,6 +192,15 @@ function parse(input) {
     }
     return next;
   }
+  
+  function getAnnotation(s) {
+	var startIndex = s.indexOf("(") + 1, endIndex = s.indexOf(")");
+	var tmp = s.substring(startIndex, endIndex);
+	if(tmp.indexOf(",") > 0) { tmp = tmp.substring(0, tmp.indexOf(",")); }
+	var tmp_split = tmp.split("@");
+	if(tmp_split.length > 1)
+		return startIndex >= 0 && endIndex >= 0 ? tmp_split[1] : "";
+  }
 
   while (lines.length > 0) {
     var line = lines.splice(0, 1)[0].trim();
@@ -277,6 +286,11 @@ function parse(input) {
       chart.symbols[symbol.key] = symbol;
 
     } else if (line.indexOf('->') >= 0) {
+      
+      var ann = getAnnotation(line);
+      if(ann) {
+	      line = line.replace("@" + ann, ""); 
+      }
       // flow
       var flowSymbols = line.split('->');
       for (var iS = 0, lenS = flowSymbols.length; iS < lenS; iS++) {
@@ -290,6 +304,13 @@ function parse(input) {
         }
 
         var realSymb = getSymbol(flowSymb);
+	if(ann) {
+		if(symbVal == "yes" || symbVal == "true")
+			realSymb.yes_annotation = ann;
+		else
+			realSymb.no_annotation = ann;
+		ann = null;
+        }
         var next = getNextPath(flowSymb);
 
         var direction = null;
