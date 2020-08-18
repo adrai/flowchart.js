@@ -227,6 +227,43 @@ st@>op1({"stroke":"Red"})@>sub1({"stroke":"Red"})@>cond({"stroke":"Red"})@>io({"
       <br />
       <b data-i18n="conditions_3" data-i18n-options='{"defaultValue": "Use cond(align-next=no) to disable vertical align of symbols below as shown above."}'></b>
 
+      <br />
+      <hr />
+      <br />
+      <section id="demo4">
+        <table align="center" class="inner">
+          <tr>
+            <td style="vertical-align: top;">
+            <h3 data-i18n="[html]demo4" data-i18n-options='{"defaultValue": "Demo 4 tribute to {{- link}}", "link": "<a href=\"https://localistars.com\">localistars</a>"}'></h3>
+            <div class="editor-wrapper">
+  <div class="editor editor4">st=>start: Need something to be translated!:>https://www.localistars.com[blank]
+e=>end: Be happy!:>https://youtu.be/e6Ede8hdU8c
+cond=>condition: Are you a client
+or a translator?
+subc=>subroutine: Why should you choose a localistar?:>https://www.localistars.com/for-clients.html
+subt=>subroutine: Why should you become a localistar?:>https://www.localistars.com/for-translators.html
+op=>operation: Check out how it works!:>https://www.localistars.com/how-it-works.html
+io=>inputoutput: Work together with your partner!:>https://www.localistars.app/login
+
+st->cond
+cond(no@client)->subc->op->io->e
+cond(yes@translator)->subt->op->io->e</div>
+           </div>
+           <!--   Theme:
+            <select class="theme">
+              <option value="simple">Simple</option>
+              <option value="hand" selected>Hand drawn</option>
+            </select> -->
+            </td>
+            <td class="diagram diagram4">This should be a diagram! If you do not see it you need Javascript enabled</td>
+          </tr>
+        </table>
+
+      </section>
+
+      <br />
+      <b data-i18n="annotations" data-i18n-options='{"defaultValue": "If you want to have custom branch names, you can additionally define it like shown above."}'></b>
+
     <footer>
       </br>
       <hr />
@@ -277,7 +314,7 @@ st@>op1({"stroke":"Red"})@>sub1({"stroke":"Red"})@>cond({"stroke":"Red"})@>io({"
             diagram_div.html('');
 
             // Draw
-            if (nr === 1 || nr === 3) {
+            if (nr === 1 || nr === 3 || nr === 4) {
               diagram.drawSVG(diagram_div.get(0));
             } else if (nr === 2) {
               diagram.drawSVG(diagram_div.get(0), {
@@ -318,6 +355,8 @@ st@>op1({"stroke":"Red"})@>sub1({"stroke":"Red"})@>cond({"stroke":"Red"})@>io({"
         setup_editor($('#demo2'), 2);
 
         setup_editor($('#demo3'), 3);
+
+        setup_editor($('#demo4'), 4);
       });
 
       $(document).ready(function() {
