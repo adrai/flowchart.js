@@ -9,44 +9,14 @@ function Condition(chart, options) {
   this.yes_annotation = options.yes_annotation;
   this.no_annotation = options.no_annotation;
   this.textMargin = this.getAttr('text-margin');
-  this.yes_direction = 'bottom';
-  this.no_direction = 'right';
+  this.yes_direction = options.direction_yes;
+  this.no_direction = options.direction_no;
   this.params = options.params;
-  if (options.yes && options.direction_yes && options.no && !options.direction_no) {
-    if (options.direction_yes === 'right') {
-      this.no_direction = 'bottom';
-      this.yes_direction = 'right';
-    } else if (options.direction_yes === 'top') {
-      this.no_direction = 'right';
-      this.yes_direction = 'top';
-    } else {
-      this.no_direction = 'right';
-      this.yes_direction = 'bottom';
-    }
-  } else if (options.yes && !options.direction_yes && options.no && options.direction_no) {
-    if (options.direction_no === 'right') {
-      this.yes_direction = 'bottom';
-      this.no_direction = 'right';
-    } else {
-      this.yes_direction = 'right';
-      this.no_direction = 'bottom';
-    }
-  } else if (options.yes && options.direction_yes && options.no && options.direction_no && options.direction_no !== options.direction_yes) {
-    if (options.direction_yes === 'right') {
-      this.no_direction = 'bottom';
-      this.yes_direction = 'right';
-    } else if (options.direction_yes === 'top') {
-      this.no_direction = 'right';
-      this.yes_direction = 'top';
-    } else {
-      this.no_direction = 'right';
-      this.yes_direction = 'bottom';
-    }
-  } else {
-    this.yes_direction = 'bottom';
-    this.no_direction = 'right';
+  if (!this.no_direction && this.yes_direction === 'right') {
+    this.no_direction = 'bottom';
+  } else if (!this.yes_direction && this.no_direction === 'bottom') {
+    this.yes_direction = 'right'
   }
-
   this.yes_direction = this.yes_direction || 'bottom';
   this.no_direction = this.no_direction || 'right';
 
@@ -156,6 +126,41 @@ Condition.prototype.render = function() {
       this.right_symbol.isPositioned = true;
 
       this.right_symbol.render();
+    }
+  }
+  
+  if (this.left_symbol) {
+    var leftPoint = this.getLeft();
+  
+    if (!this.left_symbol.isPositioned) {
+      this.left_symbol.setY(leftPoint.y - this.left_symbol.height / 2);
+      this.left_symbol.shiftX(-(this.group.getBBox().x + this.width + lineLength));
+      var self = this;
+      (function shift() {
+        var hasSymbolUnder = false;
+        var symb;
+        for (var i = 0, len = self.chart.symbols.length; i < len; i++) {
+          symb = self.chart.symbols[i];
+    
+          if (!self.params['align-next'] || self.params['align-next'] !== 'no') {
+            var diff = Math.abs(symb.getCenter().x - self.left_symbol.getCenter().x);
+            if (symb.getCenter().y > self.left_symbol.getCenter().y && diff <= self.left_symbol.width / 2) {
+              hasSymbolUnder = true;
+              break;
+            }
+          }
+        }
+    
+        if (hasSymbolUnder) {
+          if (self.left_symbol.symbolType === 'end') return;
+          self.left_symbol.setX(symb.getX() + symb.width + lineLength);
+          shift();
+        }
+      })();
+  
+      this.left_symbol.isPositioned = true;
+  
+      this.left_symbol.render();
     }
   }
 };
