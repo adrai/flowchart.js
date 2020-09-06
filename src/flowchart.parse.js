@@ -294,6 +294,14 @@ function parse(input) {
       var flowSymbols = line.split('->');
       for (var iS = 0, lenS = flowSymbols.length; iS < lenS; iS++) {
         var flowSymb = flowSymbols[iS];
+        var symbVal = getSymbValue(flowSymb);
+
+        if (symbVal === 'true' || symbVal === 'false') {
+          // map true or false to yes or no respectively
+          flowSymb = flowSymb.replace('true', 'yes');
+          flowSymb = flowSymb.replace('false', 'no');
+        }
+        
         var next = getNextPath(flowSymb);
         var realSymb = getSymbol(flowSymb);
 
