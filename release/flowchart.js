@@ -1,4 +1,4 @@
-// flowchart.js, v1.14.0
+// flowchart.js, v1.14.1
 // Copyright (c)2020 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -552,16 +552,17 @@
             }), fontW && line.attr({
                 "font-weight": fontW
             }), text) {
-                var centerText = !1, textPath = chart.paper.text(0, 0, text), isHorizontal = !1, firstTo = to[0];
+                var centerText = !1, textPath = chart.paper.text(0, 0, text), textAnchor = "start", isHorizontal = !1, firstTo = to[0];
                 from.y === firstTo.y && (isHorizontal = !0);
                 var x = 0, y = 0;
                 centerText ? (x = from.x > firstTo.x ? from.x - (from.x - firstTo.x) / 2 : firstTo.x - (firstTo.x - from.x) / 2, 
                 y = from.y > firstTo.y ? from.y - (from.y - firstTo.y) / 2 : firstTo.y - (firstTo.y - from.y) / 2, 
                 isHorizontal ? (x -= textPath.getBBox().width / 2, y -= chart.options["text-margin"]) : (x += chart.options["text-margin"], 
-                y -= textPath.getBBox().height / 2)) : (x = from.x, y = from.y, isHorizontal ? (x += chart.options["text-margin"] / 2, 
-                y -= chart.options["text-margin"]) : (x += chart.options["text-margin"] / 2, y += chart.options["text-margin"], 
-                from.y > firstTo.y && (y -= 2 * chart.options["text-margin"]))), textPath.attr({
-                    "text-anchor": "start",
+                y -= textPath.getBBox().height / 2)) : (x = from.x, y = from.y, isHorizontal ? (from.x > firstTo.x ? (x -= chart.options["text-margin"] / 2, 
+                textAnchor = "end") : x += chart.options["text-margin"] / 2, y -= chart.options["text-margin"]) : (x += chart.options["text-margin"] / 2, 
+                y += chart.options["text-margin"], from.y > firstTo.y && (y -= 2 * chart.options["text-margin"]))), 
+                textPath.attr({
+                    "text-anchor": textAnchor,
                     "font-size": chart.options["font-size"],
                     fill: chart.options["font-color"],
                     x: x,
@@ -755,15 +756,13 @@
                         var flowSymb = flowSymbols[iS], symbVal = getSymbValue(flowSymb);
                         "true" !== symbVal && "false" !== symbVal || (// map true or false to yes or no respectively
                         flowSymb = flowSymb.replace("true", "yes"), flowSymb = flowSymb.replace("false", "no"));
-                        var realSymb = getSymbol(flowSymb);
-                        ann && ("yes" == symbVal || "true" == symbVal ? realSymb.yes_annotation = ann : realSymb.no_annotation = ann, 
-                        ann = null);
-                        var next = getNextPath(flowSymb), direction = null;
+                        var next = getNextPath(flowSymb), realSymb = getSymbol(flowSymb), direction = null;
                         if (next.indexOf(",") >= 0) {
                             var condOpt = next.split(",");
                             next = condOpt[0], direction = condOpt[1].trim();
                         }
-                        if (chart.start || (chart.start = realSymb), iS + 1 < lenS) {
+                        if (ann && ("yes" == next || "true" == next ? realSymb.yes_annotation = ann : realSymb.no_annotation = ann, 
+                        ann = null), chart.start || (chart.start = realSymb), iS + 1 < lenS) {
                             var nextSymb = flowSymbols[iS + 1];
                             realSymb[next] = getSymbol(nextSymb), realSymb["direction_" + next] = direction, 
                             direction = null;
@@ -787,15 +786,10 @@
         function Condition(chart, options) {
             options = options || {}, Symbol.call(this, chart, options), this.yes_annotation = options.yes_annotation, 
             this.no_annotation = options.no_annotation, this.textMargin = this.getAttr("text-margin"), 
-            this.yes_direction = "bottom", this.no_direction = "right", this.params = options.params, 
-            options.yes && options.direction_yes && options.no && !options.direction_no ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
-            this.yes_direction = "right") : "top" === options.direction_yes ? (this.no_direction = "right", 
-            this.yes_direction = "top") : (this.no_direction = "right", this.yes_direction = "bottom") : options.yes && !options.direction_yes && options.no && options.direction_no ? "right" === options.direction_no ? (this.yes_direction = "bottom", 
-            this.no_direction = "right") : (this.yes_direction = "right", this.no_direction = "bottom") : options.yes && options.direction_yes && options.no && options.direction_no && options.direction_no !== options.direction_yes ? "right" === options.direction_yes ? (this.no_direction = "bottom", 
-            this.yes_direction = "right") : "top" === options.direction_yes ? (this.no_direction = "right", 
-            this.yes_direction = "top") : (this.no_direction = "right", this.yes_direction = "bottom") : (this.yes_direction = "bottom", 
-            this.no_direction = "right"), this.yes_direction = this.yes_direction || "bottom", 
-            this.no_direction = this.no_direction || "right", this.text.attr({
+            this.yes_direction = options.direction_yes, this.no_direction = options.direction_no, 
+            this.params = options.params, this.no_direction || "right" !== this.yes_direction ? this.yes_direction || "bottom" !== this.no_direction || (this.yes_direction = "right") : this.no_direction = "bottom", 
+            this.yes_direction = this.yes_direction || "bottom", this.no_direction = this.no_direction || "right", 
+            this.text.attr({
                 x: 2 * this.textMargin
             });
             var width = this.text.getBBox().width + 3 * this.textMargin;
@@ -865,6 +859,27 @@
                             self.right_symbol.setX(symb.getX() + symb.width + lineLength), shift();
                         }
                     }(), this.right_symbol.isPositioned = !0, this.right_symbol.render();
+                }
+            }
+            if (this.left_symbol) {
+                var leftPoint = this.getLeft();
+                if (!this.left_symbol.isPositioned) {
+                    this.left_symbol.setY(leftPoint.y - this.left_symbol.height / 2), this.left_symbol.shiftX(-(this.group.getBBox().x + this.width + lineLength));
+                    var self = this;
+                    !function shift() {
+                        for (var symb, hasSymbolUnder = !1, i = 0, len = self.chart.symbols.length; i < len; i++) if (symb = self.chart.symbols[i], 
+                        !self.params["align-next"] || "no" !== self.params["align-next"]) {
+                            var diff = Math.abs(symb.getCenter().x - self.left_symbol.getCenter().x);
+                            if (symb.getCenter().y > self.left_symbol.getCenter().y && diff <= self.left_symbol.width / 2) {
+                                hasSymbolUnder = !0;
+                                break;
+                            }
+                        }
+                        if (hasSymbolUnder) {
+                            if ("end" === self.left_symbol.symbolType) return;
+                            self.left_symbol.setX(symb.getX() + symb.width + lineLength), shift();
+                        }
+                    }(), this.left_symbol.isPositioned = !0, this.left_symbol.render();
                 }
             }
         }, Condition.prototype.renderLines = function() {
@@ -1007,8 +1022,12 @@
             symbol.renderLines();
             maxX = this.maxXFromLine;
             var x, y;
-            for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], x = symbol.getX() + symbol.width, 
-            y = symbol.getY() + symbol.height, x > maxX && (maxX = x), y > maxY && (maxY = y);
+            for (i = 0, len = this.symbols.length; i < len; i++) {
+                symbol = this.symbols[i];
+                var leftX = symbol.getX();
+                x = leftX + symbol.width, y = symbol.getY() + symbol.height, leftX < minX && (minX = leftX), 
+                x > maxX && (maxX = x), y > maxY && (maxY = y);
+            }
             for (i = 0, len = this.lines.length; i < len; i++) {
                 line = this.lines[i].getBBox(), x = line.x, y = line.y;
                 var x2 = line.x2, y2 = line.y2;

@@ -1,3 +1,7 @@
+### v1.14.1
+
+- Corrected condition behavior and fixed layout [#211](https://github.com/adrai/flowchart.js/pull/211) thanks to [AlexanderMisel](https://github.com/AlexanderMisel)
+
 ### v1.14.0
 
 - Custom annotations [#209](https://github.com/adrai/flowchart.js/pull/209) thanks to [serpent-charmer](https://github.com/serpent-charmer)
