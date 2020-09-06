@@ -122,8 +122,12 @@ FlowChart.prototype.render = function() {
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];
-    x = symbol.getX() + symbol.width;
+    var leftX = symbol.getX()
+    x = leftX + symbol.width;
     y = symbol.getY() + symbol.height;
+    if (leftX < minX) {
+      minX = leftX;
+    }
     if (x > maxX) {
       maxX = x;
     }
