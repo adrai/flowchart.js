@@ -1,3 +1,7 @@
+### v1.14.2
+
+- Basic types [#212](https://github.com/adrai/flowchart.js/pull/212) thanks to [DerMolly](https://github.com/DerMolly)
+
 ### v1.14.1
 
 - Corrected condition behavior and fixed layout [#211](https://github.com/adrai/flowchart.js/pull/211) thanks to [AlexanderMisel](https://github.com/AlexanderMisel)
