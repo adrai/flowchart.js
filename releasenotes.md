@@ -1,3 +1,7 @@
+### v1.14.3
+
+- Removed types introduced in [#212](https://github.com/adrai/flowchart.js/pull/212) again
+
 ### v1.14.2
 
 - Basic types [#212](https://github.com/adrai/flowchart.js/pull/212) thanks to [DerMolly](https://github.com/DerMolly)
