@@ -136,12 +136,12 @@ nodeVar2->nodeVar3
 
 Connection syntax is as follows:
 
-`<node variable name>[(<specificaion1>[, <specification2])]-><node variable name>[[(<specificaion1>[, <specification2])]-><node variable name>]`
+`<node variable name>[(<specification1>[, <specification2])]-><node variable name>[[(<specification1>[, <specification2])]-><node variable name>]`
 
 Items in `[]` are optional.
 
 ### Directions
-The following directions are availiable and define the direction the connection will leave the node from. If there are more than one specifiers, it is always the last. All nodes have a default direction making this an optional specification. `<direction>` will be used to indicate that one of the below should be used in its place.
+The following directions are available and define the direction the connection will leave the node from. If there are more than one specifiers, it is always the last. All nodes have a default direction making this an optional specification. `<direction>` will be used to indicate that one of the below should be used in its place.
 
 * left
 * right
@@ -154,7 +154,7 @@ Each node variables has optional specifiers, like direction, and some have speci
 ### start
 Optional direction
 
-`startVar(<dirction>)->nextNode`
+`startVar(<direction>)->nextNode`
 
 ### end
 No specifications because connections only go to the end node and do not leave from it.
