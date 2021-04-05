@@ -44,6 +44,7 @@ function InputOutput(chart, options) {
 
   this.group.push(symbol);
   symbol.insertBefore(this.text);
+  this.symbol = symbol
 
   this.initialize();
 }
