@@ -11,7 +11,6 @@ function Condition(chart, options) {
   this.textMargin = this.getAttr('text-margin');
   this.yes_direction = options.direction_yes;
   this.no_direction = options.direction_no;
-  this.params = options.params;
   if (!this.no_direction && this.yes_direction === 'right') {
     this.no_direction = 'bottom';
   } else if (!this.yes_direction && this.no_direction === 'bottom') {
@@ -63,6 +62,7 @@ function Condition(chart, options) {
 
   this.group.push(symbol);
   symbol.insertBefore(this.text);
+  this.symbol = symbol
 
   this.initialize();
 }

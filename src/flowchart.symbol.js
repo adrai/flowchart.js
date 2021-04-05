@@ -15,6 +15,7 @@ function Symbol(chart, options, symbol) {
   this.rightLines = [];
   this.topLines = [];
   this.bottomLines = [];
+  this.params = options.params;
 
   this.next_direction = options.next && options['direction_next'] ? options['direction_next'] : undefined;
 
