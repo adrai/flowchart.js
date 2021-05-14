@@ -48,8 +48,8 @@ function Symbol(chart, options, symbol) {
     this.text.node.addEventListener("click", function(evt) {
         window[options.function](evt,options);
     }, false);
-   }
-   
+  }
+
   if (options.target) { this.text.attr('target', options.target); }
 
   var maxWidth = this.getAttr('maxWidth');
