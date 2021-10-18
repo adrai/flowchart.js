@@ -313,10 +313,21 @@ function parse(input) {
         }
 
         if (ann) {
-          if (next == "yes" || next == "true")
-            realSymb.yes_annotation = ann;
-          else
-            realSymb.no_annotation = ann;
+          if (realSymb.symbolType === 'condition') {
+            if (next === "yes" || next === "true") {
+              realSymb.yes_annotation = ann;
+            } else {
+              realSymb.no_annotation = ann;
+            }
+          } else if (realSymb.symbolType === 'parallel') {
+            if (next === 'path1') {
+              realSymb.path1_annotation = ann;
+            } else if (next === 'path2') {
+              realSymb.path2_annotation = ann;
+            } else if (next === 'path3') {
+              realSymb.path3_annotation = ann;
+            }
+          }
           ann = null;
         }
 

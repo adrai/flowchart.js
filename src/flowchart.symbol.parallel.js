@@ -5,6 +5,9 @@ function Parallel(chart, options) {
   var symbol = chart.paper.rect(0, 0, 0, 0);
   options = options || {};
   Symbol.call(this, chart, options, symbol);
+  this.path1_annotation = options.path1_annotation || '';
+  this.path2_annotation = options.path2_annotation || '';
+  this.path3_annotation = options.path3_annotation || '';
   this.textMargin = this.getAttr('text-margin');
   this.path1_direction = 'bottom';
   this.path2_direction = 'right';
@@ -81,7 +84,6 @@ function Parallel(chart, options) {
 inherits(Parallel, Symbol);
 
 Parallel.prototype.render = function() {
-
   if (this.path1_direction) {
     this[this.path1_direction + '_symbol'] = this.path1_symbol;
   }
@@ -193,15 +195,15 @@ Parallel.prototype.render = function() {
 
 Parallel.prototype.renderLines = function() {
   if (this.path1_symbol) {
-    this.drawLineTo(this.path1_symbol, '', this.path1_direction);
+    this.drawLineTo(this.path1_symbol, this.path1_annotation, this.path1_direction);
   }
 
   if (this.path2_symbol) {
-    this.drawLineTo(this.path2_symbol, '', this.path2_direction);
+    this.drawLineTo(this.path2_symbol, this.path2_annotation, this.path2_direction);
   }
 
   if (this.path3_symbol) {
-    this.drawLineTo(this.path3_symbol, '', this.path3_direction);
+    this.drawLineTo(this.path3_symbol, this.path3_annotation, this.path3_direction);
   }
 };
 

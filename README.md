@@ -227,11 +227,15 @@ op1=>operation: My Operation
 sub1=>subroutine: My Subroutine
 cond=>condition: linear or polynomial :>http://www.google.com
 io=>inputoutput: catch something...
+para=>parallel: 3 possibilities
 
 st->op1->cond
 cond(true@linear)->io->e
 cond(false@polynomial)->sub1(right)
-sub1(right)->op1
+sub1(right)->para
+para(path1@an1, top)->cond
+para(path2@an2, right)->op1
+para(path3@an3, bottom)->e
 ```
 <details>
   
@@ -251,7 +255,7 @@ Many thanks to [js-sequence-diagrams](http://bramp.github.io/js-sequence-diagram
 
 ## Licence
 
-Copyright (c) 2019 Adriano Raiano
+Copyright (c) 2021 Adriano Raiano
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

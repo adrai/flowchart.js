@@ -69,7 +69,7 @@ function Condition(chart, options) {
 inherits(Condition, Symbol);
 
 Condition.prototype.render = function() {
-
+  var self = this;
   if (this.yes_direction) {
     this[this.yes_direction + '_symbol'] = this.yes_symbol;
   }
@@ -100,7 +100,6 @@ Condition.prototype.render = function() {
       this.right_symbol.setY(rightPoint.y - this.right_symbol.height/2);
       this.right_symbol.shiftX(this.group.getBBox().x + this.width + lineLength);
 
-      var self = this;
       (function shift() {
         var hasSymbolUnder = false;
         var symb;
@@ -135,7 +134,7 @@ Condition.prototype.render = function() {
     if (!this.left_symbol.isPositioned) {
       this.left_symbol.setY(leftPoint.y - this.left_symbol.height / 2);
       this.left_symbol.shiftX(-(this.group.getBBox().x + this.width + lineLength));
-      var self = this;
+
       (function shift() {
         var hasSymbolUnder = false;
         var symb;

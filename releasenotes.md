@@ -1,3 +1,7 @@
+### v1.16.0
+
+- Custom annotations for parallel [#225](https://github.com/adrai/flowchart.js/issues/225)
+
 ### v1.15.0
 
 - Introduce types [#214](https://github.com/adrai/flowchart.js/pull/214) thanks to [Mister-Hope](https://github.com/Mister-Hope)
