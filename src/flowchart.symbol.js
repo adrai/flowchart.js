@@ -83,6 +83,8 @@ function Symbol(chart, options, symbol) {
     });
 
     symbol.node.setAttribute('class', this.getAttr('class'));
+    symbol.node.setAttribute('ry', this.getAttr('roundness'));
+    symbol.node.setAttribute('rx', this.getAttr('roundness'));
 
     if (options.link) { symbol.attr('href', options.link); }
     if (options.target) { symbol.attr('target', options.target); }
