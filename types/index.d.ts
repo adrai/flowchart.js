@@ -11,6 +11,7 @@ declare module "flowchart.js" {
       "line-color": string;
       "element-color": string;
       fill: string;
+      roundness: number;
       "yes-text": string;
       "no-text": string;
       "arrow-end": string;
