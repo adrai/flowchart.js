@@ -1,4 +1,4 @@
-// flowchart.js, v1.16.0
+// flowchart.js, v1.17.0
 // Copyright (c)2021 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
@@ -170,7 +170,8 @@
                     "stroke-width": this.getAttr("line-width"),
                     width: this.text.getBBox().width + 2 * tmpMargin,
                     height: this.text.getBBox().height + 2 * tmpMargin
-                }), symbol.node.setAttribute("class", this.getAttr("class")), options.link && symbol.attr("href", options.link), 
+                }), symbol.node.setAttribute("class", this.getAttr("class")), symbol.node.setAttribute("ry", this.getAttr("roundness")), 
+                symbol.node.setAttribute("rx", this.getAttr("roundness")), options.link && symbol.attr("href", options.link), 
                 options.target && symbol.attr("target", options.target), //ndrqu Add click function with event and options params
                 options.function && (symbol.node.addEventListener("click", function(evt) {
                     window[options.function](evt, options);
@@ -1053,6 +1054,7 @@
         module.exports = {
             x: 0,
             y: 0,
+            roundness: 0,
             "line-width": 3,
             "line-length": 50,
             "text-margin": 10,

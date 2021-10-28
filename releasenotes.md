@@ -1,3 +1,7 @@
+### v1.17.0
+
+- Styling to allow rounded corners [#227](https://github.com/adrai/flowchart.js/pull/227)
+
 ### v1.16.0
 
 - Custom annotations for parallel [#225](https://github.com/adrai/flowchart.js/issues/225)
