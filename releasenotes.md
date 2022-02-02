@@ -1,3 +1,7 @@
+### v1.17.1
+
+- fix start and end roundness introduced in [#227](https://github.com/adrai/flowchart.js/pull/227)
+
 ### v1.17.0
 
 - Styling to allow rounded corners [#227](https://github.com/adrai/flowchart.js/pull/227)
