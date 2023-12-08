@@ -12,15 +12,17 @@ Fine grain changes to node and connection style can also be made right in the DS
 ```flowchart
 st=>start: Start:>http://www.google.com[blank]
 e=>end:>http://www.google.com
+getInfo=>input: Input Info
 op1=>operation: My Operation
 sub1=>subroutine: My Subroutine
 cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
+printInfo=>output: Print info
 para=>parallel: parallel tasks
 
-st->op1->cond
-cond(yes)->io->e
+st->getInfo->op1->cond
+cond(yes)->io->printInfo->e
 cond(no)->para
 para(path1, bottom)->sub1(right)->op1
 para(path2, top)->op1
@@ -93,6 +95,24 @@ Indicates that IO happens in a flow.
 
 ```flowchart
 io=>inputoutput: inputoutput
+```
+
+### input
+Indicates that Input happens in a flow.
+
+![input image](imgs/input.png "input image")
+
+```flowchart
+getInfo=>input: Input info
+```
+
+### output
+Indicates that Output happens in a flow.
+
+![output image](imgs/output.png "output image")
+
+```flowchart
+printInfo=>output: Print info
 ```
 
 ### subroutine
