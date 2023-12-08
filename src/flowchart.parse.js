@@ -3,9 +3,12 @@ var Start = require('./flowchart.symbol.start');
 var End = require('./flowchart.symbol.end');
 var Operation = require('./flowchart.symbol.operation');
 var InputOutput = require('./flowchart.symbol.inputoutput');
+var Input = require('./flowchart.symbol.input'); //tds
+var Output = require('./flowchart.symbol.output'); //tds
 var Subroutine = require('./flowchart.symbol.subroutine');
 var Condition = require('./flowchart.symbol.condition');
 var Parallel = require('./flowchart.symbol.parallel');
+
 
 function parse(input) {
   input = input || '';
@@ -43,6 +46,12 @@ function parse(input) {
           case 'inputoutput':
             dispSymbols[s.key] = new InputOutput(diagram, s);
             break;
+          case 'input':
+            dispSymbols[s.key] = new Input(diagram, s); //tds
+            break;         
+          case 'output':
+            dispSymbols[s.key] = new Output(diagram, s); //tds
+            break;          
           case 'subroutine':
             dispSymbols[s.key] = new Subroutine(diagram, s);
             break;
