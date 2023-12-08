@@ -19,10 +19,10 @@ function Input(chart, options) {
 
   var start = {x: startX, y: startY};
   var points = [
-    {x: startX - this.textMargin, y: height},
-    {x: startX - this.textMargin + width + 2 * this.textMargin, y: height},
-    {x: startX - this.textMargin + width, y: 0},
-    {x: startX - this.textMargin + 2 * this.textMargin, y: 0},
+    {x: startX - this.textMargin + 2 * this.textMargin, y: height},
+    {x: startX - this.textMargin + width, y: height},
+    {x: startX - this.textMargin + width + 2 * this.textMargin, y: 0},
+    {x: startX - this.textMargin, y: 0},
     {x: startX, y: startY}
   ];
 
