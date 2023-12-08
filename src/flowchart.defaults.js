@@ -24,6 +24,8 @@ module.exports = {
     'end': {},
     'condition': {},
     'inputoutput': {},
+    'input': {}, //tds
+    'output': {}, //tds    
     'operation': {},
     'subroutine': {},
     'parallel': {}
