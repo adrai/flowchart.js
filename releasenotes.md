@@ -1,3 +1,7 @@
+### v1.18.0
+
+- introduce input and output [#251](https://github.com/adrai/flowchart.js/pull/251)
+
 ### v1.17.1
 
 - fix start and end roundness introduced in [#227](https://github.com/adrai/flowchart.js/pull/227)

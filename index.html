@@ -18,6 +18,8 @@
       c2=>condition: Good idea|rejected
       io=>inputoutput: catch something...|request
       para=>parallel: parallel tasks
+      in=>input: some in
+      out=>output: some out
 
       st->op1(right)->cond
       cond(yes, right)->c2
@@ -25,8 +27,9 @@
       c2(true)->io->e
       c2(false)->e
 
-      para(path1, bottom)->sub1(left)->op1
+      para(path1, left)->sub1(top)->op1
       para(path2, right)->op2->e
+      para(path3, bottom)->in->out->e
     </div>
     <script>
       function myFunction(event, node) {

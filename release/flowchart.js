@@ -1,5 +1,5 @@
 // flowchart.js, v1.17.1
-// Copyright (c)2022 Adriano Raiano (adrai).
+// Copyright (c)2023 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 
@@ -8,7 +8,7 @@
         var a = factory("object" == typeof exports ? require("Raphael") : root.Raphael);
         for (var i in a) ("object" == typeof exports ? exports : root)[i] = a[i];
     }
-}(this, function(__WEBPACK_EXTERNAL_MODULE_16__) {
+}(this, function(__WEBPACK_EXTERNAL_MODULE_18__) {
     /******/
     return function(modules) {
         /******/
@@ -81,7 +81,7 @@
     function(module, exports, __webpack_require__) {
         __webpack_require__(/*! ./src/flowchart.shim */ 9);
         var parse = __webpack_require__(/*! ./src/flowchart.parse */ 4);
-        __webpack_require__(/*! ./src/jquery-plugin */ 15);
+        __webpack_require__(/*! ./src/jquery-plugin */ 17);
         var FlowChart = {
             parse: parse
         };
@@ -664,6 +664,16 @@
                             dispSymbols[s.key] = new InputOutput(diagram, s);
                             break;
 
+                          case "input":
+                            dispSymbols[s.key] = new Input(diagram, s);
+                            //tds
+                            break;
+
+                          case "output":
+                            dispSymbols[s.key] = new Output(diagram, s);
+                            //tds
+                            break;
+
                           case "subroutine":
                             dispSymbols[s.key] = new Subroutine(diagram, s);
                             break;
@@ -779,7 +789,7 @@
             }
             return chart;
         }
-        var FlowChart = __webpack_require__(/*! ./flowchart.chart */ 7), Start = __webpack_require__(/*! ./flowchart.symbol.start */ 13), End = __webpack_require__(/*! ./flowchart.symbol.end */ 10), Operation = __webpack_require__(/*! ./flowchart.symbol.operation */ 12), InputOutput = __webpack_require__(/*! ./flowchart.symbol.inputoutput */ 11), Subroutine = __webpack_require__(/*! ./flowchart.symbol.subroutine */ 14), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5), Parallel = __webpack_require__(/*! ./flowchart.symbol.parallel */ 6);
+        var FlowChart = __webpack_require__(/*! ./flowchart.chart */ 7), Start = __webpack_require__(/*! ./flowchart.symbol.start */ 15), End = __webpack_require__(/*! ./flowchart.symbol.end */ 10), Operation = __webpack_require__(/*! ./flowchart.symbol.operation */ 13), InputOutput = __webpack_require__(/*! ./flowchart.symbol.inputoutput */ 12), Input = __webpack_require__(/*! ./flowchart.symbol.input */ 11), Output = __webpack_require__(/*! ./flowchart.symbol.output */ 14), Subroutine = __webpack_require__(/*! ./flowchart.symbol.subroutine */ 16), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5), Parallel = __webpack_require__(/*! ./flowchart.symbol.parallel */ 6);
         module.exports = parse;
     }, /* 5 */
     /*!*******************************************!*\
@@ -986,7 +996,7 @@
             options = options || {}, this.paper = new Raphael(container), this.options = defaults(options, defaultOptions), 
             this.symbols = [], this.lines = [], this.start = null;
         }
-        var Raphael = __webpack_require__(/*! raphael */ 16), defaults = __webpack_require__(/*! ./flowchart.helpers */ 1).defaults, defaultOptions = __webpack_require__(/*! ./flowchart.defaults */ 8), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5), Parallel = __webpack_require__(/*! ./flowchart.symbol.parallel */ 6);
+        var Raphael = __webpack_require__(/*! raphael */ 18), defaults = __webpack_require__(/*! ./flowchart.helpers */ 1).defaults, defaultOptions = __webpack_require__(/*! ./flowchart.defaults */ 8), Condition = __webpack_require__(/*! ./flowchart.symbol.condition */ 5), Parallel = __webpack_require__(/*! ./flowchart.symbol.parallel */ 6);
         FlowChart.prototype.handle = function(symbol) {
             this.symbols.indexOf(symbol) <= -1 && this.symbols.push(symbol);
             var flowChart = this;
@@ -1078,6 +1088,10 @@
                 end: {},
                 condition: {},
                 inputoutput: {},
+                input: {},
+                //tds
+                output: {},
+                //tds    
                 operation: {},
                 subroutine: {},
                 parallel: {}
@@ -1127,6 +1141,61 @@
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(End, Symbol), module.exports = End;
     }, /* 11 */
+    /*!***************************************!*\
+  !*** ./src/flowchart.symbol.input.js ***!
+  \***************************************/
+    /***/
+    function(module, exports, __webpack_require__) {
+        function Input(chart, options) {
+            options = options || {}, Symbol.call(this, chart, options), this.textMargin = this.getAttr("text-margin"), 
+            this.text.attr({
+                x: 3 * this.textMargin
+            });
+            var width = this.text.getBBox().width + 4 * this.textMargin, height = this.text.getBBox().height + 2 * this.textMargin, startX = this.textMargin, startY = height / 2, start = {
+                x: startX,
+                y: startY
+            }, points = [ {
+                x: startX - this.textMargin + 2 * this.textMargin,
+                y: height
+            }, {
+                x: startX - this.textMargin + width,
+                y: height
+            }, {
+                x: startX - this.textMargin + width + 2 * this.textMargin,
+                y: 0
+            }, {
+                x: startX - this.textMargin,
+                y: 0
+            }, {
+                x: startX,
+                y: startY
+            } ], symbol = drawPath(chart, start, points);
+            symbol.attr({
+                stroke: this.getAttr("element-color"),
+                "stroke-width": this.getAttr("line-width"),
+                fill: this.getAttr("fill")
+            }), options.link && symbol.attr("href", options.link), options.target && symbol.attr("target", options.target), 
+            options.key && (symbol.node.id = options.key), symbol.node.setAttribute("class", this.getAttr("class")), 
+            this.text.attr({
+                y: symbol.getBBox().height / 2
+            }), this.group.push(symbol), symbol.insertBefore(this.text), this.symbol = symbol, 
+            this.initialize();
+        }
+        var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits, drawAPI = __webpack_require__(/*! ./flowchart.functions */ 3), drawPath = drawAPI.drawPath;
+        inherits(Input, Symbol), Input.prototype.getLeft = function() {
+            var y = this.getY() + this.group.getBBox().height / 2, x = this.getX() + this.textMargin;
+            return {
+                x: x,
+                y: y
+            };
+        }, Input.prototype.getRight = function() {
+            var y = this.getY() + this.group.getBBox().height / 2, x = this.getX() + this.group.getBBox().width - this.textMargin;
+            return {
+                x: x,
+                y: y
+            };
+        }, module.exports = Input;
+    }, /* 12 */
     /*!*********************************************!*\
   !*** ./src/flowchart.symbol.inputoutput.js ***!
   \*********************************************/
@@ -1181,7 +1250,7 @@
                 y: y
             };
         }, module.exports = InputOutput;
-    }, /* 12 */
+    }, /* 13 */
     /*!*******************************************!*\
   !*** ./src/flowchart.symbol.operation.js ***!
   \*******************************************/
@@ -1193,7 +1262,62 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(Operation, Symbol), module.exports = Operation;
-    }, /* 13 */
+    }, /* 14 */
+    /*!****************************************!*\
+  !*** ./src/flowchart.symbol.output.js ***!
+  \****************************************/
+    /***/
+    function(module, exports, __webpack_require__) {
+        function Output(chart, options) {
+            options = options || {}, Symbol.call(this, chart, options), this.textMargin = this.getAttr("text-margin"), 
+            this.text.attr({
+                x: 3 * this.textMargin
+            });
+            var width = this.text.getBBox().width + 4 * this.textMargin, height = this.text.getBBox().height + 2 * this.textMargin, startX = this.textMargin, startY = height / 2, start = {
+                x: startX,
+                y: startY
+            }, points = [ {
+                x: startX - this.textMargin,
+                y: height
+            }, {
+                x: startX - this.textMargin + width + 2 * this.textMargin,
+                y: height
+            }, {
+                x: startX - this.textMargin + width,
+                y: 0
+            }, {
+                x: startX - this.textMargin + 2 * this.textMargin,
+                y: 0
+            }, {
+                x: startX,
+                y: startY
+            } ], symbol = drawPath(chart, start, points);
+            symbol.attr({
+                stroke: this.getAttr("element-color"),
+                "stroke-width": this.getAttr("line-width"),
+                fill: this.getAttr("fill")
+            }), options.link && symbol.attr("href", options.link), options.target && symbol.attr("target", options.target), 
+            options.key && (symbol.node.id = options.key), symbol.node.setAttribute("class", this.getAttr("class")), 
+            this.text.attr({
+                y: symbol.getBBox().height / 2
+            }), this.group.push(symbol), symbol.insertBefore(this.text), this.symbol = symbol, 
+            this.initialize();
+        }
+        var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits, drawAPI = __webpack_require__(/*! ./flowchart.functions */ 3), drawPath = drawAPI.drawPath;
+        inherits(Output, Symbol), Output.prototype.getLeft = function() {
+            var y = this.getY() + this.group.getBBox().height / 2, x = this.getX() + this.textMargin;
+            return {
+                x: x,
+                y: y
+            };
+        }, Output.prototype.getRight = function() {
+            var y = this.getY() + this.group.getBBox().height / 2, x = this.getX() + this.group.getBBox().width - this.textMargin;
+            return {
+                x: x,
+                y: y
+            };
+        }, module.exports = Output;
+    }, /* 15 */
     /*!***************************************!*\
   !*** ./src/flowchart.symbol.start.js ***!
   \***************************************/
@@ -1205,7 +1329,7 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(Start, Symbol), module.exports = Start;
-    }, /* 14 */
+    }, /* 16 */
     /*!********************************************!*\
   !*** ./src/flowchart.symbol.subroutine.js ***!
   \********************************************/
@@ -1239,7 +1363,7 @@
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
         inherits(Subroutine, Symbol), module.exports = Subroutine;
-    }, /* 15 */
+    }, /* 17 */
     /*!******************************!*\
   !*** ./src/jquery-plugin.js ***!
   \******************************/
@@ -1292,13 +1416,13 @@
                 };
             }(jQuery);
         }
-    }, /* 16 */
+    }, /* 18 */
     /*!**************************!*\
   !*** external "Raphael" ***!
   \**************************/
     /***/
     function(module, exports) {
-        module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
+        module.exports = __WEBPACK_EXTERNAL_MODULE_18__;
     } ]);
 });
 //# sourceMappingURL=flowchart.js.map
