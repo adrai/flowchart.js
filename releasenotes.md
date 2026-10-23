@@ -1,3 +1,8 @@
+### v1.18.1
+
+- fix explicit direction for parallel path3 [#256](https://github.com/adrai/flowchart.js/pull/256) thanks to [dajiaohuang](https://github.com/dajiaohuang)
+- fix top direction for parallel path2 and bottom direction for parallel path3
+
 ### v1.18.0
 
 - introduce input and output [#251](https://github.com/adrai/flowchart.js/pull/251)
