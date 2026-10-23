@@ -50,6 +50,10 @@ function Parallel(chart, options) {
       this.path1_direction = 'bottom';
       this.path2_direction = 'left';
       this.path3_direction = 'right';
+    } else if (options.direction_path2 === 'top') {
+      this.path1_direction = 'bottom';
+      this.path2_direction = 'top';
+      this.path3_direction = 'right';
     } else {
       this.path1_direction = 'right';
       this.path2_direction = 'bottom';
@@ -64,6 +68,10 @@ function Parallel(chart, options) {
       this.path1_direction = 'bottom';
       this.path2_direction = 'right';
       this.path3_direction = 'left';
+    } else if (options.direction_path3 === 'bottom') {
+      this.path1_direction = 'top';
+      this.path2_direction = 'right';
+      this.path3_direction = 'bottom';
     } else {
       this.path1_direction = 'right';
       this.path2_direction = 'bottom';
