@@ -1,5 +1,5 @@
-// flowchart.js, v1.18.0
-// Copyright (c)2023 Adriano Raiano (adrai).
+// flowchart.js, v1.18.1
+// Copyright (c)2026 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 
@@ -917,10 +917,12 @@
             this.path1_direction = "left", this.path3_direction = "bottom") : (this.path2_direction = "right", 
             this.path1_direction = "bottom", this.path3_direction = "top") : options.path1 && !options.direction_path1 && options.path2 && options.direction_path2 && options.path3 && !options.direction_path3 ? "right" === options.direction_path2 ? (this.path1_direction = "bottom", 
             this.path2_direction = "right", this.path3_direction = "top") : "left" === options.direction_path2 ? (this.path1_direction = "bottom", 
-            this.path2_direction = "left", this.path3_direction = "right") : (this.path1_direction = "right", 
-            this.path2_direction = "bottom", this.path3_direction = "top") : options.path1 && !options.direction_path1 && options.path2 && !options.direction_path2 && options.path3 && options.direction_path3 ? "right" === options.direction_path2 ? (this.path1_direction = "bottom", 
-            this.path2_direction = "top", this.path3_direction = "right") : "left" === options.direction_path2 ? (this.path1_direction = "bottom", 
-            this.path2_direction = "right", this.path3_direction = "left") : (this.path1_direction = "right", 
+            this.path2_direction = "left", this.path3_direction = "right") : "top" === options.direction_path2 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "top", this.path3_direction = "right") : (this.path1_direction = "right", 
+            this.path2_direction = "bottom", this.path3_direction = "top") : options.path1 && !options.direction_path1 && options.path2 && !options.direction_path2 && options.path3 && options.direction_path3 ? "right" === options.direction_path3 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "top", this.path3_direction = "right") : "left" === options.direction_path3 ? (this.path1_direction = "bottom", 
+            this.path2_direction = "right", this.path3_direction = "left") : "bottom" === options.direction_path3 ? (this.path1_direction = "top", 
+            this.path2_direction = "right", this.path3_direction = "bottom") : (this.path1_direction = "right", 
             this.path2_direction = "bottom", this.path3_direction = "top") : (this.path1_direction = options.direction_path1, 
             this.path2_direction = options.direction_path2, this.path3_direction = options.direction_path3), 
             this.path1_direction = this.path1_direction || "bottom", this.path2_direction = this.path2_direction || "right", 
