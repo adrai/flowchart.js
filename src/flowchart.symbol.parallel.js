@@ -56,11 +56,11 @@ function Parallel(chart, options) {
       this.path3_direction = 'top';
     }
   } else if (options.path1 && !options.direction_path1 && options.path2 && !options.direction_path2 && options.path3 && options.direction_path3) {
-    if (options.direction_path2 === 'right') {
+    if (options.direction_path3 === 'right') {
       this.path1_direction = 'bottom';
       this.path2_direction = 'top';
       this.path3_direction = 'right';
-    } else if (options.direction_path2 === 'left') {
+    } else if (options.direction_path3 === 'left') {
       this.path1_direction = 'bottom';
       this.path2_direction = 'right';
       this.path3_direction = 'left';
